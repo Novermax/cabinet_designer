@@ -15,9 +15,8 @@ Drag-and-drop cabinet assembly with real-time 3D preview. Adjust dimensions, mat
 ### 📋 Cut List & Optimization
 Auto-generate detailed cut lists with grain direction, edge-banding, and panel optimization to minimize waste.
 * **Auto cut-list generation**
-* **Nesting optimization**
 * **Export to Excel / PDF**
 
 ### 🖥️ CNC Export
 Directly export toolpaths for your CNC router. Supports G-code, STEP, and popular machine formats.
-* **G-code & STEP export**
+* **SCM Maestro export**
