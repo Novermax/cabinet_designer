@@ -611,6 +611,40 @@ img { max-width: 100%; display: block; }
 .spec strong { color: var(--text-light); }
 
 /* =============================================================
+   GALLERY
+   ============================================================= */
+.gallery { background: var(--bg-card); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.gallery-item {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(139,94,60,0.12);
+  transition: all var(--transition);
+}
+.gallery-item:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow);
+  border-color: var(--wood-medium);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition);
+}
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* =============================================================
    TESTIMONIALS
    ============================================================= */
 .testimonials { background: var(--bg-dark); }
@@ -1017,6 +1051,10 @@ img { max-width: 100%; display: block; }
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1056,6 +1094,7 @@ img { max-width: 100%; display: block; }
   .features-grid,
   .testimonial-grid,
   .videos-grid,
+  .gallery-grid,
   .pricing-grid {
     grid-template-columns: 1fr;
   }
