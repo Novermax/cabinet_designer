@@ -5,24 +5,19 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // =============================================================
-  // 1. NAVBAR — Scroll effect & mobile toggle
+  // 1. NAVBAR — Scroll effect, progress bar & mobile toggle
   // =============================================================
   const navbar = document.getElementById('navbar');
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
 
-  // Scroll: add/remove .scrolled class
   const handleScroll = () => {
-    if (window.scrollY > 60) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
+    const y = window.scrollY;
+    navbar.classList.toggle('scrolled', y > 60);
   };
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
 
-  // Mobile toggle: open/close
   navToggle.addEventListener('click', () => {
     navLinks.classList.toggle('open');
     const icon = navToggle.querySelector('i');
@@ -30,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     icon.classList.toggle('fa-times');
   });
 
-  // Close mobile nav on link click
   navLinks.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('open');
@@ -41,18 +35,37 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =============================================================
-  // 2. FADE-IN ON SCROLL (Intersection Observer)
+  // 2. PARALLAX HERO
+  // =============================================================
+  const hero = document.querySelector('.hero');
+  const heroContent = document.querySelector('.hero-content');
+
+  if (hero && heroContent) {
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      if (scrolled < window.innerHeight) {
+        heroContent.style.transform = `translateY(${scrolled * 0.15}px)`;
+        heroContent.style.opacity = 1 - (scrolled / window.innerHeight) * 0.3;
+      }
+    }, { passive: true });
+  }
+
+  // =============================================================
+  // 3. FADE-IN ON SCROLL (staggered)
   // =============================================================
   const fadeElements = document.querySelectorAll('.fade-section');
 
   const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -30px 0px'
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        const delay = Array.from(entry.target.parentNode.children)
+          .indexOf(entry.target) * 80;
+        entry.target.style.transitionDelay = `${delay}ms`;
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
@@ -62,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fadeElements.forEach(el => observer.observe(el));
 
   // =============================================================
-  // 3. STAT COUNTER ANIMATION
+  // 4. STAT COUNTER ANIMATION (eased)
   // =============================================================
   const statNumbers = document.querySelectorAll('.stat-number');
 
@@ -75,29 +88,66 @@ document.addEventListener('DOMContentLoaded', () => {
         counterObserver.unobserve(el);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.4 });
 
   statNumbers.forEach(el => counterObserver.observe(el));
 
-  function animateCounter(el, target) {
-    const duration = 2000;
-    const steps = 60;
-    const increment = target / steps;
-    let current = 0;
-    let step = 0;
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
 
-    const timer = setInterval(() => {
-      step++;
-      current = Math.min(Math.round(increment * step), target);
+  function animateCounter(el, target) {
+    const duration = 2200;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutCubic(progress);
+      const current = Math.round(easedProgress * target);
+
       el.textContent = target >= 1000
         ? current.toLocaleString()
         : current + (target < 100 ? '%' : '');
-      if (current >= target) clearInterval(timer);
-    }, duration / steps);
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = target >= 1000
+          ? target.toLocaleString()
+          : target + (target < 100 ? '%' : '');
+      }
+    }
+
+    requestAnimationFrame(update);
   }
 
   // =============================================================
-  // 4. CONTACT FORM VALIDATION
+  // 5. 3D TILT EFFECT ON CARDS
+  // =============================================================
+  const tiltCards = document.querySelectorAll('.feature-card, .pricing-card, .testimonial-card');
+
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (y - centerY) / centerY * -6;
+      const rotateY = (x - centerX) / centerX * 6;
+
+      card.style.transform =
+        `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // =============================================================
+  // 6. CONTACT FORM VALIDATION
   // =============================================================
   const contactForm = document.getElementById('contactForm');
   const formSuccess = document.getElementById('formSuccess');
@@ -111,16 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const emailInput = document.getElementById('email');
       const messageInput = document.getElementById('message');
 
-      // Reset errors
       clearErrors();
 
-      // Validate name
       if (!nameInput.value.trim()) {
         showError(nameInput, 'Name is required.');
         valid = false;
       }
 
-      // Validate email
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailInput.value.trim()) {
         showError(emailInput, 'Email is required.');
@@ -130,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
         valid = false;
       }
 
-      // Validate message
       if (!messageInput.value.trim()) {
         showError(messageInput, 'Message is required.');
         valid = false;
@@ -157,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =============================================================
-  // 5. NEWSLETTER FORM
+  // 7. NEWSLETTER FORM
   // =============================================================
   const newsletterForm = document.getElementById('newsletterForm');
   if (newsletterForm) {
@@ -181,5 +227,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 3000);
       input.value = '';
     });
+  }
+
+  // =============================================================
+  // 8. FLOATING PARTICLES (Hero)
+  // =============================================================
+  const particlesContainer = document.createElement('div');
+  particlesContainer.className = 'particles';
+  hero?.appendChild(particlesContainer);
+
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 2 + Math.random() * 4;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = 8 + Math.random() * 12 + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    p.style.opacity = 0.1 + Math.random() * 0.2;
+    particlesContainer.appendChild(p);
   }
 });

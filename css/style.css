@@ -44,11 +44,6 @@
   --transition:   0.3s ease;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
-
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg-dark);
@@ -497,6 +492,13 @@ img { max-width: 100%; display: block; }
 .pricing-period {
   font-size: 0.85rem;
   color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.pricing-tax {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.7;
   margin-bottom: 24px;
 }
 
@@ -522,6 +524,7 @@ img { max-width: 100%; display: block; }
   text-align: center;
 }
 .pricing-features li i.fa-check { color: var(--accent); }
+.pricing-features li i.fa-exclamation-triangle { color: #e6b800; }
 .pricing-features li i.fa-times { color: #6b5a4c; }
 
 .pricing-card .btn {
@@ -897,6 +900,117 @@ img { max-width: 100%; display: block; }
 }
 
 /* =============================================================
+   COMPARISON TABLE
+   ============================================================= */
+.comparison { background: var(--bg-dark); }
+
+.comparison-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid rgba(139,94,60,0.12);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 640px;
+}
+
+.comparison-table thead {
+  background: var(--bg-surface);
+}
+
+.comparison-table th {
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(139,94,60,0.15);
+}
+
+.comparison-table td {
+  padding: 14px 18px;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(139,94,60,0.06);
+}
+
+.comparison-table tbody tr {
+  background: var(--bg-card);
+  transition: background var(--transition);
+}
+
+.comparison-table tbody tr:not(.comparison-highlight):hover {
+  background: var(--bg-surface);
+}
+
+.comparison-highlight {
+  background: rgba(212, 118, 58, 0.06) !important;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.comparison-highlight td {
+  color: var(--text-light);
+}
+
+.comparison-highlight td:first-child i {
+  color: var(--accent);
+  margin-right: 8px;
+}
+
+.comparison-highlight td strong {
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.comparison-table td i.fa-check {
+  color: var(--accent);
+}
+
+.comparison-table .limited {
+  color: #e6b800;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.comparison-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-top: 24px;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 10px;
+  border-radius: 100px;
+}
+
+.tag-green {
+  background: rgba(76, 175, 80, 0.12);
+  color: #66BB6A;
+}
+
+.tag-yellow {
+  background: rgba(255, 193, 7, 0.12);
+  color: #FFD54F;
+}
+
+.tag-red {
+  background: rgba(244, 67, 54, 0.12);
+  color: #EF5350;
+}
+
+/* =============================================================
    NEWSLETTER
    ============================================================= */
 .newsletter {
@@ -1029,16 +1143,213 @@ img { max-width: 100%; display: block; }
 }
 
 /* =============================================================
-   FADE-IN ANIMATION
+   FLOATING PARTICLES (Hero)
+   ============================================================= */
+.particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* =============================================================
+   SMOOTH SCROLL PROGRESS
+   ============================================================= */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* =============================================================
+   SECTION LABEL PULSE
+   ============================================================= */
+.section-label {
+  animation: labelPulse 3s ease-in-out infinite;
+}
+
+@keyframes labelPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 118, 58, 0.1); }
+  50% { box-shadow: 0 0 0 8px rgba(212, 118, 58, 0); }
+}
+
+/* =============================================================
+   HERO TITLE TEXT REVEAL
+   ============================================================= */
+.hero-title {
+  overflow: hidden;
+}
+
+.hero-title .hero-accent {
+  display: inline-block;
+  animation: accentFadeIn 1s 0.3s both;
+}
+
+@keyframes accentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =============================================================
+   GLOW EFFECT ON HOVER (Buttons, Cards)
+   ============================================================= */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+/* =============================================================
+   FADE-IN ANIMATION (Enhanced)
    ============================================================= */
 .fade-section {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .fade-section.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* =============================================================
+   CARD GLOW ON HOVER
+   ============================================================= */
+.feature-card,
+.pricing-card,
+.testimonial-card {
+  position: relative;
+}
+
+.feature-card::after,
+.pricing-card::after,
+.testimonial-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(212,118,58,0.15), transparent, rgba(139,94,60,0.1));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.feature-card:hover::after,
+.pricing-card:hover::after,
+.testimonial-card:hover::after {
+  opacity: 1;
+}
+
+.feature-card > *,
+.pricing-card > *,
+.testimonial-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================================
+   SMOOTHER TRANSITIONS (Global override)
+   ============================================================= */
+* {
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =============================================================
+   NAVBAR ENHANCED
+   ============================================================= */
+.navbar.scrolled .nav-logo i {
+  animation: logoGlow 2s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(212,118,58,0.3)); }
+  50% { filter: drop-shadow(0 0 12px rgba(212,118,58,0.6)); }
+}
+
+/* =============================================================
+   BUTTONS SHIMMER
+   ============================================================= */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 125%;
+}
+
+/* =============================================================
+   PRICING FEATURED PULSE
+   ============================================================= */
+.pricing-featured {
+  animation: featuredPulse 3s ease-in-out infinite;
+}
+
+@keyframes featuredPulse {
+  0%, 100% { box-shadow: 0 0 0 2px var(--accent), var(--shadow); }
+  50% { box-shadow: 0 0 0 4px rgba(212,118,58,0.4), var(--shadow); }
 }
 
 /* =============================================================
