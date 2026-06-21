@@ -819,7 +819,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* =============================================================
-   VIDEOS
+   VIDEOS / CHANNELS
    ============================================================= */
 .videos {
   background: var(--bg-dark);
@@ -832,40 +832,44 @@ img { max-width: 100%; display: block; }
   margin-bottom: 40px;
 }
 
-.video-card {
+.channel-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   background: var(--bg-card);
   border: 1px solid rgba(139,94,60,0.12);
   border-radius: var(--radius);
-  overflow: hidden;
+  padding: 36px 20px 28px;
   transition: all var(--transition);
+  text-decoration: none;
+  color: inherit;
 }
-.video-card:hover {
+.channel-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
-  border-color: var(--wood-medium);
+  border-color: var(--accent);
 }
 
-.video-wrapper {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  background: #000;
+.channel-card .channel-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,0,0,0.1);
+  border-radius: 50%;
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+  color: #ff0000;
+  transition: all var(--transition);
+}
+.channel-card:hover .channel-icon {
+  background: rgba(255,0,0,0.2);
+  transform: scale(1.1);
 }
 
-.video-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.video-info {
-  padding: 16px 20px 20px;
-}
-
-.video-lang {
+.channel-lang {
   display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
@@ -875,12 +879,37 @@ img { max-width: 100%; display: block; }
   background: rgba(212,118,58,0.1);
   padding: 3px 12px;
   border-radius: 100px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
-.video-info p {
-  font-size: 0.9rem;
+.channel-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-light);
+}
+
+.channel-desc {
+  font-size: 0.85rem;
   color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.channel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 8px 20px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  transition: all var(--transition);
+}
+.channel-card:hover .channel-btn {
+  background: var(--accent);
+  color: #fff;
 }
 
 .videos-footer {
