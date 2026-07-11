@@ -183,6 +183,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (valid) {
+        // No backend: hand the message off to the visitor's mail client,
+        // pre-addressed to us. Falls back to nothing lost if they cancel.
+        const subject = encodeURIComponent('Cabinet Designer — message from ' + nameInput.value.trim());
+        const body = encodeURIComponent(
+          'Name: ' + nameInput.value.trim() + '\n' +
+          'Email: ' + emailInput.value.trim() + '\n\n' +
+          messageInput.value.trim()
+        );
+        window.location.href =
+          'mailto:cabinetdesigner.global@gmail.com?subject=' + subject + '&body=' + body;
+
         formSuccess.classList.add('visible');
         contactForm.reset();
         setTimeout(() => formSuccess.classList.remove('visible'), 5000);
@@ -218,6 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       input.style.borderColor = '';
+
+      // No backend: send the subscription as an email to us.
+      const subject = encodeURIComponent('Newsletter subscription');
+      const body = encodeURIComponent('Please subscribe this address: ' + input.value.trim());
+      window.location.href =
+        'mailto:cabinetdesigner.global@gmail.com?subject=' + subject + '&body=' + body;
+
       const originalBtn = newsletterForm.querySelector('.btn');
       originalBtn.textContent = 'Subscribed!';
       originalBtn.style.pointerEvents = 'none';

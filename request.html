@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Request your Cabinet Designer Professional license. Fill in the form and we'll get back to you to arrange payment.">
+  <title>Request a License — Cabinet Designer</title>
+  <link rel="canonical" href="https://cabinetdesigner.uk/request.html">
+  <meta name="theme-color" content="#1a120b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a120b'/%3E%3Cpath d='M16 5l9 5v12l-9 5-9-5V10z' fill='none' stroke='%23d4763a' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M16 5v22M7 10l9 5 9-5' fill='none' stroke='%23d4763a' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .request-wrap { max-width: 640px; margin: 0 auto; }
+    .request-summary {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--bg-card); border: 1px solid rgba(139,94,60,0.15);
+      border-radius: var(--radius); padding: 20px 24px; margin-bottom: 32px;
+    }
+    .request-summary i { font-size: 1.6rem; color: var(--accent); }
+    .request-summary .rs-price { margin-left: auto; font-weight: 700; font-size: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px){ .form-row { grid-template-columns: 1fr; } }
+    .request-note { color: var(--text-muted); font-size: 0.85rem; margin-top: 16px; text-align: center; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html#hero" class="nav-logo">
+        <i class="fas fa-cube"></i>
+        <span>Cabinet Designer</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features" class="nav-link">Features</a></li>
+        <li><a href="index.html#pricing" class="nav-link">Pricing</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="section" style="padding-top: 140px;">
+    <div class="container request-wrap">
+      <a href="index.html#pricing" class="back-link"><i class="fas fa-arrow-left"></i> Back to pricing</a>
+
+      <div class="section-header" style="text-align:left; margin-bottom:32px;">
+        <span class="section-label">License Request</span>
+        <h2 style="margin-bottom:12px;">Request Your License</h2>
+        <p>Fill in the form below. We'll contact you by email to arrange payment and send your license and download.</p>
+      </div>
+
+      <div class="request-summary">
+        <i class="fas fa-cube"></i>
+        <div>
+          <strong id="planName">Cabinet Designer Professional</strong><br>
+          <span style="color:var(--text-muted); font-size:0.9rem;">One-time payment &middot; lifetime license &middot; + local VAT</span>
+        </div>
+        <span class="rs-price" id="planPrice">$1,099</span>
+      </div>
+
+      <!-- Hidden iframe target: lets the form POST to Google Apps Script without a CORS/redirect issue -->
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+      <form class="contact-form" id="requestForm" novalidate
+            action="REPLACE_WITH_APPS_SCRIPT_WEB_APP_URL"
+            method="POST" target="hidden_iframe">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full name *</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+            <span class="form-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="company">Company / workshop</label>
+            <input type="text" id="company" name="company" placeholder="Optional">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            <span class="form-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="country">Country *</label>
+            <input type="text" id="country" name="country" placeholder="For VAT / invoicing" required>
+            <span class="form-error"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="plan">Plan</label>
+          <input type="text" id="plan" name="plan" value="Professional — $1,099" readonly>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Anything we should know? (optional)"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-paper-plane"></i> Send Request</button>
+        <p class="form-success" id="formSuccess"><i class="fas fa-check-circle"></i> Request sent! We'll email you shortly to arrange payment.</p>
+      </form>
+
+      <p class="request-note">
+        We use your details only to process this request. See our
+        <a href="privacy.html">Privacy Policy</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Cabinet Designer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var plan = params.get('plan');
+      var PLANS = {
+        'Professional': { name: 'Cabinet Designer Professional', price: '$1,099', field: 'Professional — $1,099' },
+        'Free':         { name: 'Cabinet Designer Free Trial',   price: '$0',     field: 'Free Trial — $0' }
+      };
+      var cfg = PLANS[plan] || PLANS['Professional'];
+      document.getElementById('planName').textContent = cfg.name;
+      document.getElementById('planPrice').textContent = cfg.price;
+      document.getElementById('plan').value = cfg.field;
+
+      var form = document.getElementById('requestForm');
+      var success = document.getElementById('formSuccess');
+      var submitBtn = document.getElementById('submitBtn');
+      var iframe = document.getElementById('hidden_iframe');
+      var submitted = false;
+
+      // Fallback: if the Apps Script endpoint is not configured yet, send by email instead.
+      var endpointConfigured = form.getAttribute('action').indexOf('script.google.com') !== -1;
+
+      function validate() {
+        var ok = true;
+        form.querySelectorAll('.form-group.error').forEach(function (g) { g.classList.remove('error'); });
+        form.querySelectorAll('.form-error').forEach(function (e) { e.textContent = ''; });
+        [['name', 'Name is required.'], ['email', 'Email is required.'], ['country', 'Country is required.']].forEach(function (f) {
+          var input = document.getElementById(f[0]);
+          if (!input.value.trim()) { showError(input, f[1]); ok = false; }
+        });
+        var email = document.getElementById('email');
+        if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+          showError(email, 'Please enter a valid email address.'); ok = false;
+        }
+        return ok;
+      }
+      function showError(input, msg) {
+        var g = input.closest('.form-group');
+        g.classList.add('error');
+        var e = g.querySelector('.form-error');
+        if (e) e.textContent = msg;
+      }
+
+      form.addEventListener('submit', function (e) {
+        if (!validate()) { e.preventDefault(); return; }
+
+        if (!endpointConfigured) {
+          // No backend yet — hand off to the user's mail client so no request is lost.
+          e.preventDefault();
+          var body = 'Name: ' + val('name') + '%0D%0ACompany: ' + val('company') +
+                     '%0D%0AEmail: ' + val('email') + '%0D%0ACountry: ' + val('country') +
+                     '%0D%0APlan: ' + val('plan') + '%0D%0AMessage: ' + val('message');
+          location.href = 'mailto:cabinetdesigner.global@gmail.com?subject=License%20request%20-%20' +
+                          encodeURIComponent(cfg.name) + '&body=' + body;
+          return;
+        }
+
+        // Real submit goes to the hidden iframe; show success on its load.
+        submitted = true;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+      });
+
+      iframe.addEventListener('load', function () {
+        if (!submitted) return; // ignore the initial about:blank load
+        success.classList.add('visible');
+        form.reset();
+        document.getElementById('plan').value = cfg.field;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Request';
+        submitted = false;
+      });
+
+      function val(id) { return encodeURIComponent(document.getElementById(id).value || ''); }
+    })();
+  </script>
+</body>
+</html>

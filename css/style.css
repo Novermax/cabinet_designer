@@ -397,6 +397,69 @@ img { max-width: 100%; display: block; }
 .feature-list li i.fa-times { color: #6b5a4c; }
 
 /* =============================================================
+   WHAT'S NEW
+   ============================================================= */
+.whats-new {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-surface));
+  border-top: 1px solid rgba(139,94,60,0.1);
+  border-bottom: 1px solid rgba(139,94,60,0.1);
+}
+
+.new-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.new-card {
+  position: relative;
+  background: var(--bg-dark);
+  border: 1px solid rgba(139, 94, 60, 0.15);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: all var(--transition);
+  overflow: hidden;
+}
+
+.new-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--wood-medium);
+  box-shadow: var(--shadow);
+}
+
+.new-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(90deg, var(--accent), var(--wood-medium));
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.new-icon {
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.new-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+
+.new-card p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* =============================================================
    STATS
    ============================================================= */
 .stats {
@@ -636,6 +699,7 @@ img { max-width: 100%; display: block; }
   border-color: var(--wood-medium);
 }
 
+.gallery-item picture { display: block; }
 .gallery-item img {
   width: 100%;
   height: 220px;
