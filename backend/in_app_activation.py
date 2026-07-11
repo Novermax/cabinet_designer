@@ -16,7 +16,7 @@ import json
 import urllib.parse
 import urllib.request
 
-ENDPOINT = "REPLACE_WITH_APPS_SCRIPT_WEB_APP_URL"  # https://script.google.com/macros/s/.../exec
+ENDPOINT = "https://script.google.com/macros/s/AKfycbwBr_eCBurBgWLB67oTVHHlJxTA_fxoWdV7x9fJ0n__UrcBAefE2VWuYGLpDDEfPhsu/exec"
 
 
 def send_activation(file_path: str, email: str, order: str, note: str = "", timeout: int = 30) -> bool:
