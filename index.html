@@ -598,8 +598,13 @@
         <h2>Have Questions?</h2>
         <p>We're here to help you get the most out of Cabinet Designer.</p>
       </div>
+      <iframe name="contact_hidden_iframe" id="contact_hidden_iframe" style="display:none;"></iframe>
+
       <div class="contact-grid">
-        <form class="contact-form fade-section" id="contactForm" novalidate>
+        <form class="contact-form fade-section" id="contactForm" novalidate
+              action="https://script.google.com/macros/s/AKfycbwBr_eCBurBgWLB67oTVHHlJxTA_fxoWdV7x9fJ0n__UrcBAefE2VWuYGLpDDEfPhsu/exec"
+              method="POST" target="contact_hidden_iframe">
+          <input type="hidden" name="action" value="contact">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -615,8 +620,8 @@
             <textarea id="message" name="message" rows="5" placeholder="How can we help?" required></textarea>
             <span class="form-error"></span>
           </div>
-          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
-          <p class="form-success" id="formSuccess"><i class="fas fa-check-circle"></i> Your email app is opening — just hit send. We'll reply soon.</p>
+          <button type="submit" class="btn btn-primary" id="contactSubmitBtn"><i class="fas fa-paper-plane"></i> Send Message</button>
+          <p class="form-success" id="formSuccess"><i class="fas fa-check-circle"></i> Message sent — we'll reply soon.</p>
         </form>
         <div class="contact-info fade-section">
           <div class="contact-item">
@@ -638,9 +643,16 @@
         <h3>Stay in the Loop</h3>
         <p>Get tips, updates, and exclusive offers from the Cabinet Designer team.</p>
       </div>
-      <form class="newsletter-form" id="newsletterForm">
-        <input type="email" placeholder="Enter your email" required>
-        <button type="submit" class="btn btn-primary">Subscribe</button>
+      <iframe name="newsletter_hidden_iframe" id="newsletter_hidden_iframe" style="display:none;"></iframe>
+
+      <form class="newsletter-form" id="newsletterForm"
+            action="https://script.google.com/macros/s/AKfycbwBr_eCBurBgWLB67oTVHHlJxTA_fxoWdV7x9fJ0n__UrcBAefE2VWuYGLpDDEfPhsu/exec"
+            method="POST" target="newsletter_hidden_iframe">
+        <input type="hidden" name="action" value="contact">
+        <input type="hidden" name="name" value="Newsletter subscriber">
+        <input type="hidden" name="message" value="Newsletter signup">
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <button type="submit" class="btn btn-primary" id="newsletterSubmitBtn">Subscribe</button>
       </form>
     </div>
   </section>

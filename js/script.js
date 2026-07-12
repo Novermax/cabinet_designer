@@ -153,8 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const formSuccess = document.getElementById('formSuccess');
 
   if (contactForm) {
+    const contactIframe = document.getElementById('contact_hidden_iframe');
+    const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+    let contactSubmitted = false;
+
     contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
       let valid = true;
 
       const nameInput = document.getElementById('name');
@@ -182,23 +185,28 @@ document.addEventListener('DOMContentLoaded', () => {
         valid = false;
       }
 
-      if (valid) {
-        // No backend: hand the message off to the visitor's mail client,
-        // pre-addressed to us. Falls back to nothing lost if they cancel.
-        const subject = encodeURIComponent('Cabinet Designer — message from ' + nameInput.value.trim());
-        const body = encodeURIComponent(
-          'Name: ' + nameInput.value.trim() + '\n' +
-          'Email: ' + emailInput.value.trim() + '\n\n' +
-          messageInput.value.trim()
-        );
-        window.location.href =
-          'mailto:cabinetdesigner.global@gmail.com?subject=' + subject + '&body=' + body;
+      if (!valid) {
+        e.preventDefault();
+        return;
+      }
 
+      // Valid: let the form submit natively to the hidden iframe (POST to Apps Script).
+      contactSubmitted = true;
+      contactSubmitBtn.disabled = true;
+      contactSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+    });
+
+    if (contactIframe) {
+      contactIframe.addEventListener('load', () => {
+        if (!contactSubmitted) return; // ignore the initial about:blank load
         formSuccess.classList.add('visible');
         contactForm.reset();
+        contactSubmitBtn.disabled = false;
+        contactSubmitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        contactSubmitted = false;
         setTimeout(() => formSuccess.classList.remove('visible'), 5000);
-      }
-    });
+      });
+    }
 
     function showError(input, message) {
       const group = input.closest('.form-group');
@@ -218,33 +226,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================================================
   const newsletterForm = document.getElementById('newsletterForm');
   if (newsletterForm) {
+    const newsletterIframe = document.getElementById('newsletter_hidden_iframe');
+    const newsletterSubmitBtn = document.getElementById('newsletterSubmitBtn');
+    let newsletterSubmitted = false;
+
     newsletterForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = newsletterForm.querySelector('input');
+      const input = newsletterForm.querySelector('input[type="email"]');
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!input.value.trim() || !emailPattern.test(input.value.trim())) {
         input.style.borderColor = '#e74c3c';
+        e.preventDefault();
         return;
       }
 
       input.style.borderColor = '';
-
-      // No backend: send the subscription as an email to us.
-      const subject = encodeURIComponent('Newsletter subscription');
-      const body = encodeURIComponent('Please subscribe this address: ' + input.value.trim());
-      window.location.href =
-        'mailto:cabinetdesigner.global@gmail.com?subject=' + subject + '&body=' + body;
-
-      const originalBtn = newsletterForm.querySelector('.btn');
-      originalBtn.textContent = 'Subscribed!';
-      originalBtn.style.pointerEvents = 'none';
-      setTimeout(() => {
-        originalBtn.textContent = 'Subscribe';
-        originalBtn.style.pointerEvents = '';
-      }, 3000);
-      input.value = '';
+      newsletterSubmitted = true;
+      newsletterSubmitBtn.disabled = true;
+      newsletterSubmitBtn.textContent = 'Sending…';
     });
+
+    if (newsletterIframe) {
+      newsletterIframe.addEventListener('load', () => {
+        if (!newsletterSubmitted) return; // ignore the initial about:blank load
+        const input = newsletterForm.querySelector('input[type="email"]');
+        newsletterSubmitBtn.disabled = false;
+        newsletterSubmitBtn.textContent = 'Subscribed!';
+        input.value = '';
+        setTimeout(() => { newsletterSubmitBtn.textContent = 'Subscribe'; }, 3000);
+        newsletterSubmitted = false;
+      });
+    }
   }
 
   // =============================================================
