@@ -30,6 +30,7 @@ function doPost(e) {
   try {
     var p = (e && e.parameter) || {};
     var action = p.action || 'request';
+    if (action === 'grant')    return handleGrant_(p);
     if (action === 'activate') return handleActivate_(p);
     if (action === 'contact')  return handleContact_(p);
     return handleRequest_(p);
@@ -105,6 +106,104 @@ function handleActivate_(p) {
     attachments: attachments
   });
   return textOut_('OK');
+}
+
+/* ---------- online demo gating (Maestro export cap) ---------- */
+/**
+ * Server-authoritative Demo cap for Maestro (.xcs) exports.
+ *
+ * The client (cabinet_designer/demo_online.py) POSTs:
+ *   action=grant, op=peek|consume, product, machine, gen, nonce
+ * We look the machine up in the "DemoCounters" sheet, optionally increment
+ * (consume), and return an RSA-SHA256 SIGNED reply so the client can trust it:
+ *   { ok, machine, gen, nonce, op, used, limit, exp, sig }
+ * where sig = base64url( RSASSA-PKCS1-v1.5(SHA-256) ) over the exact string
+ *   grant-v1:{machine}:{gen}:{nonce}:{op}:{used}:{limit}:{exp}
+ *
+ * SETUP (once):
+ *   1. Run packaging/genera_grant_keys.py on your PC.
+ *   2. Project Settings -> Script properties -> add:
+ *        GRANT_PRIVATE_PEM = <contents of packaging/grant_private_key.pem>
+ *   3. (optional) GRANT_RESET_SECRET = <a long random string> to allow resets.
+ * The private key stays here (Google's servers), never in the client bundle.
+ */
+var DEMO_LIMIT     = 3;
+var GRANT_TTL_SECS = 300;              // reply validity window (anti-replay)
+
+function handleGrant_(p) {
+  var pem = PropertiesService.getScriptProperties().getProperty('GRANT_PRIVATE_PEM');
+  if (!pem) return jsonOut_({ ok: false, error: 'server not configured' });
+
+  var machine = String(p.machine || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  var gen     = parseInt(p.gen, 10); if (isNaN(gen)) gen = 0;
+  var nonce   = String(p.nonce || '');
+  var op      = String(p.op || 'peek');
+  if (!machine) return jsonOut_({ ok: false, error: 'bad request' });
+
+  // Owner-triggered reset: op=reset with the shared secret zeroes the machine.
+  // Checked BEFORE the peek/consume coercion below.
+  if (op === 'reset') {
+    var secret = PropertiesService.getScriptProperties().getProperty('GRANT_RESET_SECRET');
+    if (!secret || String(p.secret || '') !== secret) {
+      return jsonOut_({ ok: false, error: 'forbidden' });
+    }
+    setCount_(machine, 0);
+    return jsonOut_({ ok: true, used: 0, limit: DEMO_LIMIT });
+  }
+
+  if (!nonce) return jsonOut_({ ok: false, error: 'bad request' });
+  if (op !== 'peek' && op !== 'consume') op = 'peek';
+
+  var used = getCount_(machine);
+  if (op === 'consume' && used < DEMO_LIMIT) {
+    used = used + 1;
+    setCount_(machine, used);
+  }
+  if (used > DEMO_LIMIT) used = DEMO_LIMIT;
+
+  var exp = Math.floor(Date.now() / 1000) + GRANT_TTL_SECS;
+  var msg = ['grant-v1', machine, gen, nonce, op, used, DEMO_LIMIT, exp].join(':');
+  var sigBytes = Utilities.computeRsaSha256Signature(msg, pem);
+  var sig = Utilities.base64EncodeWebSafe(sigBytes);
+
+  return jsonOut_({
+    ok: true, machine: machine, gen: gen, nonce: nonce, op: op,
+    used: used, limit: DEMO_LIMIT, exp: exp, sig: sig
+  });
+}
+
+function getCount_(machine) {
+  var sh = counterSheet_();
+  var data = sh.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]) === machine) return parseInt(data[i][1], 10) || 0;
+  }
+  return 0;
+}
+
+function setCount_(machine, used) {
+  var sh = counterSheet_();
+  var data = sh.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]) === machine) {
+      sh.getRange(i + 1, 2).setValue(used);
+      sh.getRange(i + 1, 3).setValue(new Date());
+      return;
+    }
+  }
+  sh.appendRow([machine, used, new Date()]);
+}
+
+function counterSheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName('DemoCounters');
+  if (!sh) { sh = ss.insertSheet('DemoCounters'); sh.appendRow(['Machine', 'Used', 'Updated']); }
+  return sh;
+}
+
+function jsonOut_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 /* ---------- helpers ---------- */
