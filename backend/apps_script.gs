@@ -1,12 +1,15 @@
 /**
  * Cabinet Designer — single backend for the website + app.
  *
- * Handles three actions, routed by the `action` POST field:
+ * Handles these actions, routed by the `action` POST field:
  *   - request   (request.html)   -> "Requests" sheet + email
  *   - contact   (contact form)   -> "Contacts" sheet + email
  *   - activate  (activate.html / in-app "Activate online")
  *                                -> saves the uploaded file to Drive,
  *                                   logs it in "Activations", emails it to you
+ *   - grant     (in-app demo cap) -> "DemoCounters" sheet, RSA-signed reply
+ *   - telemetry (in-app, Full, consent-gated)
+ *                                -> "Telemetry" sheet (one row per event)
  *
  * DEPLOY (do this logged in as cabinetdesigner.global@gmail.com):
  *   1. Create a Google Sheet, e.g. "Cabinet Designer — Backend".
@@ -30,9 +33,10 @@ function doPost(e) {
   try {
     var p = (e && e.parameter) || {};
     var action = p.action || 'request';
-    if (action === 'grant')    return handleGrant_(p);
-    if (action === 'activate') return handleActivate_(p);
-    if (action === 'contact')  return handleContact_(p);
+    if (action === 'grant')     return handleGrant_(p);
+    if (action === 'telemetry') return handleTelemetry_(p);
+    if (action === 'activate')  return handleActivate_(p);
+    if (action === 'contact')   return handleContact_(p);
     return handleRequest_(p);
   } catch (err) {
     return textOut_('ERROR: ' + err);
@@ -105,6 +109,53 @@ function handleActivate_(p) {
           field_('File', p.filename) + field_('Drive', fileUrl) + field_('Note', p.note),
     attachments: attachments
   });
+  return textOut_('OK');
+}
+
+/* ---------- anonymous usage telemetry (Full, consent-gated) ---------- */
+/**
+ * The client (cabinet_services/telemetry_manager.py) POSTs, only with the
+ * user's explicit consent:
+ *   action=telemetry, product, payload=<JSON string>
+ * where payload = { kind:"telemetry", environment:{app_version, os, os_version,
+ * arch, python, language, screen, ram_mb}, launch_count, events:[ {event, ts,
+ * feature, duration_s, load_ms, error_type, context, count}, ... ] }.
+ *
+ * We append ONE row per event to the "Telemetry" sheet (the environment is
+ * repeated on each row so the sheet is directly pivot/chart-able). No personal
+ * data ever reaches here — the client only sends the whitelisted fields above.
+ */
+function handleTelemetry_(p) {
+  var payload;
+  try {
+    payload = JSON.parse(p.payload || '{}');
+  } catch (err) {
+    return textOut_('ERROR: bad payload');
+  }
+  var env    = payload.environment || {};
+  var launch = payload.launch_count || '';
+  var events = payload.events || [];
+
+  var header = ['Timestamp', 'App version', 'OS', 'OS version', 'Arch',
+                'Python', 'Language', 'Screen', 'RAM (MB)', 'Launch count',
+                'Event', 'Feature', 'Duration (s)', 'Load (ms)', 'Error type',
+                'Context', 'Count', 'Event time'];
+  var now = new Date();
+
+  if (!events.length) {
+    // No queued events (unusual) — still log an environment heartbeat row.
+    events = [{}];
+  }
+  for (var i = 0; i < events.length; i++) {
+    var ev = events[i] || {};
+    appendRow_('Telemetry', header, [
+      now, env.app_version || '', env.os || '', env.os_version || '',
+      env.arch || '', env.python || '', env.language || '', env.screen || '',
+      env.ram_mb || '', launch,
+      ev.event || '', ev.feature || '', ev.duration_s || '', ev.load_ms || '',
+      ev.error_type || '', ev.context || '', ev.count || '', ev.ts || ''
+    ]);
+  }
   return textOut_('OK');
 }
 
