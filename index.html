@@ -66,6 +66,9 @@
 </head>
 <body>
 
+  <!-- ===== SCROLL PROGRESS BAR ===== -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
     <div class="container nav-container">
@@ -93,10 +96,16 @@
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
     <div class="hero-overlay"></div>
+    <div class="hero-orbs" aria-hidden="true">
+      <span class="orb orb-1"></span>
+      <span class="orb orb-2"></span>
+      <span class="orb orb-3"></span>
+    </div>
     <div class="container hero-content">
+      <span class="hero-eyebrow"><i class="fas fa-bolt"></i> From concept to CNC — one workflow</span>
       <h1 class="hero-title">Design Custom Cabinets<br><span class="hero-accent">in Minutes</span></h1>
       <p class="hero-subtitle">
-        From concept to CNC — Cabinet Designer gives you professional-grade 2D/3D design,
+        Cabinet Designer gives you professional-grade 2D/3D design,
         intelligent cut lists, and seamless machine export. Built for cabinet makers, by cabinet makers.
       </p>
       <div class="hero-actions">
@@ -105,6 +114,52 @@
       </div>
       <div class="hero-badge">
         <i class="fas fa-check-circle"></i> Windows 10/11 &middot; free trial &middot; limited to 3 CNC exports, no cut-list export, watermarked renders
+      </div>
+
+      <ul class="hero-trust" aria-label="Key highlights">
+        <li><i class="fas fa-infinity"></i> One-time license</li>
+        <li><i class="fas fa-cogs"></i> Native SCM Maestro</li>
+        <li><i class="fas fa-language"></i> 8 languages</li>
+        <li><i class="fab fa-windows"></i> Windows 10/11</li>
+      </ul>
+
+      <div class="hero-showcase">
+        <div class="showcase-window">
+          <div class="showcase-bar">
+            <span class="showcase-title"><i class="fas fa-cube"></i> Cabinet Designer</span>
+            <span class="win-controls" aria-hidden="true"><span class="wc-min"></span><span class="wc-max"></span><span class="wc-close"></span></span>
+          </div>
+          <picture>
+            <source srcset="assets/images/gallery-2.webp" type="image/webp">
+            <img src="assets/images/gallery-2.png" alt="Photorealistic room rendering made with Cabinet Designer" width="1406" height="1000" fetchpriority="high" decoding="async">
+          </picture>
+        </div>
+        <div class="showcase-chip chip-1"><i class="fas fa-image"></i> Photorealistic render</div>
+        <div class="showcase-chip chip-2"><i class="fas fa-list-alt"></i> Auto cut list</div>
+        <div class="showcase-chip chip-3"><i class="fas fa-cogs"></i> Ready-to-run CNC</div>
+      </div>
+    </div>
+    <a href="#features" class="hero-scroll" aria-label="Scroll to features"><i class="fas fa-chevron-down"></i></a>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="stats" id="stats">
+    <div class="container stats-grid">
+      <div class="stat-item fade-section">
+        <span class="stat-number stat-static">&infin;</span>
+        <span class="stat-label">Endless projects &amp; designs</span>
+      </div>
+      <div class="stat-item fade-section">
+        <span class="stat-number" data-count="8" data-suffix="">0</span>
+        <span class="stat-label">UI languages</span>
+      </div>
+      <div class="stat-item fade-section">
+        <span class="stat-number" data-count="1099" data-prefix="$" data-suffix="">0</span>
+        <span class="stat-label">One-time · no subscription</span>
+      </div>
+      <div class="stat-item fade-section">
+        <span class="stat-number" data-count="100" data-suffix="%">0</span>
+        <span class="stat-label">Native Maestro export</span>
       </div>
     </div>
   </section>
@@ -150,7 +205,7 @@
           <p>Not just boxes. Design standard carcasses, diagonal corner units and slanted-top cabinets — each with its own parametric geometry.</p>
           <ul class="feature-list">
             <li><i class="fas fa-check"></i> Standard carcass</li>
-            <li><i class="fas fa-check"></i> Diagonal corner unit (angoliera)</li>
+            <li><i class="fas fa-check"></i> Diagonal &amp; 90° corner units (angoliera)</li>
             <li><i class="fas fa-check"></i> Slanted-top unit — 5-axis machining</li>
           </ul>
         </div>
@@ -460,6 +515,43 @@
     </div>
   </section>
 
+  <!-- ===== FAQ ===== -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="section-header fade-section">
+        <span class="section-label">FAQ</span>
+        <h2>Questions, Answered</h2>
+        <p>Everything you need to know before you download.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item fade-section">
+          <summary>Is it really a one-time payment?<i class="fas fa-plus"></i></summary>
+          <p>Yes. Professional is a single payment for a lifetime license — no subscription, no yearly renewal. You pay once and keep using the version you own.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>What can I do with the free trial?<i class="fas fa-plus"></i></summary>
+          <p>Design without limits — every typology, the full hardware library, drawers, shelves, edge management and the room composer. The trial only limits output: 3 SCM Maestro (CNC) exports, no cut-list export, and a DEMO watermark on photorealistic renders. Upgrade to remove them all.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>Which CNC machines are supported?<i class="fas fa-plus"></i></summary>
+          <p>Native SCM Maestro export (XCS): drilling, milling, blade cuts and toe-kick pockets are emitted as real Maestro operations, including the F6 bottom-face split. Neutral DXF and CSV are also produced for other saws and workflows.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>Do I pay VAT on top of the price?<i class="fas fa-plus"></i></summary>
+          <p>The $1,099 (≈ €1,000) price is the license itself. Local VAT is added at checkout based on your country of residence, as required by law.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>What are the system requirements?<i class="fas fa-plus"></i></summary>
+          <p>Windows 10/11 (64-bit), an Intel Core i5 or equivalent, 8 GB RAM (16 GB recommended), a DirectX 11 GPU and 3 GB of free space. See the full list in the Download section.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>In which languages is the software available?<i class="fas fa-plus"></i></summary>
+          <p>Eight, switchable live inside the app: Italian, English, French, German, Spanish, Portuguese, Dutch and Polish. Each language also has its own dedicated YouTube channel.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== COMPARISON ===== -->
   <section class="section comparison" id="comparison">
     <div class="container">
@@ -467,6 +559,11 @@
         <span class="section-label">Compare</span>
         <h2>Cabinet Designer vs. The Competition</h2>
         <p>Professional features at a fraction of the cost. No subscriptions, no hidden fees.</p>
+      </div>
+      <div class="savings-strip fade-section">
+        <div class="savings-item"><span class="savings-num">$3,900</span><span class="savings-txt">saved vs Cabinet Vision</span></div>
+        <div class="savings-item"><span class="savings-num">$0/yr</span><span class="savings-txt">subscription — pay once</span></div>
+        <div class="savings-item"><span class="savings-num">Lifetime</span><span class="savings-txt">license &amp; updates path</span></div>
       </div>
       <div class="comparison-table-wrapper fade-section">
         <table class="comparison-table">
@@ -483,7 +580,7 @@
           </thead>
           <tbody>
             <tr class="comparison-highlight">
-              <td><i class="fas fa-cube"></i> Cabinet Designer</td>
+              <td><span class="best-ribbon">Best value</span><i class="fas fa-cube"></i> Cabinet Designer</td>
               <td><span class="tag tag-green">One-time</span></td>
               <td><strong>$1,099</strong></td>
               <td><i class="fas fa-check"></i></td>
@@ -658,6 +755,36 @@
       </form>
     </div>
   </section>
+
+  <!--
+    ===== TESTIMONIALS (ready template — fill with REAL customer quotes) =====
+    Styles already exist in css/style.css (.testimonials, .testimonial-card…).
+    Do NOT ship invented reviews. Uncomment and replace with genuine quotes +
+    names/workshops you have permission to publish.
+
+  <section class="section testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header fade-section">
+        <span class="section-label">Loved by makers</span>
+        <h2>What Cabinet Makers Say</h2>
+        <p>Real workshops, real projects.</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card fade-section">
+          <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"REAL QUOTE HERE."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+            <div><strong>Name Surname</strong><span>Workshop, City</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">

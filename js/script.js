@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         const el = entry.target;
         const target = parseInt(el.getAttribute('data-count'), 10);
-        animateCounter(el, target);
+        if (!Number.isNaN(target)) animateCounter(el, target);
         counterObserver.unobserve(el);
       }
     });
@@ -97,26 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function animateCounter(el, target) {
-    const duration = 2200;
+    const duration = 1800;
     const start = performance.now();
+    const prefix = el.getAttribute('data-prefix') || '';
+    const suffix = el.getAttribute('data-suffix') || '';
+
+    function render(value) {
+      const num = value >= 1000 ? value.toLocaleString() : value;
+      el.textContent = prefix + num + suffix;
+    }
 
     function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeOutCubic(progress);
-      const current = Math.round(easedProgress * target);
-
-      el.textContent = target >= 1000
-        ? current.toLocaleString()
-        : current + (target < 100 ? '%' : '');
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        el.textContent = target >= 1000
-          ? target.toLocaleString()
-          : target + (target < 100 ? '%' : '');
-      }
+      const progress = Math.min((now - start) / duration, 1);
+      render(Math.round(easeOutCubic(progress) * target));
+      if (progress < 1) requestAnimationFrame(update);
+      else render(target);
     }
 
     requestAnimationFrame(update);
@@ -277,5 +272,105 @@ document.addEventListener('DOMContentLoaded', () => {
     p.style.animationDelay = Math.random() * 10 + 's';
     p.style.opacity = 0.1 + Math.random() * 0.2;
     particlesContainer.appendChild(p);
+  }
+
+  // =============================================================
+  // 9. SCROLL PROGRESS BAR
+  // =============================================================
+  const progressBar = document.getElementById('scrollProgress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+      progressBar.style.width = (scrolled * 100) + '%';
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  // =============================================================
+  // 10. SCROLLSPY — highlight active nav link
+  // =============================================================
+  const spySections = document.querySelectorAll('section[id]');
+  const spyLinks = new Map();
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(a => {
+    spyLinks.set(a.getAttribute('href').slice(1), a);
+  });
+
+  if (spySections.length && spyLinks.size) {
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          spyLinks.forEach(a => a.classList.remove('active'));
+          const link = spyLinks.get(entry.target.id);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    spySections.forEach(s => spyObserver.observe(s));
+  }
+
+  // =============================================================
+  // 11. BACK TO TOP
+  // =============================================================
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('show', window.scrollY > 600);
+    }, { passive: true });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // =============================================================
+  // 12. GALLERY LIGHTBOX
+  // =============================================================
+  const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));
+  if (galleryImgs.length) {
+    const lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML = `
+      <button class="lightbox-close" aria-label="Close">&times;</button>
+      <button class="lightbox-nav lightbox-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+      <img alt="">
+      <button class="lightbox-nav lightbox-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+      <p class="lightbox-caption"></p>`;
+    document.body.appendChild(lb);
+
+    const lbImg = lb.querySelector('img');
+    const lbCaption = lb.querySelector('.lightbox-caption');
+    let currentIndex = 0;
+
+    const showAt = (i) => {
+      currentIndex = (i + galleryImgs.length) % galleryImgs.length;
+      const src = galleryImgs[currentIndex];
+      lbImg.src = src.currentSrc || src.src;
+      lbImg.alt = src.alt;
+      lbCaption.textContent = src.alt;
+    };
+    const openLb = (i) => { showAt(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const closeLb = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+
+    galleryImgs.forEach((img, i) => {
+      const item = img.closest('.gallery-item');
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      item.addEventListener('click', () => openLb(i));
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(i); }
+      });
+    });
+
+    lb.querySelector('.lightbox-close').addEventListener('click', closeLb);
+    lb.querySelector('.lightbox-prev').addEventListener('click', (e) => { e.stopPropagation(); showAt(currentIndex - 1); });
+    lb.querySelector('.lightbox-next').addEventListener('click', (e) => { e.stopPropagation(); showAt(currentIndex + 1); });
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      else if (e.key === 'ArrowLeft') showAt(currentIndex - 1);
+      else if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+    });
   }
 });
