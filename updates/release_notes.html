@@ -13,13 +13,6 @@
     h2 { font-size: 1.15rem; margin: 24px 0 8px; color: #1a5; }
     ul { padding-left: 22px; }
     li { margin-bottom: 5px; }
-    .highlight { background: #f0fbf5; border: 1px solid #b8e6cc;
-                 border-left: 4px solid #1a5; border-radius: 8px;
-                 padding: 14px 18px; margin: 16px 0; }
-    .highlight h3 { margin: 0 0 6px; font-size: 1.05rem; color: #148a52; }
-    .highlight p { margin: 0; }
-    .old { margin-top: 40px; padding-top: 8px; border-top: 1px solid #eee; }
-    .old h1 { font-size: 1.15rem; color: #555; }
     .footer { margin-top: 32px; color: #999; font-size: 0.85rem; }
   </style>
 </head>
@@ -27,39 +20,15 @@
   <h1>Cabinet Designer 2.7.0</h1>
   <div class="date">24 luglio 2026</div>
 
-  <div class="highlight">
-    <h3>★ Generazione dei file PGMX</h3>
-    <p>Cabinet Designer e il Multi-Modulo producono ora direttamente il
-    formato <strong>PGMX</strong> per le macchine SCM Maestro, convertendo gli
-    <code>.xcs</code> tramite XConverter. Il formato si sceglie nella
-    Configurazione tecnologica → Formato di output.</p>
-  </div>
-
-  <h2>Novità</h2>
+  <h2>Nuove funzionalità</h2>
   <ul>
-    <li><strong>Formato di output PGMX</strong> selezionabile solo quando sono
-        impostati <em>entrambi</em> i percorsi richiesti — XConverter.exe
-        (Maestro) e il file <code>.tlgx</code>: finché mancano, l'opzione resta
-        disabilitata e viene prodotto solo l'XCS, con indicazioni chiare
-        direttamente nei campi di configurazione.</li>
-    <li>Al termine dell'esportazione della <strong>distinta di taglio</strong>
-        (CSV) si apre automaticamente la cartella che contiene il file, sia in
-        Cabinet Designer sia nel Multi-Modulo.</li>
-    <li>Nel <strong>Multi-Modulo</strong> la distinta unificata viene salvata
-        automaticamente nella cartella della stanza
-        (<code>Projects/&lt;nome&gt;</code>), con salvataggio del progetto
-        richiesto prima della generazione — stesse regole della produzione CNC.</li>
-    <li>Messaggi e campi tradotti in tutte le lingue supportate
-        (IT/EN/FR/DE/ES/PT/NL/PL).</li>
+    <li>PGMX Generation - native Maestro export also to PGMX (via XConverter), in addition to XCS. Only XCS first. It's the main novelty.</li>
   </ul>
 
-  <div class="old">
-    <h1>Cabinet Designer 2.6.3</h1>
-    <h2>Novità</h2>
-    <ul>
-      <li>Miglioramenti minori.</li>
-    </ul>
-  </div>
+  <h2>Miglioramenti</h2>
+  <ul>
+    <li>- Open folder after CSV export - the cutting list automatically opens the folder (Cabinet Designer + Multi-Module). It was missing from CSV before.</li>
+  </ul>
 
   <div class="footer">
     Cabinet Designer · <a href="https://cabinetdesigner.uk/">cabinetdesigner.uk</a>
