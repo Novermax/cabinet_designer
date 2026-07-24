@@ -247,7 +247,7 @@ img { max-width: 100%; display: block; }
   backdrop-filter: blur(10px);
   border: 1px solid rgba(212,178,150,0.14);
   border-radius: 22px;
-  box-shadow: 0 30px 80px -30px rgba(0,0,0,0.7);
+  box-shadow: 0 30px 80px -30px rgba(0,0,0,0.85);
   /* Hidden until the hero image is fully loaded: JS adds .hero-ready, then the
      block fades in. No time-based delay, so a slow (mobile) image never shows
      the text before the picture behind it is ready. */
