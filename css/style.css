@@ -213,9 +213,11 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(26,20,16,0.92) 0%, rgba(26,20,16,0.7) 50%, rgba(26,20,16,0.92) 100%),
-    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%236B3F28" opacity="0.08"/><path d="M0 0 L100 100 M100 0 L0 100" stroke="%238B5E3C" stroke-width="0.5" opacity="0.1"/></svg>');
-  background-size: cover, 60px 60px;
+    linear-gradient(180deg, rgba(26,20,16,0.78) 0%, rgba(26,20,16,0.55) 40%, rgba(26,20,16,0.82) 100%),
+    url('../assets/images/hero.png');
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
   z-index: 0;
 }
 
@@ -1529,10 +1531,7 @@ html {
 .hero-trust li i { color: var(--accent); }
 
 .hero-showcase {
-  position: relative;
-  max-width: 1120px;
-  margin: 56px auto 0;
-  animation: showcaseRise 1s 0.35s both;
+  display: none;
 }
 @keyframes showcaseRise {
   from { opacity: 0; transform: translateY(50px) scale(0.97); }
