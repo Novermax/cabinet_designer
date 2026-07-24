@@ -242,7 +242,7 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 30px 80px -30px rgba(0,0,0,0.7);
   /* First only the hero image is visible; the text block fades in slowly. */
   opacity: 0;
-  animation: heroContentReveal 6s 2s ease-in-out both;
+  animation: heroContentReveal 4.5s 1.8s ease-in-out both;
 }
 @keyframes heroContentReveal {
   from { opacity: 0; transform: translateY(34px) scale(0.97); }
