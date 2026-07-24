@@ -206,6 +206,9 @@ img { max-width: 100%; display: block; }
   align-items: center;
   padding-top: 80px;
   overflow: hidden;
+  /* Solid brand-dark base so nothing flashes while the hero image is still
+     downloading (progressive JPEG/PNG chunks stay hidden behind it). */
+  background: var(--bg-dark);
 }
 
 .hero::before {
@@ -217,7 +220,12 @@ img { max-width: 100%; display: block; }
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
+  /* The image is revealed as ONE piece only after it is fully decoded
+     (JS adds .hero-ready), so the user never sees it load in chunks. */
+  opacity: 0;
+  transition: opacity 0.9s ease;
 }
+.hero.hero-ready::before { opacity: 1; }
 
 .hero-overlay {
   position: absolute;
@@ -240,9 +248,13 @@ img { max-width: 100%; display: block; }
   border: 1px solid rgba(212,178,150,0.14);
   border-radius: 22px;
   box-shadow: 0 30px 80px -30px rgba(0,0,0,0.7);
-  /* First only the hero image is visible; the text block fades in slowly. */
+  /* Hidden until the hero image is fully loaded: JS adds .hero-ready, then the
+     block fades in. No time-based delay, so a slow (mobile) image never shows
+     the text before the picture behind it is ready. */
   opacity: 0;
-  animation: heroContentReveal 4.5s 1.8s ease-in-out both;
+}
+.hero.hero-ready .hero-content {
+  animation: heroContentReveal 4.5s 0s ease-in-out both;
 }
 @keyframes heroContentReveal {
   from { opacity: 0; transform: translateY(34px) scale(0.97); }

@@ -5,6 +5,39 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // =============================================================
+  // 0. HERO — reveal only after the background image is fully loaded
+  // =============================================================
+  // The hero picture is a CSS background, so on a slow (mobile) connection it
+  // paints in chunks. Keep it (and the text block) hidden until the file is
+  // fully decoded, wait ~1s so the reveal reads as intentional, then fade the
+  // whole thing in as one piece. A fallback timer guarantees it never stays
+  // hidden if the image errors or the connection stalls.
+  (() => {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    const HERO_SRC = 'assets/images/hero.png';
+    const REVEAL_DELAY = 1000;   // pause after load before the reveal
+    const MAX_WAIT = 8000;       // never keep the hero hidden longer than this
+    let done = false;
+    const reveal = () => {
+      if (done) return;
+      done = true;
+      hero.classList.add('hero-ready');
+    };
+    const img = new Image();
+    const start = () => setTimeout(reveal, REVEAL_DELAY);
+    img.onload = () => {
+      // decode() ensures the bitmap is fully ready (no progressive paint).
+      if (img.decode) img.decode().then(start).catch(start);
+      else start();
+    };
+    img.onerror = reveal;        // broken image → show the rest anyway
+    img.src = HERO_SRC;
+    if (img.complete) img.onload();   // already cached
+    setTimeout(reveal, MAX_WAIT);     // hard fallback
+  })();
+
+  // =============================================================
   // 1. NAVBAR — Scroll effect, progress bar & mobile toggle
   // =============================================================
   const navbar = document.getElementById('navbar');
