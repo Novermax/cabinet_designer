@@ -1530,7 +1530,7 @@ html {
 
 .hero-showcase {
   position: relative;
-  max-width: 960px;
+  max-width: 1120px;
   margin: 56px auto 0;
   animation: showcaseRise 1s 0.35s both;
 }
@@ -1552,7 +1552,7 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 10px 16px;
+  padding: 5px 16px;
   background: var(--bg-surface);
   border-bottom: 1px solid rgba(139,94,60,0.2);
 }
@@ -1586,9 +1586,9 @@ html {
 .showcase-window img {
   width: 100%;
   display: block;
-  height: clamp(340px, 54vh, 580px);
-  object-fit: cover;
-  object-position: center 42%;
+  height: auto;
+  aspect-ratio: 1407 / 1000;
+  object-fit: contain;
 }
 
 .showcase-chip {
