@@ -713,37 +713,64 @@ img { max-width: 100%; display: block; }
 /* =============================================================
    GALLERY
    ============================================================= */
-.gallery { background: var(--bg-card); }
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.gallery-item {
-  border-radius: var(--radius-sm);
+.gallery {
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(139,94,60,0.12);
-  transition: all var(--transition);
-}
-.gallery-item:hover {
-  transform: scale(1.03);
-  box-shadow: var(--shadow);
-  border-color: var(--wood-medium);
+  background: var(--bg-dark);
 }
 
-.gallery-item picture { display: block; }
-.gallery-item img {
+/* Full-page crossfade slideshow: 8 slides stacked, each fades in/out in turn.
+   One shared 32s cycle (~4s per slide), staggered by animation-delay. */
+.gallery-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.gallery-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: galleryFade 32s infinite;
+}
+.gallery-slide picture { display: block; width: 100%; height: 100%; }
+.gallery-slide img {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover;   /* fills the full-page section on wide screens */
   display: block;
-  transition: transform var(--transition);
 }
-.gallery-item:hover img {
-  transform: scale(1.05);
+.gs-1 { animation-delay: 0s; }
+.gs-2 { animation-delay: 4s; }
+.gs-3 { animation-delay: 8s; }
+.gs-4 { animation-delay: 12s; }
+.gs-5 { animation-delay: 16s; }
+.gs-6 { animation-delay: 20s; }
+.gs-7 { animation-delay: 24s; }
+.gs-8 { animation-delay: 28s; }
+
+@keyframes galleryFade {
+  0%     { opacity: 0; }
+  2%     { opacity: 1; }   /* fade in */
+  12.5%  { opacity: 1; }   /* hold visible */
+  15.5%  { opacity: 0; }   /* fade out */
+  100%   { opacity: 0; }
 }
+
+/* Heading overlay — readable over any slide via a soft dark scrim. */
+.gallery-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  text-align: center;
+  padding: 80px 24px 48px;
+  background: linear-gradient(to top, rgba(15,11,8,0.85) 0%, rgba(15,11,8,0.5) 45%, transparent 100%);
+  pointer-events: none;
+}
+.gallery-caption .section-label { color: var(--accent); }
+.gallery-caption h2 { color: #ffffff; margin: 8px 0; }
+.gallery-caption p { color: #ffffff; margin: 0; }
 
 /* =============================================================
    TESTIMONIALS
@@ -1856,6 +1883,9 @@ html {
   }
   .fade-section { opacity: 1 !important; transform: none !important; }
   .hero-content { opacity: 1 !important; transform: none !important; }
+  /* No crossfade cycle: show just the first slide, static. */
+  .gallery-slide { opacity: 0 !important; }
+  .gallery-slide.gs-1 { opacity: 1 !important; }
   .orb, .particle, .showcase-chip, .hero-scroll { animation: none !important; }
 }
 
@@ -1863,10 +1893,6 @@ html {
   .features-grid,
   .testimonial-grid,
   .videos-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1909,10 +1935,14 @@ html {
   .features-grid,
   .testimonial-grid,
   .videos-grid,
-  .gallery-grid,
   .pricing-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Slideshow on mobile: show the WHOLE landscape screenshot (no heavy crop /
+     over-zoom) — full width, letterboxed on the dark section background. */
+  .gallery { min-height: 70vh; }
+  .gallery-slide img { object-fit: contain; }
 
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
