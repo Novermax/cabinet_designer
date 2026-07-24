@@ -254,7 +254,8 @@ img { max-width: 100%; display: block; }
   opacity: 0;
 }
 .hero.hero-ready .hero-content {
-  animation: heroContentReveal 4.5s 0s ease-in-out both;
+  /* ~2.4s pause after the image appears, then a ~1.4s reveal. */
+  animation: heroContentReveal 1.4s 2.4s ease-in-out both;
 }
 @keyframes heroContentReveal {
   from { opacity: 0; transform: translateY(34px) scale(0.97); }
