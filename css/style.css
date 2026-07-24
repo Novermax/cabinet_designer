@@ -469,7 +469,7 @@ img { max-width: 100%; display: block; }
    STATS
    ============================================================= */
 .stats {
-  padding: 44px 0;
+  padding: 22px 0;
   background: linear-gradient(135deg, var(--bg-card), var(--bg-surface));
   border-top: 1px solid rgba(139,94,60,0.1);
   border-bottom: 1px solid rgba(139,94,60,0.1);
@@ -487,10 +487,10 @@ img { max-width: 100%; display: block; }
 .stat-number {
   display: block;
   font-family: 'Playfair Display', serif;
-  font-size: 2.1rem;
+  font-size: 1.7rem;
   font-weight: 600;
   color: var(--accent);
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .stat-label {
