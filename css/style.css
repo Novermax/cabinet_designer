@@ -294,7 +294,7 @@ img { max-width: 100%; display: block; }
 
 .hero-badge {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: #ffffff;
 }
 .hero-badge i { color: var(--accent); margin-right: 6px; }
 
@@ -1552,7 +1552,7 @@ html {
   gap: 8px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: #ffffff;
 }
 .hero-trust li i { color: var(--accent); }
 
