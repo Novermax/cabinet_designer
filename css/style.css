@@ -493,6 +493,34 @@ img { max-width: 100%; display: block; }
   line-height: 1.55;
 }
 
+/* Headline additions of the latest release: wider card, warmer frame. */
+.new-card-hero {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(139,94,60,0.16), var(--bg-dark) 60%);
+  border-color: var(--wood-medium);
+}
+.new-card-hero .new-icon { font-size: 1.9rem; }
+.new-card-hero h3 { font-size: 1.32rem; }
+.new-card-hero p { font-size: 0.98rem; }
+@media (max-width: 700px) {
+  .new-card-hero { grid-column: span 1; }
+}
+
+/* Inline "New" flag beside a feature-card heading. */
+.feature-tag {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(90deg, var(--accent), var(--wood-medium));
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
 /* =============================================================
    STATS
    ============================================================= */
@@ -721,42 +749,102 @@ img { max-width: 100%; display: block; }
   background: var(--bg-dark);
 }
 
-/* Full-page crossfade slideshow: 8 slides stacked, each fades in/out in turn.
-   One shared 32s cycle (~4s per slide), staggered by animation-delay. */
+/* Full-page carousel: slides stacked, one visible at a time. The cycling is
+   driven by js/script.js (arrows, dots, drag) — CSS only owns the crossfade,
+   so a manual jump and the autoplay use the very same transition. */
 .gallery-slideshow {
   position: absolute;
   inset: 0;
   z-index: 0;
+  cursor: grab;
+  touch-action: pan-y;          /* vertical page scroll stays native */
 }
+.gallery-slideshow.is-dragging { cursor: grabbing; }
 .gallery-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  animation: galleryFade 32s infinite;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
 }
+.gallery-slide.is-active { opacity: 1; pointer-events: auto; }
 .gallery-slide picture { display: block; width: 100%; height: 100%; }
 .gallery-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;   /* fills the full-page section on wide screens */
   display: block;
+  -webkit-user-drag: none;
+  user-select: none;
 }
-.gs-1 { animation-delay: 0s; }
-.gs-2 { animation-delay: 4s; }
-.gs-3 { animation-delay: 8s; }
-.gs-4 { animation-delay: 12s; }
-.gs-5 { animation-delay: 16s; }
-.gs-6 { animation-delay: 20s; }
-.gs-7 { animation-delay: 24s; }
-.gs-8 { animation-delay: 28s; }
+/* A drawing plate is a document, not a photo: never crop it (`contain`, not
+   `cover`) but still fill the page — the padding is only the margin of the
+   sheet. It sits on the dark section, so the sheet reads as paper. */
+.gallery-slide.is-doc {
+  background: var(--bg-dark);
+}
+.gallery-slide.is-doc img {
+  object-fit: cover;            /* full-bleed like every other slide */
+  object-position: top center;  /* the crop falls at the bottom, under the caption */
+}
+/* White paper under white caption text is unreadable: while the plate is the
+   slide on screen, the scrim goes near-opaque. JS sets the class on the
+   section (see js/script.js, the carousel's show()). */
+.gallery.is-doc-active .gallery-caption {
+  background: linear-gradient(to top, rgba(15,11,8,0.97) 0%, rgba(15,11,8,0.92) 40%, rgba(15,11,8,0.75) 70%, transparent 100%);
+}
 
-@keyframes galleryFade {
-  0%     { opacity: 0; }
-  2%     { opacity: 1; }   /* fade in */
-  12.5%  { opacity: 1; }   /* hold visible */
-  15.5%  { opacity: 0; }   /* fade out */
-  100%   { opacity: 0; }
+/* Manual controls. Above the caption scrim, which is pointer-events: none. */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 50%;
+  background: rgba(15,11,8,0.45);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 1.05rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity var(--transition), background var(--transition), transform var(--transition);
 }
+.gallery-arrow:hover,
+.gallery-arrow:focus-visible {
+  opacity: 1;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.gallery-prev { left: 24px; }
+.gallery-next { right: 24px; }
+
+.gallery-dots {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 18px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.gallery-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+.gallery-dot:hover { background: rgba(255,255,255,0.65); }
+.gallery-dot.is-active { background: var(--accent); transform: scale(1.4); }
 
 /* Heading overlay — readable over any slide via a soft dark scrim. */
 .gallery-caption {
@@ -764,13 +852,21 @@ img { max-width: 100%; display: block; }
   left: 0; right: 0; bottom: 0;
   z-index: 2;
   text-align: center;
-  padding: 80px 24px 48px;
+  padding: 80px 24px 56px;
   background: linear-gradient(to top, rgba(15,11,8,0.85) 0%, rgba(15,11,8,0.5) 45%, transparent 100%);
   pointer-events: none;
 }
 .gallery-caption .section-label { color: var(--accent); }
 .gallery-caption h2 { color: #ffffff; margin: 8px 0; }
 .gallery-caption p { color: #ffffff; margin: 0; }
+.gallery-slide-title {
+  margin-top: 10px !important;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent) !important;
+  min-height: 1.2em;
+}
 
 /* =============================================================
    TESTIMONIALS
@@ -1883,9 +1979,9 @@ html {
   }
   .fade-section { opacity: 1 !important; transform: none !important; }
   .hero-content { opacity: 1 !important; transform: none !important; }
-  /* No crossfade cycle: show just the first slide, static. */
-  .gallery-slide { opacity: 0 !important; }
-  .gallery-slide.gs-1 { opacity: 1 !important; }
+  /* No crossfade, no autoplay (script.js checks the same query): the arrows
+     and dots still switch slides, they just cut instead of fading. */
+  .gallery-slide { transition: none !important; }
   .orb, .particle, .showcase-chip, .hero-scroll { animation: none !important; }
 }
 
@@ -1943,6 +2039,14 @@ html {
      over-zoom) — full width, letterboxed on the dark section background. */
   .gallery { min-height: 70vh; }
   .gallery-slide img { object-fit: contain; }
+  /* Narrow screen: cropping the sides of a drawing would cut the quotas off,
+     so the plate goes back to whole-sheet, sitting above the caption. */
+  .gallery-slide.is-doc img { object-fit: contain; object-position: center top; padding: 1vh 1vw 22vh; }
+  .gallery-arrow { width: 40px; height: 40px; font-size: 0.9rem; opacity: 0.85; }
+  .gallery-prev { left: 10px; }
+  .gallery-next { right: 10px; }
+  .gallery-dots { bottom: 12px; gap: 8px; }
+  .gallery-dot { width: 7px; height: 7px; }
 
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);

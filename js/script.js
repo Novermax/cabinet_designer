@@ -357,6 +357,141 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =============================================================
+  // 11b. GALLERY CAROUSEL — manual (arrows / dots / drag) + autoplay
+  // =============================================================
+  // Autoplay is the default, but any manual gesture wins: it stops the timer
+  // and only lets it back after RESUME_MS of quiet. The timer is also idle
+  // while the section is off-screen or the tab is hidden.
+  (() => {
+    const track = document.getElementById('galleryCarousel');
+    if (!track) return;
+    const slides = Array.from(track.querySelectorAll('.gallery-slide'));
+    if (slides.length < 2) return;
+
+    const section = track.closest('.gallery');
+    const dotsBox = document.getElementById('galleryDots');
+    const label = document.querySelector('.gallery-slide-title');
+    const prevBtn = document.querySelector('.gallery-prev');
+    const nextBtn = document.querySelector('.gallery-next');
+
+    const AUTO_MS = 5000;      // time on screen per slide
+    const RESUME_MS = 7000;    // quiet time before autoplay takes over again
+    const DRAG_MIN = 50;       // px of horizontal travel that counts as a swipe
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let index = slides.findIndex(s => s.classList.contains('is-active'));
+    if (index < 0) index = 0;
+    let timer = null, resumeTimer = null, hovering = false, onScreen = true;
+
+    // Dots
+    const dots = slides.map((slide, i) => {
+      if (!dotsBox) return null;
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'gallery-dot';
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', slide.dataset.title || `Screenshot ${i + 1}`);
+      dot.addEventListener('click', () => { show(i); interacted(); });
+      dotsBox.appendChild(dot);
+      return dot;
+    });
+
+    function show(i) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        const on = k === index;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach((d, k) => {
+        if (!d) return;
+        d.classList.toggle('is-active', k === index);
+        d.setAttribute('aria-selected', k === index ? 'true' : 'false');
+      });
+      if (label) label.textContent = slides[index].dataset.title || '';
+      // A document slide is white: tell the CSS to darken the caption scrim.
+      if (section) section.classList.toggle('is-doc-active', slides[index].classList.contains('is-doc'));
+    }
+    const next = () => show(index + 1);
+    const prev = () => show(index - 1);
+
+    function play() {
+      stop();
+      if (reduceMotion || hovering || !onScreen || document.hidden) return;
+      timer = setInterval(next, AUTO_MS);
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    // A manual gesture: freeze autoplay, restart the quiet countdown.
+    function interacted() {
+      stop();
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => { resumeTimer = null; play(); }, RESUME_MS);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => { prev(); interacted(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { next(); interacted(); });
+
+    // Hover pause — the pointer is on the picture, the user is looking at it.
+    track.addEventListener('mouseenter', () => { hovering = true; stop(); });
+    // Pointer gone and nothing was actually clicked/dragged: no quiet time owed.
+    track.addEventListener('mouseleave', () => { hovering = false; if (!resumeTimer) play(); });
+
+    // Drag / swipe. Pointer events cover mouse, touch and pen in one path.
+    let dragX = null, dragY = null, dragging = false;
+    track.addEventListener('pointerdown', (e) => {
+      if (e.button !== undefined && e.button !== 0) return;
+      dragX = e.clientX; dragY = e.clientY; dragging = false;
+      stop();
+    });
+    track.addEventListener('pointermove', (e) => {
+      if (dragX === null) return;
+      const dx = e.clientX - dragX;
+      if (!dragging && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(e.clientY - dragY)) {
+        dragging = true;
+        track.classList.add('is-dragging');
+      }
+    });
+    const endDrag = (e) => {
+      if (dragX === null) return;
+      const dx = (e.clientX ?? dragX) - dragX;
+      dragX = dragY = null;
+      track.classList.remove('is-dragging');
+      if (dragging && Math.abs(dx) >= DRAG_MIN) (dx < 0 ? next : prev)();
+      dragging = false;
+      interacted();
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('dragstart', (e) => e.preventDefault());
+
+    // Arrow keys while the gallery is the section on screen (and no lightbox).
+    document.addEventListener('keydown', (e) => {
+      if (!onScreen) return;
+      if (document.querySelector('.lightbox.open')) return;
+      const tag = (document.activeElement && document.activeElement.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (e.key === 'ArrowLeft') { prev(); interacted(); }
+      else if (e.key === 'ArrowRight') { next(); interacted(); }
+    });
+
+    // Don't cycle what nobody is watching.
+    if (section && 'IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        onScreen = entries[0].isIntersecting;
+        onScreen ? play() : stop();
+      }, { threshold: 0.25 }).observe(section);
+    }
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : play();
+    });
+
+    show(index);
+    play();
+  })();
+
+  // =============================================================
   // 12. GALLERY LIGHTBOX
   // =============================================================
   const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));

@@ -242,63 +242,104 @@
             <li><i class="fas fa-check"></i> F6 bottom-face split &amp; DXF / CSV</li>
           </ul>
         </div>
+        <div class="feature-card fade-section">
+          <div class="feature-icon">
+            <i class="fas fa-drafting-compass"></i>
+          </div>
+          <h3>Quoted Technical Drawings <span class="feature-tag">New</span></h3>
+          <p>One PDF plate per piece, built from the same cut list your saw uses. Main view plus the four edges unfolded around it, contour, thickness and angular dimensions, and every operation listed in a machining table.</p>
+          <ul class="feature-list">
+            <li><i class="fas fa-check"></i> One plate per piece — views, quotas, machining table</li>
+            <li><i class="fas fa-check"></i> Edge banding on the plate: stroke, code &amp; legend</li>
+            <li><i class="fas fa-check"></i> Finished or pre-banding sizes, stated on the plate</li>
+          </ul>
+        </div>
+        <div class="feature-card fade-section">
+          <div class="feature-icon">
+            <i class="fas fa-cut"></i>
+          </div>
+          <h3>Inclined Cuts — On or Off the Machine <span class="feature-tag">New</span></h3>
+          <p>Bevels and tilted holes are real 5-axis operations, never a rotated approximation. With a 5-axis head they go straight to Maestro. Without one, declare no 5-axis tool and the same cuts stay in the model, the cut list and the drawings, flagged as off-machine work.</p>
+          <ul class="feature-list">
+            <li><i class="fas fa-check"></i> Tilted blade cuts &amp; inclined drilling</li>
+            <li><i class="fas fa-check"></i> Native Maestro output on 5-axis machines</li>
+            <li><i class="fas fa-check"></i> Off-machine cuts documented on the drawings</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== GALLERY ===== -->
   <section class="gallery" id="gallery">
-    <div class="gallery-slideshow">
-      <div class="gallery-slide gs-1">
+    <div class="gallery-slideshow" id="galleryCarousel"
+         role="region" aria-roledescription="carousel" aria-label="Cabinet Designer screenshots">
+      <div class="gallery-slide is-active" data-title="Multi-module room composition">
         <picture>
           <source srcset="assets/images/gallery-1.webp" type="image/webp">
           <img src="assets/images/gallery-1.png" alt="Cabinet Designer — multi-module room composition" width="1920" height="1152" decoding="async">
         </picture>
       </div>
-      <div class="gallery-slide gs-2">
+      <div class="gallery-slide" data-title="Photorealistic room rendering">
         <picture>
           <source srcset="assets/images/gallery-2.webp" type="image/webp">
           <img src="assets/images/gallery-2.png" alt="Cabinet Designer — photorealistic room rendering" width="1406" height="1000" loading="lazy" decoding="async">
         </picture>
       </div>
-      <div class="gallery-slide gs-3">
+      <div class="gallery-slide" data-title="Diagonal corner unit (angoliera)">
         <picture>
           <source srcset="assets/images/gallery-3.webp" type="image/webp">
           <img src="assets/images/gallery-3.png" alt="Cabinet Designer — diagonal corner cabinet (angoliera)" width="1920" height="1152" loading="lazy" decoding="async">
         </picture>
       </div>
-      <div class="gallery-slide gs-4">
+      <div class="gallery-slide" data-title="Slanted-top unit — inclined 5-axis cuts">
         <picture>
           <source srcset="assets/images/gallery-4.webp" type="image/webp">
-          <img src="assets/images/gallery-4.png" alt="Cabinet Designer — slanted-top cabinet typology" width="1920" height="1152" loading="lazy" decoding="async">
+          <img src="assets/images/gallery-4.png" alt="Cabinet Designer — slanted-top cabinet typology with inclined blade cuts" width="1920" height="1152" loading="lazy" decoding="async">
         </picture>
       </div>
-      <div class="gallery-slide gs-5">
+      <div class="gallery-slide" data-title="Edge banding &amp; adjustable base">
         <picture>
           <source srcset="assets/images/gallery-5.webp" type="image/webp">
           <img src="assets/images/gallery-5.png" alt="Cabinet Designer — panel edges and adjustable base detail view" width="1920" height="1152" loading="lazy" decoding="async">
         </picture>
       </div>
-      <div class="gallery-slide gs-6">
+      <div class="gallery-slide" data-title="Hardware library — joints, hinges, guides">
         <picture>
           <source srcset="assets/images/gallery-6.webp" type="image/webp">
           <img src="assets/images/gallery-6.png" alt="Cabinet Designer — hardware catalog (joints, hinges, guides)" width="1182" height="672" loading="lazy" decoding="async">
         </picture>
       </div>
-      <div class="gallery-slide gs-7">
+      <div class="gallery-slide" data-title="Cut list &amp; panel optimization">
         <img src="assets/images/gallery-7.png" alt="Cabinet Designer — cut list and panel optimization" width="1920" height="1152" loading="lazy" decoding="async">
       </div>
-      <div class="gallery-slide gs-8">
+      <div class="gallery-slide" data-title="Native SCM Maestro CNC export">
         <picture>
           <source srcset="assets/images/gallery-8.webp" type="image/webp">
           <img src="assets/images/gallery-8.png" alt="Cabinet Designer — SCM Maestro CNC export" width="1920" height="1159" loading="lazy" decoding="async">
         </picture>
       </div>
+      <div class="gallery-slide is-doc" data-title="NEW — Quoted technical drawings: one plate per piece">
+        <picture>
+          <source srcset="assets/images/gallery-9.webp" type="image/webp">
+          <img src="assets/images/gallery-9.png" alt="Cabinet Designer — quoted technical drawing plate: dimensions, edge-banding legend and machining table" width="1920" height="1345" loading="lazy" decoding="async">
+        </picture>
+      </div>
     </div>
+
+    <button class="gallery-arrow gallery-prev" type="button" aria-label="Previous screenshot" aria-controls="galleryCarousel">
+      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <button class="gallery-arrow gallery-next" type="button" aria-label="Next screenshot" aria-controls="galleryCarousel">
+      <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="Choose screenshot"></div>
+
     <div class="gallery-caption fade-section">
       <span class="section-label">Screenshots</span>
       <h2>See Cabinet Designer in Action</h2>
       <p>Real projects designed and rendered inside the software.</p>
+      <p class="gallery-slide-title" aria-live="polite"></p>
     </div>
   </section>
 
@@ -311,6 +352,18 @@
         <p>Recent additions that make designing, visualising and machining faster than ever.</p>
       </div>
       <div class="new-grid">
+        <div class="new-card new-card-hero fade-section">
+          <span class="new-badge">New</span>
+          <i class="fas fa-drafting-compass new-icon"></i>
+          <h3>Quoted Technical Drawings</h3>
+          <p>A PDF of technical plates, one page per piece: views, contour and angular quotas, edge-band legend and a table of every machining operation. Straight from the cut list, so the shop drawing and the saw never disagree.</p>
+        </div>
+        <div class="new-card new-card-hero fade-section">
+          <span class="new-badge">New</span>
+          <i class="fas fa-cut new-icon"></i>
+          <h3>Inclined Cuts, On and Off the Machine</h3>
+          <p>Bevels and tilted holes exported as native 5-axis Maestro operations — or, with no 5-axis tool declared, kept in the model, the cut list and the drawings as off-machine work.</p>
+        </div>
         <div class="new-card fade-section">
           <span class="new-badge">New</span>
           <i class="fas fa-image new-icon"></i>
