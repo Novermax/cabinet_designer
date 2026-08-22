@@ -1,6 +1,6 @@
 {
-    "latestVersion": "3.2.2",
+    "latestVersion": "3.3.0",
     "mandatory": false,
-    "installer": "https://github.com/Novermax/cabinet_designer/releases/download/v3.2.2/CabinetDesigner-Setup-Full-3.2.2.exe",
+    "installer": "https://github.com/Novermax/cabinet_designer/releases/download/v3.3.0/CabinetDesigner-Setup-Full-3.3.0.exe",
     "releaseNotes": "https://cabinetdesigner.uk/updates/release_notes.html"
 }
