@@ -1,5 +1,15 @@
 [
   {
+    "version": "3.6.1",
+    "date": "2026-08-24",
+    "notes": [
+      "3.6.1",
+      "Adding new kinematics to composer",
+      "Kinematic Drawer and Door Toggle",
+      "Edge management fix in composer"
+    ]
+  },
+  {
     "version": "3.4.0",
     "date": "2026-08-24",
     "notes": [
