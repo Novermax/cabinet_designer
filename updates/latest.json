@@ -2,5 +2,6 @@
     "latestVersion": "3.3.1",
     "mandatory": false,
     "installer": "https://github.com/Novermax/cabinet_designer/releases/download/v3.3.1/CabinetDesigner-Setup-Full-3.3.1.exe",
-    "releaseNotes": "https://cabinetdesigner.uk/updates/release_notes.html"
+    "releaseNotes": "https://cabinetdesigner.uk/updates/release_notes.html",
+    "history": "https://cabinetdesigner.uk/updates/history.json"
 }

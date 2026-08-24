@@ -1,0 +1,84 @@
+[
+  {
+    "version": "3.3.1",
+    "date": "2026-08-24",
+    "notes": [
+      "Graphics fix on the hinges library"
+    ]
+  },
+  {
+    "version": "3.3.0",
+    "date": "",
+    "notes": [
+      "Dividers/shelves setback from the front",
+      "Inset doors",
+      "Shelves: custom subdivision of the support pin holes",
+      "Manual: setback from the front and inset doors (8 languages)"
+    ]
+  },
+  {
+    "version": "3.2.2",
+    "date": "",
+    "notes": [
+      "Set default material for all cabinet"
+    ]
+  },
+  {
+    "version": "3.1.0",
+    "date": "",
+    "notes": [
+      "Generate dimensioned drawings"
+    ]
+  },
+  {
+    "version": "3.0.0",
+    "date": "",
+    "notes": [
+      "Interruption of horizontal walls",
+      "Rear setback",
+      "New management of materials and thicknesses",
+      "Materials and thicknesses per element",
+      "Fixed the logic of the generated code for housing milling",
+      "Keep-out bands from milling + offset in the direction with more space"
+    ]
+  },
+  {
+    "version": "2.8.1",
+    "date": "",
+    "notes": [
+      "Color correction"
+    ]
+  },
+  {
+    "version": "2.8.0",
+    "date": "",
+    "notes": [
+      "PBR materials with transparent background textures",
+      "Different thicknesses per role (also on the corner unit)",
+      "Check that the hardware fits the chosen thickness"
+    ]
+  },
+  {
+    "version": "2.7.2",
+    "date": "",
+    "notes": [
+      "Handling automatic updates from the Composer menu"
+    ]
+  },
+  {
+    "version": "2.7.1",
+    "date": "",
+    "notes": [
+      "Post processor fix on F6 in-face code generation"
+    ]
+  },
+  {
+    "version": "2.7.0",
+    "date": "",
+    "notes": [
+      "PGMX generation - native Maestro export also to PGMX (via XConverter), in addition to XCS",
+      "Smart PGMX gate - the PGMX format is chosen only with both paths set (XConverter.exe + .tlgx); otherwise it reverts to XCS. Fields with clear indications, translated into 8 languages",
+      "Open folder after CSV export - the cutting list automatically opens the folder (Cabinet Designer + Multi-Module)"
+    ]
+  }
+]

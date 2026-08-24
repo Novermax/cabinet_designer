@@ -9,20 +9,105 @@
            max-width: 760px; margin: 0 auto; padding: 24px; color: #222;
            line-height: 1.6; }
     h1 { font-size: 1.6rem; margin-bottom: 2px; }
-    .date { color: #777; font-size: 0.9rem; margin-bottom: 24px; }
-    h2 { font-size: 1.15rem; margin: 24px 0 8px; color: #1a5; }
+    .date { color: #777; font-size: 0.9rem; margin-bottom: 12px; }
+    h2 { font-size: 1.15rem; margin: 24px 0 4px; color: #1a5; }
     .note { margin: 0 0 6px; }
+    section.rel + section.rel { border-top: 1px solid #eee; padding-top: 8px; }
     .footer { margin-top: 32px; color: #999; font-size: 0.85rem; }
   </style>
 </head>
 <body>
-  <h1>Cabinet Designer 3.3.1</h1>
-  <div class="date">2026-08-24</div>
+  <h1>Cabinet Designer</h1>
 
+  <section class="rel" id="v3-3-1" data-version="3.3.1">
+    <h2>Cabinet Designer 3.3.1</h2>
+    <div class="date">2026-08-24</div>
   <p class="note">Graphics fix on the hinges library</p>
+  </section>
+  <section class="rel" id="v3-3-0" data-version="3.3.0">
+    <h2>Cabinet Designer 3.3.0</h2>
+    <div class="date"></div>
+  <p class="note">Dividers/shelves setback from the front</p>
+  <p class="note">Inset doors</p>
+  <p class="note">Shelves: custom subdivision of the support pin holes</p>
+  <p class="note">Manual: setback from the front and inset doors (8 languages)</p>
+  </section>
+  <section class="rel" id="v3-2-2" data-version="3.2.2">
+    <h2>Cabinet Designer 3.2.2</h2>
+    <div class="date"></div>
+  <p class="note">Set default material for all cabinet</p>
+  </section>
+  <section class="rel" id="v3-1-0" data-version="3.1.0">
+    <h2>Cabinet Designer 3.1.0</h2>
+    <div class="date"></div>
+  <p class="note">Generate dimensioned drawings</p>
+  </section>
+  <section class="rel" id="v3-0-0" data-version="3.0.0">
+    <h2>Cabinet Designer 3.0.0</h2>
+    <div class="date"></div>
+  <p class="note">Interruption of horizontal walls</p>
+  <p class="note">Rear setback</p>
+  <p class="note">New management of materials and thicknesses</p>
+  <p class="note">Materials and thicknesses per element</p>
+  <p class="note">Fixed the logic of the generated code for housing milling</p>
+  <p class="note">Keep-out bands from milling + offset in the direction with more space</p>
+  </section>
+  <section class="rel" id="v2-8-1" data-version="2.8.1">
+    <h2>Cabinet Designer 2.8.1</h2>
+    <div class="date"></div>
+  <p class="note">Color correction</p>
+  </section>
+  <section class="rel" id="v2-8-0" data-version="2.8.0">
+    <h2>Cabinet Designer 2.8.0</h2>
+    <div class="date"></div>
+  <p class="note">PBR materials with transparent background textures</p>
+  <p class="note">Different thicknesses per role (also on the corner unit)</p>
+  <p class="note">Check that the hardware fits the chosen thickness</p>
+  </section>
+  <section class="rel" id="v2-7-2" data-version="2.7.2">
+    <h2>Cabinet Designer 2.7.2</h2>
+    <div class="date"></div>
+  <p class="note">Handling automatic updates from the Composer menu</p>
+  </section>
+  <section class="rel" id="v2-7-1" data-version="2.7.1">
+    <h2>Cabinet Designer 2.7.1</h2>
+    <div class="date"></div>
+  <p class="note">Post processor fix on F6 in-face code generation</p>
+  </section>
+  <section class="rel" id="v2-7-0" data-version="2.7.0">
+    <h2>Cabinet Designer 2.7.0</h2>
+    <div class="date"></div>
+  <p class="note">PGMX generation - native Maestro export also to PGMX (via XConverter), in addition to XCS</p>
+  <p class="note">Smart PGMX gate - the PGMX format is chosen only with both paths set (XConverter.exe + .tlgx); otherwise it reverts to XCS. Fields with clear indications, translated into 8 languages</p>
+  <p class="note">Open folder after CSV export - the cutting list automatically opens the folder (Cabinet Designer + Multi-Module)</p>
+  </section>
 
   <div class="footer">
     Cabinet Designer · <a href="https://cabinetdesigner.uk/">cabinetdesigner.uk</a>
   </div>
+  <script>
+(function () {
+  var from = new URLSearchParams(location.search).get('from');
+  if (!from) return;
+  var key = function (v) {
+    return (v || '').split('.').map(function (n) { return parseInt(n, 10) || 0; });
+  };
+  var newer = function (a, b) {
+    a = key(a); b = key(b);
+    for (var i = 0; i < Math.max(a.length, b.length); i++) {
+      var x = a[i] || 0, y = b[i] || 0;
+      if (x !== y) return x > y;
+    }
+    return false;
+  };
+  var all = document.querySelectorAll('section.rel');
+  var shown = 0;
+  all.forEach(function (s) {
+    if (newer(s.dataset.version, from)) { shown++; } else { s.hidden = true; }
+  });
+  // Nessuna versione piu' recente: meglio l'archivio intero che una pagina vuota.
+  if (!shown) all.forEach(function (s) { s.hidden = false; });
+})();
+</script>
 </body>
 </html>
