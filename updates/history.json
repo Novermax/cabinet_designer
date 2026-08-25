@@ -1,5 +1,12 @@
 [
   {
+    "version": "3.6.4",
+    "date": "2026-08-25",
+    "notes": [
+      "Render fix"
+    ]
+  },
+  {
     "version": "3.6.3",
     "date": "2026-08-25",
     "notes": [
