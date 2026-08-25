@@ -1,5 +1,12 @@
 [
   {
+    "version": "3.6.3",
+    "date": "2026-08-25",
+    "notes": [
+      "fix of the front setback for intermediate door/drawer dividers."
+    ]
+  },
+  {
     "version": "3.6.2",
     "date": "2026-08-25",
     "notes": [
