@@ -1,5 +1,13 @@
 [
   {
+    "version": "3.6.2",
+    "date": "2026-08-25",
+    "notes": [
+      "Adding drawings to composer",
+      "fix cutlist composer"
+    ]
+  },
+  {
     "version": "3.6.1",
     "date": "2026-08-24",
     "notes": [
