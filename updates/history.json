@@ -1,5 +1,12 @@
 [
   {
+    "version": "3.6.5",
+    "date": "2026-08-26",
+    "notes": [
+      "Rendering exposure and color improvement"
+    ]
+  },
+  {
     "version": "3.6.4",
     "date": "2026-08-25",
     "notes": [
