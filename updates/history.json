@@ -1,5 +1,12 @@
 [
   {
+    "version": "3.8.0",
+    "date": "2026-08-28",
+    "notes": [
+      "Insertion of explanations icons for each parameter present in the program"
+    ]
+  },
+  {
     "version": "3.7.0",
     "date": "2026-08-27",
     "notes": [
