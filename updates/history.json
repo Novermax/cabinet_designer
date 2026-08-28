@@ -1,5 +1,12 @@
 [
   {
+    "version": "3.9.0",
+    "date": "2026-08-28",
+    "notes": [
+      "Expansion of the tutorials and manual in all languages."
+    ]
+  },
+  {
     "version": "3.8.0",
     "date": "2026-08-28",
     "notes": [
