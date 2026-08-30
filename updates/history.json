@@ -1,5 +1,13 @@
 [
   {
+    "version": "3.9.1",
+    "date": "2026-08-30",
+    "notes": [
+      "Faster updates: the render engine is no longer reinstalled, and the installer warns if the application is open.",
+      "Render no longer stalls at 0% after an update."
+    ]
+  },
+  {
     "version": "3.9.0",
     "date": "2026-08-28",
     "notes": [
