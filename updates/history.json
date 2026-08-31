@@ -1,5 +1,14 @@
 [
   {
+    "version": "3.9.2",
+    "date": "2026-08-31",
+    "notes": [
+      "Adding isolated element view.",
+      "Correction on F6 CNC Output.",
+      "Correction on element thickness based on material change."
+    ]
+  },
+  {
     "version": "3.9.1",
     "date": "2026-08-30",
     "notes": [
