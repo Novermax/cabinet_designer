@@ -1,5 +1,17 @@
 [
   {
+    "version": "4.0.0",
+    "date": "2026-09-03",
+    "notes": [
+      "Exposing Offset BX and BY parameters.",
+      "Removed Generic CSV Machine Profile",
+      "Improved CNC and Logical controls.",
+      "Modified the material definition dialog",
+      "Redefining the Technology Configuration interface",
+      "Cleaning up some obsolete menus."
+    ]
+  },
+  {
     "version": "3.9.2",
     "date": "2026-08-31",
     "notes": [
