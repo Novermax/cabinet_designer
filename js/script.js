@@ -492,6 +492,68 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   // =============================================================
+  // 11c. PRICE DEADLINE — sticky bar height + live countdowns
+  // =============================================================
+  // One deadline, declared once in the markup (#priceBar[data-deadline], ISO
+  // with an explicit offset so it means the same instant in every timezone).
+  // Every clock on the page is driven from it, and when it passes the page
+  // switches to the after-deadline price by itself: the .js-before elements
+  // go, the .js-after ones appear and every .js-price-now becomes PRICE_AFTER.
+  // The Stripe link is NOT self-updating — the amount must be changed there.
+  (() => {
+    const bar = document.getElementById('priceBar');
+    if (!bar) return;
+
+    const PRICE_AFTER = '$2,099';
+    const deadline = Date.parse(bar.dataset.deadline || '');
+    if (Number.isNaN(deadline)) { bar.remove(); return; }
+
+    // --- the fixed bar must not cover the navbar: publish its real height ---
+    const publishHeight = () => {
+      document.documentElement.style.setProperty('--pb-h', bar.offsetHeight + 'px');
+    };
+    publishHeight();
+    window.addEventListener('load', publishHeight);
+    if ('ResizeObserver' in window) new ResizeObserver(publishHeight).observe(bar);
+    else window.addEventListener('resize', publishHeight);
+
+    // --- clocks ---
+    const clocks = Array.from(document.querySelectorAll('[data-countdown]'));
+    clocks.forEach(c => { c.classList.add('countdown'); });
+
+    const UNITS = [['days', 86400000], ['hrs', 3600000], ['min', 60000], ['sec', 1000]];
+    const pad = n => String(n).padStart(2, '0');
+
+    function paint(left) {
+      let rest = left;
+      const html = UNITS.map(([label, ms]) => {
+        const value = Math.floor(rest / ms);
+        rest -= value * ms;
+        return `<span class="cd-unit"><b>${pad(value)}</b><i>${label}</i></span>`;
+      }).join('');
+      clocks.forEach(c => { c.innerHTML = html; });
+    }
+
+    let expired = false;
+    function expire() {
+      if (expired) return;
+      expired = true;
+      document.querySelectorAll('.js-before').forEach(el => { el.hidden = true; });
+      document.querySelectorAll('.js-after').forEach(el => { el.hidden = false; });
+      document.querySelectorAll('.js-price-now').forEach(el => { el.textContent = PRICE_AFTER; });
+      publishHeight();
+    }
+
+    function tick() {
+      const left = deadline - Date.now();
+      if (left <= 0) { expire(); return; }
+      paint(left);
+      setTimeout(tick, 1000 - (Date.now() % 1000));
+    }
+    tick();
+  })();
+
+  // =============================================================
   // 12. GALLERY LIGHTBOX
   // =============================================================
   const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));

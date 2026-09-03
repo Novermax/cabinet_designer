@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cabinet Designer — professional parametric cabinet design software. 2D/3D design, photorealistic rendering, corner &amp; slanted typologies, cut lists and native SCM Maestro CNC export.">
+  <meta name="description" content="Cabinet Designer — professional parametric cabinet design software. 2D/3D design, photorealistic rendering, corner &amp; slanted typologies, cut lists and native SCM Maestro CNC export. Introductory licence $1,099 until 10 September 2026, then $2,099.">
   <meta name="keywords" content="cabinet design software, parametric furniture, CNC export, SCM Maestro, cut list, cabinet maker, woodworking software, photorealistic rendering">
   <meta name="author" content="Cabinet Designer">
   <title>Cabinet Designer — Professional Cabinet Design Software</title>
@@ -14,7 +14,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cabinet Designer">
   <meta property="og:title" content="Cabinet Designer — Professional Cabinet Design Software">
-  <meta property="og:description" content="Parametric 2D/3D cabinet design, photorealistic rendering, corner &amp; slanted units, cut lists and native SCM Maestro CNC export. One-time license.">
+  <meta property="og:description" content="Parametric 2D/3D cabinet design, photorealistic rendering, corner &amp; slanted units, cut lists and native SCM Maestro CNC export. One-time licence — $1,099 until 10 September 2026, then $2,099.">
   <meta property="og:url" content="https://cabinetdesigner.uk/">
   <meta property="og:image" content="https://cabinetdesigner.uk/assets/images/hero.png">
   <meta property="og:image:alt" content="Photorealistic room rendering made with Cabinet Designer">
@@ -23,7 +23,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cabinet Designer — Professional Cabinet Design Software">
-  <meta name="twitter:description" content="Parametric 2D/3D cabinet design, photorealistic rendering, cut lists and native SCM Maestro CNC export. One-time license.">
+  <meta name="twitter:description" content="Parametric 2D/3D cabinet design, photorealistic rendering, cut lists and native SCM Maestro CNC export. One-time licence — $1,099 until 10 September 2026, then $2,099.">
   <meta name="twitter:image" content="https://cabinetdesigner.uk/assets/images/hero.png">
 
   <meta name="theme-color" content="#1a120b">
@@ -56,15 +56,44 @@
       },
       {
         "@type": "Offer",
-        "name": "Professional (lifetime license)",
+        "name": "Professional (lifetime license) — introductory price",
         "price": "1099",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "priceValidUntil": "2026-09-10",
+        "availability": "https://schema.org/InStock",
+        "url": "https://cabinetdesigner.uk/#pricing"
       }
     ]
   }
   </script>
+
+  <!-- Price-bar height: a first guess so the fixed bar never covers the navbar
+       before script.js measures the real one (it sets --pb-h on <html>). -->
+  <style>
+    :root { --pb-h: 56px; }
+    @media (max-width: 900px) { :root { --pb-h: 64px; } }
+    @media (max-width: 560px) { :root { --pb-h: 84px; } }
+  </style>
 </head>
 <body>
+
+  <!-- ===== PRICE DEADLINE BAR =====
+       The deadline lives in ONE place (data-deadline, ISO with offset);
+       script.js drives every countdown and the after-deadline copy from it. -->
+  <div class="price-bar" id="priceBar" data-deadline="2026-09-10T23:59:59+02:00">
+    <div class="container price-bar-inner">
+      <span class="pb-tag js-before"><i class="fas fa-hourglass-half"></i> Introductory price</span>
+      <span class="pb-tag js-after" hidden><i class="fas fa-tag"></i> Standard price</span>
+      <span class="pb-text js-before">
+        Professional is <strong>$1,099</strong> until 10 September 2026 &mdash; then <strong>$2,099</strong>.
+      </span>
+      <span class="pb-text js-after" hidden>
+        Introductory pricing has ended. Professional is <strong>$2,099</strong>.
+      </span>
+      <span class="pb-timer js-before" data-countdown aria-live="polite" aria-label="Time left at the current price"></span>
+      <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="pb-cta js-before">Secure this price <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
 
   <!-- ===== SCROLL PROGRESS BAR ===== -->
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -88,7 +117,7 @@
         <li><a href="#comparison" class="nav-link">Compare</a></li>
         <li><a href="#download" class="nav-link">Download</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
-        <li><a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="nav-link nav-cta">Buy Now</a></li>
+        <li><a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="nav-link nav-cta">Buy &mdash; <span class="js-price-now">$1,099</span></a></li>
       </ul>
     </div>
   </nav>
@@ -105,19 +134,24 @@
       <span class="hero-eyebrow"><i class="fas fa-bolt"></i> From concept to CNC — one workflow</span>
       <h1 class="hero-title">Design Custom Cabinets<br><span class="hero-accent">in Minutes</span></h1>
       <p class="hero-subtitle">
-        Cabinet Designer gives you professional-grade 2D/3D design,
-        intelligent cut lists, and seamless machine export. Built for cabinet makers, by cabinet makers.
+        Production-grade parametric 2D/3D design, photorealistic renders your clients sign off on,
+        cut lists, quoted drawings and machine-ready SCM Maestro programs — the whole shop workflow
+        in one licence you own for life.
       </p>
       <div class="hero-actions">
         <a href="https://github.com/Novermax/cabinet_designer/releases/download/Demo/CabinetDesigner-Setup-Demo-4.0.0.exe" class="btn btn-primary"><i class="fas fa-download"></i> Download Free Trial</a>
-        <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Buy Now</a>
+        <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Buy &mdash; <span class="js-price-now">$1,099</span></a>
       </div>
+      <p class="hero-price-note js-before">
+        <i class="fas fa-hourglass-half"></i>
+        Lifetime licence at <strong>$1,099</strong> until <strong>10 September 2026</strong>. From 11 September it is <strong>$2,099</strong>.
+      </p>
       <div class="hero-badge">
         <i class="fas fa-check-circle"></i> Windows 10/11 &middot; free trial &middot; 3 CNC exports, watermarked renders, no cut lists or drawings
       </div>
 
       <ul class="hero-trust" aria-label="Key highlights">
-        <li><i class="fas fa-infinity"></i> One-time license</li>
+        <li><i class="fas fa-infinity"></i> Lifetime licence</li>
         <li><i class="fas fa-cogs"></i> Native SCM Maestro</li>
         <li><i class="fas fa-language"></i> 8 languages</li>
         <li><i class="fab fa-windows"></i> Windows 10/11</li>
@@ -151,8 +185,8 @@
         <span class="stat-label">UI languages</span>
       </div>
       <div class="stat-item fade-section">
-        <span class="stat-number" data-count="1099" data-prefix="$" data-suffix="">0</span>
-        <span class="stat-label">One-time · no subscription</span>
+        <span class="stat-number stat-static">Lifetime</span>
+        <span class="stat-label">One licence you own · no subscription</span>
       </div>
       <div class="stat-item fade-section">
         <span class="stat-number" data-count="100" data-suffix="%">0</span>
@@ -514,7 +548,7 @@
       <div class="section-header fade-section">
         <span class="section-label">Pricing</span>
         <h2>Choose Your Plan</h2>
-        <p>Start free, upgrade when you're ready.</p>
+        <p>Design for free. Buy the licence when you want the production output — and buy it before the price moves.</p>
       </div>
       <div class="pricing-grid">
         <div class="pricing-card fade-section">
@@ -542,9 +576,15 @@
         <div class="pricing-card pricing-featured fade-section">
           <div class="pricing-badge">Professional</div>
           <h3>Professional</h3>
-          <p class="pricing-amount">$1,099</p>
-          <p class="pricing-period">≈ €1,000 &middot; one-time payment &middot; lifetime license</p>
-          <p class="pricing-tax">+ local VAT based on your country of residence</p>
+          <p class="pricing-was js-before">From 11 September 2026: <s>$2,099</s></p>
+          <p class="pricing-amount"><span class="js-price-now">$1,099</span></p>
+          <p class="pricing-period">≈ €1,000 &middot; one-time payment &middot; lifetime licence</p>
+          <div class="price-deadline js-before">
+            <p class="pd-line"><i class="fas fa-hourglass-half"></i> Introductory price ends <strong>10 September 2026, 23:59 CEST</strong></p>
+            <div class="pd-clock" data-countdown aria-live="polite" aria-label="Time left at the introductory price"></div>
+            <p class="pd-note">Then <strong>$2,099</strong>. Demand is growing and the roadmap keeps adding to the software, so the licence is expected to be repriced again after that.</p>
+          </div>
+          <p class="pricing-tax">+ local VAT based on your country of residence &middot; buy once, keep it &mdash; a later increase never touches a licence you already own</p>
           <ul class="pricing-features">
             <li><i class="fas fa-check"></i> 3D Cabinet Design</li>
             <li><i class="fas fa-check"></i> Cabinet Composer (Room)</li>
@@ -559,7 +599,7 @@
             <li><i class="fas fa-check"></i> Configurable Base &amp; Door Handles</li>
             <li><i class="fas fa-check"></i> Edge Management</li>
           </ul>
-          <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Buy Now</a>
+          <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Buy at <span class="js-price-now">$1,099</span></a>
         </div>
       </div>
     </div>
@@ -587,8 +627,20 @@
           <p>Native SCM Maestro export in <strong>XCS or PGMX</strong> (PGMX generated via XConverter): drilling, milling, blade cuts and toe-kick pockets are emitted as real Maestro operations, including the F6 bottom-face split. Neutral DXF and CSV are also produced for other saws and workflows.</p>
         </details>
         <details class="faq-item fade-section">
+          <summary>Why does the price change on 10 September 2026?<i class="fas fa-plus"></i></summary>
+          <p>$1,099 is an introductory price for the current release. From 11 September 2026 Professional is <strong>$2,099</strong>. Interest has grown well beyond what we planned for and the software keeps gaining production capability — 5-axis machining, quoted drawings, the room composer, photorealistic rendering — so the licence is priced closer to what it replaces. We expect to review it again after that.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>If the price goes up, do I pay the difference?<i class="fas fa-plus"></i></summary>
+          <p>No. A licence is bought once and stays yours. Whatever the price does afterwards, it never applies retroactively to a licence you already own.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>What am I actually paying for?<i class="fas fa-plus"></i></summary>
+          <p>A complete design-to-machine chain, not a drawing tool: parametric carcasses, corner and slanted-top typologies, the hardware and material libraries, edge-banding technology with blank compensation, cut lists, quoted PDF drawings, photorealistic rendering and native SCM Maestro programs (XCS/PGMX) — including 5-axis operations and the F6 bottom-face split. One licence covers Cabinet Designer and the room Composer, in eight languages.</p>
+        </details>
+        <details class="faq-item fade-section">
           <summary>Do I pay VAT on top of the price?<i class="fas fa-plus"></i></summary>
-          <p>The $1,099 (≈ €1,000) price is the license itself. Local VAT is added at checkout based on your country of residence, as required by law.</p>
+          <p>The licence price ($1,099 now, ≈ €1,000; $2,099 from 11 September 2026) is the licence itself. Local VAT is added at checkout based on your country of residence, as required by law.</p>
         </details>
         <details class="faq-item fade-section">
           <summary>What are the system requirements?<i class="fas fa-plus"></i></summary>
@@ -607,95 +659,110 @@
     <div class="container">
       <div class="section-header fade-section">
         <span class="section-label">Compare</span>
-        <h2>Cabinet Designer vs. The Competition</h2>
-        <p>Professional features at a fraction of the cost. No subscriptions, no hidden fees.</p>
+        <h2>Where Cabinet Designer Stands</h2>
+        <p>Judge it on what reaches the machine. Capability first — the price is the last column for a reason.</p>
       </div>
-      <div class="savings-strip fade-section">
-        <div class="savings-item"><span class="savings-num">$3,900</span><span class="savings-txt">saved vs Cabinet Vision</span></div>
-        <div class="savings-item"><span class="savings-num">$0/yr</span><span class="savings-txt">subscription — pay once</span></div>
-        <div class="savings-item"><span class="savings-num">Lifetime</span><span class="savings-txt">license &amp; updates path</span></div>
+      <div class="value-strip fade-section">
+        <div class="value-item">
+          <i class="fas fa-cogs"></i>
+          <h4>Native SCM Maestro programs</h4>
+          <p>XCS and PGMX written as real Maestro operations — drilling, milling, blade cuts, toe-kick pockets, F6 bottom-face split. Not a generic DXF someone re-programs by hand.</p>
+        </div>
+        <div class="value-item">
+          <i class="fas fa-drafting-compass"></i>
+          <h4>Geometry other tools decline</h4>
+          <p>Diagonal and 90° corner units, slanted tops with true 5-axis operations, non-orthogonal rooms, per-element materials and thicknesses — parametric, not hand-drawn exceptions.</p>
+        </div>
+        <div class="value-item">
+          <i class="fas fa-infinity"></i>
+          <h4>One licence, owned for life</h4>
+          <p>No subscription, no seat renewal, no per-export metering. Design, render, quote and machine from the same file, in eight languages.</p>
+        </div>
       </div>
       <div class="comparison-table-wrapper fade-section">
         <table class="comparison-table">
           <thead>
             <tr>
               <th>Software</th>
-              <th>Price Model</th>
-              <th>Upfront Cost</th>
               <th>3D Design</th>
               <th>Cut Lists</th>
               <th>CNC Export</th>
               <th>Library</th>
+              <th>Licence</th>
+              <th>Cost</th>
             </tr>
           </thead>
           <tbody>
             <tr class="comparison-highlight">
-              <td><span class="best-ribbon">Best value</span><i class="fas fa-cube"></i> Cabinet Designer</td>
-              <td><span class="tag tag-green">One-time</span></td>
-              <td><strong>$1,099</strong></td>
+              <td><i class="fas fa-cube"></i> Cabinet Designer</td>
               <td><i class="fas fa-check"></i></td>
               <td><i class="fas fa-check"></i></td>
               <td><i class="fas fa-check"></i></td>
               <td><i class="fas fa-check"></i></td>
+              <td><span class="tag tag-green">Owned for life</span></td>
+              <td>
+                <strong class="js-price-now">$1,099</strong>
+                <span class="cmp-after js-before">&rarr; $2,099 from 11 Sep 2026</span>
+              </td>
             </tr>
             <tr>
               <td>Cabinet Vision</td>
-              <td><span class="tag tag-red">One-time</span></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><span class="tag tag-green">One-time</span></td>
               <td>$5,000+</td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
             </tr>
             <tr>
               <td>Cabinet Pro</td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
               <td><span class="tag tag-green">One-time</span></td>
               <td>$1,975</td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
             </tr>
             <tr>
               <td>Pro100</td>
-              <td><span class="tag tag-green">One-time</span></td>
-              <td>$2,550</td>
               <td><i class="fas fa-check"></i></td>
               <td><i class="fas fa-check"></i></td>
               <td><span class="limited">Limited</span></td>
               <td><i class="fas fa-check"></i></td>
+              <td><span class="tag tag-green">One-time</span></td>
+              <td>$2,550</td>
             </tr>
             <tr>
               <td>Mozaik CNC</td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
               <td><span class="tag tag-yellow">Subscription</span></td>
               <td>$2,700/yr</td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
             </tr>
             <tr>
               <td>CabBuilder CNC</td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
+              <td><i class="fas fa-check"></i></td>
               <td><span class="tag tag-yellow">Subscription</span></td>
               <td>$3,540/yr</td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
-              <td><i class="fas fa-check"></i></td>
             </tr>
             <tr>
               <td>CabN8 Full</td>
-              <td><span class="tag tag-yellow">Subscription</span></td>
-              <td>€1,450/yr</td>
               <td><i class="fas fa-check"></i></td>
               <td><i class="fas fa-check"></i></td>
               <td><span class="limited">Limited</span></td>
               <td><i class="fas fa-check"></i></td>
+              <td><span class="tag tag-yellow">Subscription</span></td>
+              <td>€1,450/yr</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p class="comparison-note fade-section">Prices and features reflect publicly available information as of June 2026. Verify directly with each vendor.</p>
+      <p class="comparison-note fade-section">Competitor prices and features reflect publicly available information as of June 2026 — verify directly with each vendor. A tick means the capability exists, not that two implementations are equivalent: on the CNC side Cabinet Designer writes native SCM Maestro programs, including 5-axis operations.</p>
     </div>
   </section>
 
@@ -718,9 +785,10 @@
         </div>
         <div class="download-actions">
           <a href="https://github.com/Novermax/cabinet_designer/releases/download/Demo/CabinetDesigner-Setup-Demo-4.0.0.exe" class="btn btn-primary"><i class="fas fa-download"></i> Download Free Trial</a>
-          <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Buy Professional $1,099</a>
+          <a href="https://buy.stripe.com/5kQfZheCw4n14Km0Ssew800" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Buy Professional &mdash; <span class="js-price-now">$1,099</span></a>
         </div>
         <div class="download-notes">
+          <p class="js-before"><i class="fas fa-hourglass-half"></i> Professional stays at <strong>$1,099</strong> until <strong>10 September 2026, 23:59 CEST</strong>; from 11 September it is <strong>$2,099</strong>. The trial itself is free and does not expire.</p>
           <p><i class="fas fa-info-circle"></i> The free trial lets you <strong>design without limits</strong>. Trial restrictions: <strong>3 SCM Maestro (CNC) exports</strong>, a <strong>DEMO</strong> watermark on photorealistic renders, and no <strong>cut list</strong> or <strong>quoted drawings</strong> export. Upgrade to Professional to unlock them all.</p>
           <p><i class="fas fa-info-circle"></i> By downloading you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.</p>
         </div>

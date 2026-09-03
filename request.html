@@ -60,10 +60,16 @@
         <i class="fas fa-cube"></i>
         <div>
           <strong id="planName">Cabinet Designer Professional</strong><br>
-          <span style="color:var(--text-muted); font-size:0.9rem;">One-time payment &middot; lifetime license &middot; + local VAT</span>
+          <span style="color:var(--text-muted); font-size:0.9rem;">One-time payment &middot; lifetime licence &middot; + local VAT</span>
         </div>
         <span class="rs-price" id="planPrice">$1,099</span>
       </div>
+
+      <p id="planDeadline" style="margin:-20px 0 32px; font-size:0.85rem; color:var(--text-muted);">
+        <i class="fas fa-hourglass-half" style="color:var(--accent);"></i>
+        Introductory price until <strong>10 September 2026, 23:59 CEST</strong> &mdash; from 11 September the licence is <strong>$2,099</strong>.
+        A licence already bought is never repriced.
+      </p>
 
       <!-- Hidden iframe target: lets the form POST to Google Apps Script without a CORS/redirect issue -->
       <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
@@ -96,7 +102,7 @@
         </div>
         <div class="form-group">
           <label for="plan">Plan</label>
-          <input type="text" id="plan" name="plan" value="Professional — $1,099" readonly>
+          <input type="text" id="plan" name="plan" value="Professional" readonly>
         </div>
         <div class="form-group">
           <label for="message">Message</label>
@@ -123,14 +129,23 @@
     (function () {
       var params = new URLSearchParams(location.search);
       var plan = params.get('plan');
+      // The introductory deadline is the same instant as the one on the landing
+      // page; past it the request form must quote the standard price by itself.
+      var DEADLINE = Date.parse('2026-09-10T23:59:59+02:00');
+      var INTRO = Date.now() < DEADLINE;
+      var PRO_PRICE = INTRO ? '$1,099' : '$2,099';
+
       var PLANS = {
-        'Professional': { name: 'Cabinet Designer Professional', price: '$1,099', field: 'Professional — $1,099' },
-        'Free':         { name: 'Cabinet Designer Free Trial',   price: '$0',     field: 'Free Trial — $0' }
+        'Professional': { name: 'Cabinet Designer Professional', price: PRO_PRICE, field: 'Professional — ' + PRO_PRICE, intro: true },
+        'Free':         { name: 'Cabinet Designer Free Trial',   price: '$0',      field: 'Free Trial — $0',            intro: false }
       };
       var cfg = PLANS[plan] || PLANS['Professional'];
       document.getElementById('planName').textContent = cfg.name;
       document.getElementById('planPrice').textContent = cfg.price;
       document.getElementById('plan').value = cfg.field;
+
+      var deadlineNote = document.getElementById('planDeadline');
+      if (deadlineNote && (!cfg.intro || !INTRO)) deadlineNote.style.display = 'none';
 
       var form = document.getElementById('requestForm');
       var success = document.getElementById('formSuccess');
