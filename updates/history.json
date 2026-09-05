@@ -1,5 +1,18 @@
 [
   {
+    "version": "4.3.0",
+    "date": "2026-09-05",
+    "notes": [
+      "Contouring direction (clockwise / counter-clockwise) is now a setting in Technology Configuration.",
+      "Separate extra depth for blade cuts, next to the 5-axis blade tool.",
+      "The machine now stops after contouring an oblique profile so the operator can remove the loose  offcuts; parking position is configurable.",
+      "Deep horizontal drilling on out-of-square corner units: the program shifts the workplane onto the wood instead of drilling through the air.",
+      "Machining warnings no longer mention a missing tool when no tool is missing.",
+      "Fixed the bevel direction of tilted blade cuts: mirrored corners of an out-of-square room were machined identical instead of opposite.",
+      "CNC export no longer fails when a panel, instance or tool name contains accented characters."
+    ]
+  },
+  {
     "version": "4.1.0",
     "date": "2026-09-03",
     "notes": [
