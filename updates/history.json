@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.3.2",
+    "date": "2026-09-10",
+    "notes": [
+      "New front, side, rear extension possibilities for top and base",
+      "Semi-automatic redistribution of hinges based on dividers/shelves",
+      "Fix — new opening.door_split_line(door, solved):",
+      "the leaves meet on the centre of the region rect (the vano). interior.build_door_panels uses it for both xm and zm.",
+      "Fix: the snap is now the gesture, not the position."
+    ]
+  },
+  {
     "version": "4.3.1",
     "date": "2026-09-08",
     "notes": [
