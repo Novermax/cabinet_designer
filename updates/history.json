@@ -1,5 +1,30 @@
 [
   {
+    "version": "4.3.3",
+    "date": "2026-09-11",
+    "notes": [
+      "Open-source licence compliance. The installer no longer carries build tools it",
+      "never runs (PyArmor, Nuitka) nor the FEM and graph programs the application",
+      "never calls (CalculiX, Gmsh, Graphviz): the download is 214 MB smaller, and the",
+      "build now stops if an unexpected package turns up in the bundled runtime.",
+      "New \"Third-party licences\" window under Help - Version, listing every",
+      "open-source component with its version, its licence and the full licence text.",
+      "It works in the Demo too. FreeCAD and Blender are credited there and on the",
+      "website.",
+      "The source code of the open-source components is now published alongside the",
+      "installer, as the GPL and the LGPL require.",
+      "You can now run the application against your own build of FreeCAD, through the",
+      "CABINET_FREECAD_DIR environment variable.",
+      "Photorealistic rendering: fixed the floor going transparent in the foreground",
+      "and showing the backdrop through it, and the camera no longer leaves the room",
+      "when you zoom out.",
+      "Licence agreement updated to version 1.3: a new section on third-party and",
+      "open-source components, and the reverse-engineering restriction no longer",
+      "overrides rights granted by an open-source licence (acceptance is requested",
+      "again)."
+    ]
+  },
+  {
     "version": "4.3.2",
     "date": "2026-09-10",
     "notes": [
