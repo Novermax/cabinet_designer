@@ -1384,6 +1384,20 @@ img { max-width: 100%; display: block; }
 }
 .footer-links a:hover { color: var(--accent); }
 
+/* Open-source credit. Text only - no FreeCAD or Blender logos, icons or
+   brand colours anywhere - and quieter than the product name above it: an
+   acknowledgement, not a co-brand. */
+.footer-oss {
+  margin-top: 10px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+.footer-oss a { color: inherit; text-decoration: underline; }
+
 .footer-bottom {
   border-top: 1px solid rgba(139,94,60,0.1);
   padding: 20px 0;

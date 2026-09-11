@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Open-source software used by Cabinet Designer: FreeCAD and Blender, the licences that apply, and where to get the corresponding source code.">
+  <title>Open Source — Cabinet Designer</title>
+  <link rel="canonical" href="https://cabinetdesigner.uk/opensource.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .legal-page { padding: 140px 0 80px; max-width: 800px; margin: 0 auto; }
+    .legal-page h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 8px; }
+    .legal-page .date { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 32px; }
+    .legal-page h2 { font-size: 1.3rem; margin: 28px 0 12px; color: var(--accent); }
+    .legal-page p, .legal-page li { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; }
+    .legal-page ul { padding-left: 24px; }
+    .legal-page li { margin-bottom: 6px; }
+    .legal-page .back { display: inline-block; margin-top: 40px; color: var(--accent); }
+    .legal-page .credit { font-size: 0.95rem; line-height: 1.8; padding: 16px 20px;
+      border-left: 3px solid var(--accent); margin-bottom: 32px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo"><i class="fas fa-cube"></i> <span>Cabinet Designer</span></a>
+    </div>
+  </nav>
+  <div class="container legal-page">
+    <h1>Open Source</h1>
+    <p class="date">Cabinet Designer 4.3.3</p>
+
+    <p class="credit">Built on open-source software:
+      <a href="https://www.freecad.org" target="_blank" rel="noopener">freecad.org</a> (FreeCAD) and
+      <a href="https://www.blender.org" target="_blank" rel="noopener">blender.org</a> (Blender).
+      Cabinet Designer is not affiliated with or endorsed by the FreeCAD Project
+      Association or the Blender Foundation.</p>
+
+    <h2>What this page is</h2>
+    <p>Cabinet Designer is proprietary software, and it is distributed together
+      with free and open-source components. Each of those components is licensed
+      to you under its own terms, not under the Cabinet Designer licence
+      agreement. Nothing in that agreement limits, restricts or overrides any
+      right those licences grant you.</p>
+    <p>The complete list of components, with the version and licence of each,
+      is installed with the product and is also shown inside the application
+      under <strong>Help&nbsp;&rarr;&nbsp;Version&nbsp;&rarr;&nbsp;Third-party
+      licences</strong>.</p>
+
+    <h2>The two main components</h2>
+    <ul>
+      <li><strong>FreeCAD</strong> — the parametric geometry engine, used under
+        the GNU Lesser General Public License (LGPL). It is shipped unmodified
+        and can be replaced with your own build; the installed product includes
+        instructions for doing so.</li>
+      <li><strong>Blender</strong> — the Cycles render engine, used under the
+        GNU General Public License (GPL). It is shipped unmodified and runs as a
+        separate program. The scripts we wrote that run inside it are GPL too,
+        and ship as readable source with the product.</li>
+    </ul>
+
+    <h2>Source code for open-source components</h2>
+    <p>A source package is published for each release. It contains the source of
+      the copyleft components at the exact versions that release was built
+      against, our own GPL-licensed render scripts, and the full licence texts.</p>
+    <!-- PLACEHOLDER: upload cabinet-designer-oss-sources-<version>.zip next to
+         the installer and link it here (one entry per released version). -->
+    <p><em>Download links are being published; until they appear here, write to
+      us and we will send the package.</em></p>
+
+    <h2>Written offer</h2>
+    <p>For components licensed under the GPL or the LGPL whose source is not
+      practical to bundle, a written offer valid for at least three years
+      accompanies the product. It is included in the source package as
+      <code>WRITTEN_OFFER.txt</code>.</p>
+
+    <a href="index.html" class="back">&larr; Back to Cabinet Designer</a>
+  </div>
+  <footer class="footer" style="border-top: none; padding-top: 0;">
+    <div class="footer-bottom"><p>&copy; 2026 Cabinet Designer. All rights reserved.</p>
+      <p class="footer-oss">Built on open-source software: <a href="https://www.freecad.org" target="_blank" rel="noopener">freecad.org</a> (FreeCAD) and <a href="https://www.blender.org" target="_blank" rel="noopener">blender.org</a> (Blender). Cabinet Designer is not affiliated with or endorsed by the FreeCAD Project Association or the Blender Foundation.</p></div>
+  </footer>
+</body>
+</html>
