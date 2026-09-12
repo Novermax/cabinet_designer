@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.3.4",
+    "date": "2026-09-12",
+    "notes": [
+      "The back now supports the joints like the other panels.",
+      "The back data of thickness have been rationalized in the Back Panel menu",
+      "The handle can be set individually for each door/drawer",
+      "Fixed feedback display when generating pgmx programs in Composer",
+      "Fixed a bug that didn't display new joinery in a divider's joinery list."
+    ]
+  },
+  {
     "version": "4.3.3",
     "date": "2026-09-11",
     "notes": [

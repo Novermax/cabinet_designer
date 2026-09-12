@@ -1,7 +1,7 @@
 {
-    "latestVersion": "4.3.3",
+    "latestVersion": "4.3.4",
     "mandatory": false,
-    "installer": "https://github.com/Novermax/cabinet_designer/releases/download/v4.3.3/CabinetDesigner-Setup-Full-4.3.3.exe",
+    "installer": "https://github.com/Novermax/cabinet_designer/releases/download/v4.3.4/CabinetDesigner-Setup-Full-4.3.4.exe",
     "releaseNotes": "https://cabinetdesigner.uk/updates/release_notes.html",
     "history": "https://cabinetdesigner.uk/updates/history.json"
 }
