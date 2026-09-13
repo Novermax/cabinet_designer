@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.4.0",
+    "date": "2026-09-13",
+    "notes": [
+      "CSV file creation option for nesting",
+      "Sliding doors: Support for overlapping sliding doors from 2 to 4 doors.",
+      "New Sliding-door milling tool, independent of the backrest tool.",
+      "Notice before CNC generation for narrow edge machining performed with horizontal aggregate/head.",
+      "New Z offset programming to define the height of the workpiece relative to the machine plane, applied to all CNC programs."
+    ]
+  },
+  {
     "version": "4.3.4",
     "date": "2026-09-12",
     "notes": [
