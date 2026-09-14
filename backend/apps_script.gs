@@ -178,7 +178,7 @@ function handleTelemetry_(p) {
  *   3. (optional) GRANT_RESET_SECRET = <a long random string> to allow resets.
  * The private key stays here (Google's servers), never in the client bundle.
  */
-var DEMO_LIMIT     = 3;
+var DEMO_LIMIT     = 5;
 var GRANT_TTL_SECS = 300;              // reply validity window (anti-replay)
 
 function handleGrant_(p) {
