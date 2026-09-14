@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cabinet Designer 4.4.0 — Note di rilascio</title>
+  <title>Cabinet Designer 4.4.1 — Note di rilascio</title>
   <style>
     body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
            max-width: 760px; margin: 0 auto; padding: 24px; color: #222;
@@ -19,6 +19,14 @@
 <body>
   <h1>Cabinet Designer</h1>
 
+  <section class="rel" id="v4-4-1" data-version="4.4.1">
+    <h2>Cabinet Designer 4.4.1</h2>
+    <div class="date">2026-09-14</div>
+  <p class="note">Management of joint groups, to create pairs of joints (e.g. dowels) in each position instead of individual joints.</p>
+  <p class="note">Fixed: on some Windows PCs the update download failed with a certificate error (CERTIFICATE_VERIFY_FAILED), even though the new version was found and its release notes were shown correctly.</p>
+  <p class="note">The cause was outside the application: Windows ships a reduced list of trusted certificate authorities and completes it only when a browser needs one, which had never happened on those PCs.</p>
+  <p class="note">Cabinet Designer now carries its own up-to-date list and uses it alongside the one Windows provides, on every connection it makes: updates, release notes, licence activation and usage statistics.</p>
+  </section>
   <section class="rel" id="v4-4-0" data-version="4.4.0">
     <h2>Cabinet Designer 4.4.0</h2>
     <div class="date">2026-09-13</div>

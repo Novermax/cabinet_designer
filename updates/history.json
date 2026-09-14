@@ -1,5 +1,15 @@
 [
   {
+    "version": "4.4.1",
+    "date": "2026-09-14",
+    "notes": [
+      "Management of joint groups, to create pairs of joints (e.g. dowels) in each position instead of individual joints.",
+      "Fixed: on some Windows PCs the update download failed with a certificate error (CERTIFICATE_VERIFY_FAILED), even though the new version was found and its release notes were shown correctly.",
+      "The cause was outside the application: Windows ships a reduced list of trusted certificate authorities and completes it only when a browser needs one, which had never happened on those PCs.",
+      "Cabinet Designer now carries its own up-to-date list and uses it alongside the one Windows provides, on every connection it makes: updates, release notes, licence activation and usage statistics."
+    ]
+  },
+  {
     "version": "4.4.0",
     "date": "2026-09-13",
     "notes": [
