@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.4.2",
+    "date": "2026-09-15",
+    "notes": [
+      "Revised the system of quoted designs for diagonal-cut corner unit",
+      "Fixed: on some Windows PCs the update download failed with a certificate error (CERTIFICATE_VERIFY_FAILED), even though the new version was found and its release notes were shown correctly.",
+      "The cause was outside the application: Windows ships a reduced list of trusted certificate authorities and completes it only when a browser needs one, which had never happened on those PCs.",
+      "Cabinet Designer now carries its own up-to-date list and uses it alongside the one Windows provides, on every connection it makes: updates, release notes, licence activation and usage statistics.",
+      "CNC generation no longer asks which machine to produce for: the \"Machine code format\" of the technology configuration decides, and it now offers DXF and IR files only beside XCS and PGMX. The Multi-Module app follows the same setting, so its Machine selector is gone; the free \"Default machine\" field has been removed as well."
+    ]
+  },
+  {
     "version": "4.4.1",
     "date": "2026-09-14",
     "notes": [
