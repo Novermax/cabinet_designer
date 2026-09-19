@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.5.0",
+    "date": "2026-09-19",
+    "notes": [
+      "New hinge library management. Possibility to define hinges with a horizontal mounting plate or with different hole configurations.",
+      "Optional milling operation for hinges with a diameter greater than a specified value.",
+      "New **View** menu item, **N key**, for displaying the names of the various panels on screen.",
+      "Fonts are customizable.",
+      "The names of the panels and their corresponding CNC programs are now automatically generated in the selected language and are self-explanatory."
+    ]
+  },
+  {
     "version": "4.4.2",
     "date": "2026-09-15",
     "notes": [
