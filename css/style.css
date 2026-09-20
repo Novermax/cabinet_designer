@@ -1038,6 +1038,11 @@ img { max-width: 100%; display: block; }
   font-size: 0.9rem;
   color: var(--text-muted);
 }
+/* The address is plain text, not a mailto: — one click selects all of it
+   so it can be copied into whatever mail the visitor actually uses. */
+.contact-email {
+  user-select: all;
+}
 
 /* =============================================================
    VIDEOS / CHANNELS
