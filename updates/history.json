@@ -1,5 +1,18 @@
 [
   {
+    "version": "4.6.1",
+    "date": "2026-09-20",
+    "notes": [
+      "4-sided drawer management",
+      "Management of the relief milling based on the maximum drawer side thickness",
+      "Introduction of two new tools dedicated to drawer bottom recessing and drawer side thickness reduction.",
+      "Modified drop chain in composer: the new module becomes the rightmost.",
+      "The licence activation window is now translated in all eight languages: its online-activation section had stayed in Italian whichever language was selected.",
+      "The activation form no longer asks for a receipt from one specific payment provider; it accepts any payment reference, so an order settled by bank transfer can be activated as well.",
+      "Fixed handling of displayed item names in the composer."
+    ]
+  },
+  {
     "version": "4.5.0",
     "date": "2026-09-19",
     "notes": [
