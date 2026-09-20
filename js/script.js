@@ -603,4 +603,34 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (e.key === 'ArrowRight') showAt(currentIndex + 1);
     });
   }
+
+  // =============================================================
+  // 14. BUY → the contact form
+  // =============================================================
+  // Card payments are off, so every "Buy" control is an anchor to #contact.
+  // It used to be a mailto:, which hands the visitor to whatever mail client
+  // the machine has configured — often a setup wizard, sometimes nothing at
+  // all — and the order died there. Arriving from a Buy control also fills in
+  // the message, so the enquiry that reaches us says what it is about.
+  (() => {
+    const message = document.getElementById('message');
+    if (!message) return;
+    const name = document.getElementById('name');
+
+    const INTENT = 'Hello, I would like to buy Cabinet Designer Professional. ' +
+                   'Please send me the payment details.';
+
+    document.querySelectorAll('a[data-buy]').forEach((link) => {
+      link.addEventListener('click', () => {
+        // Never overwrite what the visitor has already written.
+        if (!message.value.trim()) message.value = INTENT;
+        // preventScroll: the anchor jump owns the scrolling, focus must not
+        // fight it. The delay lets that jump finish first.
+        setTimeout(() => {
+          const target = (name && !name.value.trim()) ? name : message;
+          target.focus({ preventScroll: true });
+        }, 700);
+      });
+    });
+  })();
 });
