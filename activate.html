@@ -40,6 +40,7 @@
     .file-name { margin-top: 12px; font-size: 0.9rem; color: var(--accent); }
     .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); margin-bottom: 24px; }
     .activate-note { color: var(--text-muted); font-size: 0.85rem; margin-top: 16px; text-align: center; }
+    .form-hint { display: block; color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -103,8 +104,9 @@
           <span class="form-error"></span>
         </div>
         <div class="form-group">
-          <label for="order">Stripe receipt / order number *</label>
-          <input type="text" id="order" name="order" placeholder="From your Stripe payment receipt" required>
+          <label for="order">Payment reference *</label>
+          <input type="text" id="order" name="order" placeholder="Bank transfer reference, or the date and amount you paid" required>
+          <span class="form-hint">Anything that lets us match your payment: the transfer reference, or simply the date and amount.</span>
           <span class="form-error"></span>
         </div>
 
@@ -160,7 +162,8 @@
       var MAX_BYTES = 5 * 1024 * 1024; // 5 MB safety cap
       var endpointConfigured = form.getAttribute('action').indexOf('script.google.com') !== -1;
 
-      // Prefill order/email if Stripe redirected with query params (e.g. ?email=&order=)
+      // Prefill order/email from query params (e.g. ?email=&order=), so the
+      // link we mail the customer can arrive already filled in.
       var params = new URLSearchParams(location.search);
       if (params.get('email')) document.getElementById('email').value = params.get('email');
       if (params.get('order')) document.getElementById('order').value = params.get('order');
@@ -201,7 +204,7 @@
         if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
           showError('email', 'Enter a valid email.'); ok = false;
         }
-        if (!order.value.trim()) { showError('order', 'Receipt / order number required.'); ok = false; }
+        if (!order.value.trim()) { showError('order', 'Payment reference required.'); ok = false; }
         if (!chosenFile) { document.getElementById('fileError').textContent = 'Please choose your activation file.'; ok = false; }
         if (chosenFile && chosenFile.size > MAX_BYTES) {
           document.getElementById('fileError').textContent = 'File too large (max 5 MB).'; ok = false;
