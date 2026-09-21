@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.7.4",
+    "date": "2026-09-21",
+    "notes": [
+      "Added the new parameter “Drawer side reduction/increase relative to the slide”.",
+      "In the accordion, it is now possible to select not only the maximum available slide length, but also one of the standard lengths available in the library for the selected slide model.",
+      "Translated warning messages into all supported languages",
+      "Fixed the calculation of drawer front dimensions.",
+      "Fixed the display of the Technology Configuration window when the graphics scaling is set to a value other than 100%."
+    ]
+  },
+  {
     "version": "4.6.1",
     "date": "2026-09-20",
     "notes": [
