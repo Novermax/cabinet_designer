@@ -1,5 +1,15 @@
 [
   {
+    "version": "4.7.5",
+    "date": "2026-09-22",
+    "notes": [
+      "Added the possibility to calculate the joint positions from the overall dimension or from the inside of the back panel; for drawers, from the side panel or from the inside of the drawer bottom.",
+      "Added support for multiple profiles in the technological configuration.",
+      "Ability to hide cabinet components",
+      "Ability to add images to informational icons"
+    ]
+  },
+  {
     "version": "4.7.4",
     "date": "2026-09-21",
     "notes": [
