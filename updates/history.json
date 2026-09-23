@@ -1,5 +1,16 @@
 [
   {
+    "version": "4.9.0",
+    "date": "2026-09-24",
+    "notes": [
+      "Doors with a fixed panel: a compartment can now be closed by a row of fronts written as a formula (f300/*/*), where the \"f\" prefix marks a fixed panel that does not open.",
+      "The door next to a fixed panel is hinged directly on the back of the panel, with no upright, no frame and no batten; the fixed panel is held by dowels into the top, the bottom and the side beside it.",
+      "Two neighbouring doors open as a book or as a bifold, switchable from the door menu.",
+      "Separate hinge choices for the fixed-panel mount and for the between-doors mount, with all the holes of a front kept on a single line.",
+      "In a row of fronts the hinge baseplate pins are no longer drawn in the 3-D view, as on a double door; the drilling is unchanged."
+    ]
+  },
+  {
     "version": "4.7.5",
     "date": "2026-09-22",
     "notes": [
