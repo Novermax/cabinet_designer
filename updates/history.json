@@ -1,5 +1,26 @@
 [
   {
+    "version": "4.10.0",
+    "date": "2026-09-24",
+    "notes": [
+      "Management of interlocking backs for corner units",
+      "New type : filler unit",
+      "Diagonal corner unit door correction"
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/4.10.0/backs.png",
+        "caption": "backs for corner units"
+      },
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/4.10.0/filler.png",
+        "caption": "New type : filler unit"
+      }
+    ]
+  },
+  {
     "version": "4.9.0",
     "date": "2026-09-24",
     "notes": [

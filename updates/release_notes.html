@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cabinet Designer 4.9.0 — Note di rilascio</title>
+  <title>Cabinet Designer 4.10.0 — Note di rilascio</title>
   <style>
     body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
            max-width: 760px; margin: 0 auto; padding: 24px; color: #222;
@@ -12,6 +12,11 @@
     .date { color: #777; font-size: 0.9rem; margin-bottom: 12px; }
     h2 { font-size: 1.15rem; margin: 24px 0 4px; color: #1a5; }
     .note { margin: 0 0 6px; }
+    .media { margin: 10px 0; }
+    .media img, .media video { max-width: 100%; border-radius: 6px; display: block; }
+    .media figcaption { color: #777; font-size: 0.85rem; margin-top: 4px; }
+    .media .video-link .play { display: inline-block; padding: 40px 24px;
+      background: #f2f2f2; border-radius: 6px; color: #1a5; font-weight: bold; }
     section.rel + section.rel { border-top: 1px solid #eee; padding-top: 8px; }
     .footer { margin-top: 32px; color: #999; font-size: 0.85rem; }
   </style>
@@ -19,6 +24,15 @@
 <body>
   <h1>Cabinet Designer</h1>
 
+  <section class="rel" id="v4-10-0" data-version="4.10.0">
+    <h2>Cabinet Designer 4.10.0</h2>
+    <div class="date">2026-09-24</div>
+  <p class="note">Management of interlocking backs for corner units</p>
+  <p class="note">New type : filler unit</p>
+  <p class="note">Diagonal corner unit door correction</p>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/4.10.0/backs.png" alt="backs for corner units" loading="lazy"><figcaption>backs for corner units</figcaption></figure>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/4.10.0/filler.png" alt="New type : filler unit" loading="lazy"><figcaption>New type : filler unit</figcaption></figure>
+  </section>
   <section class="rel" id="v4-9-0" data-version="4.9.0">
     <h2>Cabinet Designer 4.9.0</h2>
     <div class="date">2026-09-24</div>
@@ -27,17 +41,20 @@
   <p class="note">Two neighbouring doors open as a book or as a bifold, switchable from the door menu.</p>
   <p class="note">Separate hinge choices for the fixed-panel mount and for the between-doors mount, with all the holes of a front kept on a single line.</p>
   <p class="note">In a row of fronts the hinge baseplate pins are no longer drawn in the 3-D view, as on a double door; the drilling is unchanged.</p>
+
   </section>
   <section class="rel" id="v4-8-1" data-version="4.8.1">
     <h2>Cabinet Designer 4.8.1</h2>
     <div class="date">2026-09-23</div>
   <p class="note">Correction of the dimensional calculation system of the diagonal corner unit.</p>
   <p class="note">startup log file adjustment.</p>
+
   </section>
   <section class="rel" id="v4-8-0" data-version="4.8.0">
     <h2>Cabinet Designer 4.8.0</h2>
     <div class="date">2026-09-23</div>
   <p class="note">New management of listed drawings with hole listing option</p>
+
   </section>
   <section class="rel" id="v4-7-5" data-version="4.7.5">
     <h2>Cabinet Designer 4.7.5</h2>
@@ -46,6 +63,7 @@
   <p class="note">Added support for multiple profiles in the technological configuration.</p>
   <p class="note">Ability to hide cabinet components</p>
   <p class="note">Ability to add images to informational icons</p>
+
   </section>
   <section class="rel" id="v4-7-4" data-version="4.7.4">
     <h2>Cabinet Designer 4.7.4</h2>
@@ -55,6 +73,7 @@
   <p class="note">Translated warning messages into all supported languages</p>
   <p class="note">Fixed the calculation of drawer front dimensions.</p>
   <p class="note">Fixed the display of the Technology Configuration window when the graphics scaling is set to a value other than 100%.</p>
+
   </section>
   <section class="rel" id="v4-6-1" data-version="4.6.1">
     <h2>Cabinet Designer 4.6.1</h2>
@@ -66,6 +85,7 @@
   <p class="note">The licence activation window is now translated in all eight languages: its online-activation section had stayed in Italian whichever language was selected.</p>
   <p class="note">The activation form no longer asks for a receipt from one specific payment provider; it accepts any payment reference, so an order settled by bank transfer can be activated as well.</p>
   <p class="note">Fixed handling of displayed item names in the composer.</p>
+
   </section>
   <section class="rel" id="v4-5-0" data-version="4.5.0">
     <h2>Cabinet Designer 4.5.0</h2>
@@ -75,6 +95,7 @@
   <p class="note">New **View** menu item, **N key**, for displaying the names of the various panels on screen.</p>
   <p class="note">Fonts are customizable.</p>
   <p class="note">The names of the panels and their corresponding CNC programs are now automatically generated in the selected language and are self-explanatory.</p>
+
   </section>
   <section class="rel" id="v4-4-2" data-version="4.4.2">
     <h2>Cabinet Designer 4.4.2</h2>
@@ -84,6 +105,7 @@
   <p class="note">The cause was outside the application: Windows ships a reduced list of trusted certificate authorities and completes it only when a browser needs one, which had never happened on those PCs.</p>
   <p class="note">Cabinet Designer now carries its own up-to-date list and uses it alongside the one Windows provides, on every connection it makes: updates, release notes, licence activation and usage statistics.</p>
   <p class="note">CNC generation no longer asks which machine to produce for: the "Machine code format" of the technology configuration decides, and it now offers DXF and IR files only beside XCS and PGMX. The Multi-Module app follows the same setting, so its Machine selector is gone; the free "Default machine" field has been removed as well.</p>
+
   </section>
   <section class="rel" id="v4-4-1" data-version="4.4.1">
     <h2>Cabinet Designer 4.4.1</h2>
@@ -92,6 +114,7 @@
   <p class="note">Fixed: on some Windows PCs the update download failed with a certificate error (CERTIFICATE_VERIFY_FAILED), even though the new version was found and its release notes were shown correctly.</p>
   <p class="note">The cause was outside the application: Windows ships a reduced list of trusted certificate authorities and completes it only when a browser needs one, which had never happened on those PCs.</p>
   <p class="note">Cabinet Designer now carries its own up-to-date list and uses it alongside the one Windows provides, on every connection it makes: updates, release notes, licence activation and usage statistics.</p>
+
   </section>
   <section class="rel" id="v4-4-0" data-version="4.4.0">
     <h2>Cabinet Designer 4.4.0</h2>
@@ -101,6 +124,7 @@
   <p class="note">New Sliding-door milling tool, independent of the backrest tool.</p>
   <p class="note">Notice before CNC generation for narrow edge machining performed with horizontal aggregate/head.</p>
   <p class="note">New Z offset programming to define the height of the workpiece relative to the machine plane, applied to all CNC programs.</p>
+
   </section>
   <section class="rel" id="v4-3-4" data-version="4.3.4">
     <h2>Cabinet Designer 4.3.4</h2>
@@ -110,6 +134,7 @@
   <p class="note">The handle can be set individually for each door/drawer</p>
   <p class="note">Fixed feedback display when generating pgmx programs in Composer</p>
   <p class="note">Fixed a bug that didn't display new joinery in a divider's joinery list.</p>
+
   </section>
   <section class="rel" id="v4-3-3" data-version="4.3.3">
     <h2>Cabinet Designer 4.3.3</h2>
@@ -133,6 +158,7 @@
   <p class="note">open-source components, and the reverse-engineering restriction no longer</p>
   <p class="note">overrides rights granted by an open-source licence (acceptance is requested</p>
   <p class="note">again).</p>
+
   </section>
   <section class="rel" id="v4-3-2" data-version="4.3.2">
     <h2>Cabinet Designer 4.3.2</h2>
@@ -142,11 +168,13 @@
   <p class="note">Fix — new opening.door_split_line(door, solved):</p>
   <p class="note">the leaves meet on the centre of the region rect (the vano). interior.build_door_panels uses it for both xm and zm.</p>
   <p class="note">Fix: the snap is now the gesture, not the position.</p>
+
   </section>
   <section class="rel" id="v4-3-1" data-version="4.3.1">
     <h2>Cabinet Designer 4.3.1</h2>
     <div class="date">2026-09-08</div>
   <p class="note">Fix of inclined blade cuts for slanted cabinets</p>
+
   </section>
   <section class="rel" id="v4-3-0" data-version="4.3.0">
     <h2>Cabinet Designer 4.3.0</h2>
@@ -158,12 +186,14 @@
   <p class="note">Machining warnings no longer mention a missing tool when no tool is missing.</p>
   <p class="note">Fixed the bevel direction of tilted blade cuts: mirrored corners of an out-of-square room were machined identical instead of opposite.</p>
   <p class="note">CNC export no longer fails when a panel, instance or tool name contains accented characters.</p>
+
   </section>
   <section class="rel" id="v4-1-0" data-version="4.1.0">
     <h2>Cabinet Designer 4.1.0</h2>
     <div class="date">2026-09-03</div>
   <p class="note">Added edge visibility in Render</p>
   <p class="note">Added the ability to open a single door/drawer (double click on element)</p>
+
   </section>
   <section class="rel" id="v4-0-0" data-version="4.0.0">
     <h2>Cabinet Designer 4.0.0</h2>
@@ -174,6 +204,7 @@
   <p class="note">Modified the material definition dialog</p>
   <p class="note">Redefining the Technology Configuration interface</p>
   <p class="note">Cleaning up some obsolete menus.</p>
+
   </section>
   <section class="rel" id="v3-9-2" data-version="3.9.2">
     <h2>Cabinet Designer 3.9.2</h2>
@@ -181,48 +212,57 @@
   <p class="note">Adding isolated element view.</p>
   <p class="note">Correction on F6 CNC Output.</p>
   <p class="note">Correction on element thickness based on material change.</p>
+
   </section>
   <section class="rel" id="v3-9-1" data-version="3.9.1">
     <h2>Cabinet Designer 3.9.1</h2>
     <div class="date">2026-08-30</div>
   <p class="note">Faster updates: the render engine is no longer reinstalled, and the installer warns if the application is open.</p>
   <p class="note">Render no longer stalls at 0% after an update.</p>
+
   </section>
   <section class="rel" id="v3-9-0" data-version="3.9.0">
     <h2>Cabinet Designer 3.9.0</h2>
     <div class="date">2026-08-28</div>
   <p class="note">Expansion of the tutorials and manual in all languages.</p>
+
   </section>
   <section class="rel" id="v3-8-0" data-version="3.8.0">
     <h2>Cabinet Designer 3.8.0</h2>
     <div class="date">2026-08-28</div>
   <p class="note">Insertion of explanations icons for each parameter present in the program</p>
+
   </section>
   <section class="rel" id="v3-7-0" data-version="3.7.0">
     <h2>Cabinet Designer 3.7.0</h2>
     <div class="date">2026-08-27</div>
   <p class="note">Management of out-of-square corner unit</p>
+
   </section>
   <section class="rel" id="v3-6-5" data-version="3.6.5">
     <h2>Cabinet Designer 3.6.5</h2>
     <div class="date">2026-08-26</div>
   <p class="note">Rendering exposure and color improvement</p>
+
   </section>
   <section class="rel" id="v3-6-4" data-version="3.6.4">
     <h2>Cabinet Designer 3.6.4</h2>
     <div class="date">2026-08-25</div>
   <p class="note">Render fix</p>
+
   </section>
   <section class="rel" id="v3-6-3" data-version="3.6.3">
     <h2>Cabinet Designer 3.6.3</h2>
     <div class="date">2026-08-25</div>
   <p class="note">fix of the front setback for intermediate door/drawer dividers.</p>
+
   </section>
   <section class="rel" id="v3-6-2" data-version="3.6.2">
     <h2>Cabinet Designer 3.6.2</h2>
     <div class="date">2026-08-25</div>
   <p class="note">Adding drawings to composer</p>
   <p class="note">fix cutlist composer</p>
+
   </section>
   <section class="rel" id="v3-6-1" data-version="3.6.1">
     <h2>Cabinet Designer 3.6.1</h2>
@@ -231,16 +271,19 @@
   <p class="note">Adding new kinematics to composer</p>
   <p class="note">Kinematic Drawer and Door Toggle</p>
   <p class="note">Edge management fix in composer</p>
+
   </section>
   <section class="rel" id="v3-4-0" data-version="3.4.0">
     <h2>Cabinet Designer 3.4.0</h2>
     <div class="date">2026-08-24</div>
   <p class="note">inset doors and Front-back divider/shelf extensions for slanted cabinet</p>
+
   </section>
   <section class="rel" id="v3-3-1" data-version="3.3.1">
     <h2>Cabinet Designer 3.3.1</h2>
     <div class="date">2026-08-24</div>
   <p class="note">Graphics fix on the hinges library</p>
+
   </section>
   <section class="rel" id="v3-3-0" data-version="3.3.0">
     <h2>Cabinet Designer 3.3.0</h2>
@@ -249,16 +292,19 @@
   <p class="note">Inset doors</p>
   <p class="note">Shelves: custom subdivision of the support pin holes</p>
   <p class="note">Manual: setback from the front and inset doors (8 languages)</p>
+
   </section>
   <section class="rel" id="v3-2-2" data-version="3.2.2">
     <h2>Cabinet Designer 3.2.2</h2>
     <div class="date"></div>
   <p class="note">Set default material for all cabinet</p>
+
   </section>
   <section class="rel" id="v3-1-0" data-version="3.1.0">
     <h2>Cabinet Designer 3.1.0</h2>
     <div class="date"></div>
   <p class="note">Generate dimensioned drawings</p>
+
   </section>
   <section class="rel" id="v3-0-0" data-version="3.0.0">
     <h2>Cabinet Designer 3.0.0</h2>
@@ -269,11 +315,13 @@
   <p class="note">Materials and thicknesses per element</p>
   <p class="note">Fixed the logic of the generated code for housing milling</p>
   <p class="note">Keep-out bands from milling + offset in the direction with more space</p>
+
   </section>
   <section class="rel" id="v2-8-1" data-version="2.8.1">
     <h2>Cabinet Designer 2.8.1</h2>
     <div class="date"></div>
   <p class="note">Color correction</p>
+
   </section>
   <section class="rel" id="v2-8-0" data-version="2.8.0">
     <h2>Cabinet Designer 2.8.0</h2>
@@ -281,16 +329,19 @@
   <p class="note">PBR materials with transparent background textures</p>
   <p class="note">Different thicknesses per role (also on the corner unit)</p>
   <p class="note">Check that the hardware fits the chosen thickness</p>
+
   </section>
   <section class="rel" id="v2-7-2" data-version="2.7.2">
     <h2>Cabinet Designer 2.7.2</h2>
     <div class="date"></div>
   <p class="note">Handling automatic updates from the Composer menu</p>
+
   </section>
   <section class="rel" id="v2-7-1" data-version="2.7.1">
     <h2>Cabinet Designer 2.7.1</h2>
     <div class="date"></div>
   <p class="note">Post processor fix on F6 in-face code generation</p>
+
   </section>
   <section class="rel" id="v2-7-0" data-version="2.7.0">
     <h2>Cabinet Designer 2.7.0</h2>
@@ -298,6 +349,7 @@
   <p class="note">PGMX generation - native Maestro export also to PGMX (via XConverter), in addition to XCS</p>
   <p class="note">Smart PGMX gate - the PGMX format is chosen only with both paths set (XConverter.exe + .tlgx); otherwise it reverts to XCS. Fields with clear indications, translated into 8 languages</p>
   <p class="note">Open folder after CSV export - the cutting list automatically opens the folder (Cabinet Designer + Multi-Module)</p>
+
   </section>
 
   <div class="footer">
