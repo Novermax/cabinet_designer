@@ -1,5 +1,21 @@
 [
   {
+    "version": "4.13.0",
+    "date": "2026-09-26",
+    "notes": [
+      "Structural obstacles: beams and pillars can be placed in the cabinet; they cut the panels they touch (right through or as a notch), and any machining in conflict is removed and reported, never dropped silently.",
+      "Automatic gap closure around an obstacle: closing walls are built on the side of the remaining board, the panels are shaped around them and shelves get their pin holes on the walls too.",
+      "CNC notches: the notches left by an obstacle are milled as a single path right after the contour, before any drilling; on a U-shaped notch only the fittings along the opening are kept.",
+      "A contact shortened by an obstacle now gets at least two fixings or none at all, with a note; a jointed back panel cut by an obstacle is fixed again on every piece.",
+      "Technical drawings: the first page now opens with two 3/4 views of the whole cabinet, the overall size W x D x H and the hardware list (quantity, type, model, manufacturer, code). Both can be switched off in the technology configuration.",
+      "Composer: the room drawings get the same summary page, with views of the whole room and the hardware of all modules added up. Modules exported with an older version are named as missing from the list: export them again to include their hardware.",
+      "Composer: the export commands (CNC programs, unified cut list, dimensioned drawings) moved to the File menu, with the same shortcuts as Cabinet Designer (Ctrl+E, Ctrl+L, Ctrl+D), plus File > Exit (Ctrl+Q).",
+      "Filler unit: the doors now sit between the inner edges of the two sides instead of overlapping the longer side.",
+      "Filler unit and slanted cabinet: correct overall size in the Composer, so aligning to the back wall puts the back against the wall.",
+      "Composer rendering: the camera now frames exactly the Composer view, it is no longer moved closer to the room."
+    ]
+  },
+  {
     "version": "4.10.0",
     "date": "2026-09-24",
     "notes": [
