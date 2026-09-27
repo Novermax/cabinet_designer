@@ -22,31 +22,33 @@
     "media": [
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/01_obstacles.png Obstacles"
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/01_obstacles.png",
+        "caption": "Beams and pillars now go right inside the cabinet"
       },
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/02_gap_closure.png Gap_closure"
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/02_gap_closure.png",
+        "caption": "Walls built for you around the obstacle"
       },
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/03_cnc_notch.png Cnc_notch"
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/03_cnc_notch.png",
+        "caption": "The notch gets milled in one go, before any drilling"
       },
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/04_two_fixings.png two_fixings"
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/04_two_fixings.png",
+        "caption": "Two fixings or none, never just one"
       },
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/05_drawing_summary.png drawing_summary"
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/05_drawing_summary.png",
+        "caption": "Drawings open with 3/4 views and the hardware list"
       },
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/06_composer_drawings.png composer_drawing"
-      },
-      {
-        "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/06_composer_drawings.png composer_drawing"
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.0.0/06_composer_drawings.png",
+        "caption": "Room drawings get the same summary page"
       }
     ]
   },
