@@ -1,5 +1,12 @@
 [
   {
+    "version": "5.1.1",
+    "date": "2026-09-28",
+    "notes": [
+      "New Channel clearance parameter"
+    ]
+  },
+  {
     "version": "5.0.1",
     "date": "2026-09-27",
     "notes": [
