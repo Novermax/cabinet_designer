@@ -139,7 +139,15 @@ function handleActivate_(p) {
  * (sent by the app when the user withdraws consent). purgeOldTelemetry()
  * drops anything older than RETENTION_MONTHS (install its daily trigger once
  * with installTelemetryTriggers()). buildTelemetryDashboard() (re)creates the
- * "Dashboard" sheet. Both are run by hand from the Apps Script editor.
+ * "Dashboard" (installations) and "Utilizzo" (how the app is used) sheets.
+ * Both are run by hand from the Apps Script editor.
+ *
+ * Event vocabulary (column "Event"): launch, startup (Load ms), session
+ * (Duration s), export_cnc (Feature = app.format, Count = pieces or modules,
+ * Load ms), error (Error type + Context = message template, never values),
+ * satisfaction (Rating), use (Feature = identifier, Count = times since the
+ * last send: menu.*, edit.*, param.*, model.*, hw.*, cnc.warning.*,
+ * tutorial.*, export.*, app.*).
  *
  * The sheet stays private: this web app is deployed for "Anyone", so NEVER
  * serve the statistics from doGet.
@@ -180,7 +188,7 @@ function handleTelemetry_(p) {
       now, env.app_version, env.os, env.os_version, env.arch, env.python,
       env.language, env.screen, env.ram_mb, launch,
       ev.event, ev.feature, ev.duration_s, ev.load_ms, ev.error_type,
-      ev.context, ev.count, ev.ts, id, country, ev.rating
+      ev.context, ev.count, eventTime_(ev.ts), id, country, ev.rating
     ].map(cell_));
   }
   var sh = sheet_('Telemetry', TELEMETRY_HEADER);
@@ -330,6 +338,103 @@ function buildTelemetryDashboard() {
     .build());
   sh.autoResizeColumns(1, 12);
   sh.setColumnWidths(11, 2, 130);  // dates: sized before any data exists
+
+  buildUsageSheet_(ss, fx);
+}
+
+/** The "Utilizzo" sheet: how, how much and when the app is used. Every cell
+ * is a live formula over "Telemetry" / "Clients". */
+function buildUsageSheet_(ss, fx) {
+  normalizeTelemetryDates_(sheet_('Telemetry', TELEMETRY_HEADER));
+  var sh = ss.getSheetByName('Utilizzo') || ss.insertSheet('Utilizzo');
+  sh.clear();
+  sh.getCharts().forEach(function (c) { sh.removeChart(c); });
+  sh.clearConditionalFormatRules();
+  var T = 'Telemetry!';
+
+  sh.getRange('A1').setValue('Cabinet Designer — come viene usato')
+    .setFontSize(14).setFontWeight('bold');
+  var kpis = [
+    ['Avvii', '=COUNTIF(' + T + 'K2:K,"launch")'],
+    ['Durata media sessione (min)',
+     '=IFERROR(ROUND(AVERAGEIF(' + T + 'K2:K,"session",' + T + 'M2:M)/60,1),"")'],
+    ['Avvio medio del programma (s)',
+     '=IFERROR(ROUND(AVERAGEIF(' + T + 'K2:K,"startup",' + T + 'N2:N)/1000,1),"")'],
+    ['Generazioni CNC', '=COUNTIF(' + T + 'K2:K,"export_cnc")'],
+    ['Generazione CNC media (s)',
+     '=IFERROR(ROUND(AVERAGEIF(' + T + 'K2:K,"export_cnc",' + T + 'N2:N)/1000,1),"")'],
+    ['Installazioni con almeno un programma CNC',
+     '=IFERROR(COUNTUNIQUE(FILTER(' + T + 'S2:S,' + T + 'K2:K="export_cnc",' + T + 'S2:S<>"")),0)'],
+    ['Installazioni ancora in uso 30 giorni dopo la prima volta',
+     '=SUMPRODUCT((Clients!A2:A<>"")*(Clients!G2:G-Clients!F2:F>=30))'],
+    ['Errori mostrati (distinti per sessione)', '=COUNTIF(' + T + 'K2:K,"error")']
+  ];
+  for (var k = 0; k < kpis.length; k++) {
+    sh.getRange(3 + k, 1).setValue(kpis[k][0]).setFontWeight('bold');
+    sh.getRange(3 + k, 2).setFormula(fx(kpis[k][1]));
+  }
+
+  var Q = 'Telemetry!A2:U';
+  var tables = [
+    ['A13', 'Funzioni più usate (menu, modifiche, parametri)',
+     "select L, sum(Q) where K = 'use' and not L starts with 'model.' " +
+     "and not L starts with 'hw.' and not L starts with 'cnc.warning.' " +
+     "and not L starts with 'tutorial.' group by L order by sum(Q) desc limit 60 " +
+     "label L 'Funzione', sum(Q) 'Volte'"],
+    ['D13', 'Come sono fatti i mobili mandati in macchina',
+     "select L, sum(Q) where K = 'use' and (L starts with 'model.' or L starts with 'hw.') " +
+     "group by L order by sum(Q) desc limit 80 " +
+     "label L 'Costruzione / ferramenta', sum(Q) 'Generazioni'"],
+    ['G13', 'Generazioni CNC per app e formato',
+     "select L, count(K), avg(Q) where K = 'export_cnc' group by L order by count(K) desc " +
+     "label L 'App.formato', count(K) 'Generazioni', avg(Q) 'Pezzi medi'"],
+    ['G27', 'Avvisi CNC',
+     "select L, sum(Q) where K = 'use' and L starts with 'cnc.warning.' group by L " +
+     "order by sum(Q) desc limit 40 label L 'Avviso', sum(Q) 'Volte'"],
+    ['K13', 'Tutorial (avviati, completati, abbandonati al passo)',
+     "select L, sum(Q) where K = 'use' and L starts with 'tutorial.' group by L " +
+     "order by L limit 60 label L 'Tutorial', sum(Q) 'Volte'"],
+    ['N13', 'Errori mostrati',
+     "select O, P, count(K) where K = 'error' group by O, P order by count(K) desc limit 40 " +
+     "label O 'Tipo', P 'Messaggio (senza valori)', count(K) 'Volte'"]
+  ];
+  for (var t = 0; t < tables.length; t++) {
+    var cell = sh.getRange(tables[t][0]);
+    sh.getRange(cell.getRow() - 1, cell.getColumn()).setValue(tables[t][1])
+      .setFontWeight('bold');
+    cell.setFormula(fx('=QUERY(' + Q + ',"' + tables[t][2] + '",0)'));
+  }
+
+  // When: launches by hour of the user's own day x weekday.
+  sh.getRange('A78').setValue('Quando: avvii per ora del giorno e giorno della ' +
+                              'settimana (1 = domenica … 7 = sabato)').setFontWeight('bold');
+  sh.getRange('A79').setFormula(fx('=QUERY(' + Q + ',"select hour(R), count(K) ' +
+    "where K = 'launch' and R is not null group by hour(R) pivot dayOfWeek(R) " +
+    "label hour(R) 'Ora'" + '",0)'));
+  sh.setConditionalFormatRules([SpreadsheetApp.newConditionalFormatRule()
+    .setGradientMinpoint('#ffffff').setGradientMaxpoint('#1a73e8')
+    .setRanges([sh.getRange('B80:H103')]).build()]);
+
+  // How much over time: launches per day.
+  sh.getRange('K78').setValue('Avvii per giorno').setFontWeight('bold');
+  sh.getRange('K79').setFormula(fx('=QUERY(' + Q + ',"select toDate(R), count(K) ' +
+    "where K = 'launch' and R is not null group by toDate(R) order by toDate(R) " +
+    "label toDate(R) 'Giorno', count(K) 'Avvii'" + '",0)'));
+  sh.insertChart(sh.newChart()
+    .asLineChart()
+    .addRange(sh.getRange('K79:L500'))
+    .setNumHeaders(1)
+    .setOption('title', 'Avvii per giorno')
+    .setOption('legend', { position: 'none' })
+    .setPosition(78, 14, 0, 0)
+    .build());
+
+  sh.setColumnWidth(1, 320);
+  sh.setColumnWidth(4, 280);
+  sh.setColumnWidth(7, 170);
+  sh.setColumnWidth(11, 260);
+  sh.setColumnWidth(14, 140);
+  sh.setColumnWidth(15, 420);
 }
 
 /** A sheet value as a Date: real dates, or the text form an older build of
@@ -339,6 +444,31 @@ function asDate_(v) {
   if (!v) return null;
   var d = new Date(String(v));
   return isNaN(d.getTime()) ? null : d;
+}
+
+/**
+ * Older builds of this script stored "Timestamp" (column A, briefly) and
+ * "Event time" (column R, always) as text. QUERY types a column by its
+ * majority, so text there would break hour()/toDate(): turn them into real
+ * dates once. Idempotent — a Date stays a Date.
+ */
+function normalizeTelemetryDates_(sh) {
+  var rows = sh.getLastRow() - 1;
+  if (rows < 1) return;
+  [1, 18].forEach(function (col) {
+    var range = sh.getRange(2, col, rows, 1);
+    var values = range.getValues();
+    var changed = false;
+    for (var i = 0; i < values.length; i++) {
+      var v = values[i][0];
+      if (v && !(v instanceof Date)) {
+        var d = asDate_(v);
+        values[i][0] = d || '';
+        changed = true;
+      }
+    }
+    if (changed) range.setValues(values);
+  });
 }
 
 /** "," or ";": whichever argument separator this spreadsheet's locale parses. */
@@ -379,6 +509,14 @@ function findRow_(sh, col, value) {
   var hit = sh.getRange(2, col, sh.getLastRow() - 1, 1)
               .createTextFinder(value).matchEntireCell(true).findNext();
   return hit ? hit.getRow() : 0;
+}
+
+/** The client's local "2026-10-11T16:42:28" as a Date (hour and weekday are
+ * the user's own), or "" when absent/unreadable. */
+function eventTime_(ts) {
+  if (!ts) return '';
+  var d = new Date(String(ts));
+  return isNaN(d.getTime()) ? '' : d;
 }
 
 function validId_(v) {
