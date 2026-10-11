@@ -9,7 +9,10 @@
  *                                   logs it in "Activations", emails it to you
  *   - grant     (in-app demo cap) -> "DemoCounters" sheet, RSA-signed reply
  *   - telemetry (in-app, Full, consent-gated)
- *                                -> "Telemetry" sheet (one row per event)
+ *                                -> "Telemetry" sheet (one row per event) +
+ *                                   "Clients" sheet (one row per installation)
+ *   - telemetry_delete (in-app, consent withdrawn)
+ *                                -> erases that installation's rows
  *
  * DEPLOY (do this logged in as cabinetdesigner.global@gmail.com):
  *   1. Create a Google Sheet, e.g. "Cabinet Designer — Backend".
@@ -35,6 +38,7 @@ function doPost(e) {
     var action = p.action || 'request';
     if (action === 'grant')     return handleGrant_(p);
     if (action === 'telemetry') return handleTelemetry_(p);
+    if (action === 'telemetry_delete') return handleTelemetryDelete_(p);
     if (action === 'activate')  return handleActivate_(p);
     if (action === 'contact')   return handleContact_(p);
     return handleRequest_(p);
@@ -112,19 +116,45 @@ function handleActivate_(p) {
   return textOut_('OK');
 }
 
-/* ---------- anonymous usage telemetry (Full, consent-gated) ---------- */
+/* ---------- usage telemetry (Full, consent-gated) ---------- */
 /**
  * The client (cabinet_services/telemetry_manager.py) POSTs, only with the
  * user's explicit consent:
  *   action=telemetry, product, payload=<JSON string>
- * where payload = { kind:"telemetry", environment:{app_version, os, os_version,
- * arch, python, language, screen, ram_mb}, launch_count, events:[ {event, ts,
- * feature, duration_s, load_ms, error_type, context, count}, ... ] }.
+ * where payload = { kind:"telemetry", installation_id, consent_version,
+ * country, environment:{app_version, os, os_version, arch, python, language,
+ * screen, ram_mb}, launch_count, events:[ {event, ts, feature, duration_s,
+ * load_ms, error_type, context, count, rating}, ... ] }.
  *
- * We append ONE row per event to the "Telemetry" sheet (the environment is
- * repeated on each row so the sheet is directly pivot/chart-able). No personal
- * data ever reaches here — the client only sends the whitelisted fields above.
+ * installation_id is a random 32-hex code minted on the user's PC when they
+ * consent (never the licence, never hardware); country is the ISO code of the
+ * Windows region setting. No IP address, name or e-mail ever reaches here.
+ * Clients older than consent version 2 send no id and no country: their rows
+ * land in "Telemetry" only, unattributed.
+ *
+ *   "Telemetry" -> one row per event (environment repeated: pivot-able)
+ *   "Clients"   -> ONE row per installation: first/last use, launch count
+ *
+ * action=telemetry_delete, installation_id=<id> erases every row of that id
+ * (sent by the app when the user withdraws consent). purgeOldTelemetry()
+ * drops anything older than RETENTION_MONTHS (install its daily trigger once
+ * with installTelemetryTriggers()). buildTelemetryDashboard() (re)creates the
+ * "Dashboard" sheet. Both are run by hand from the Apps Script editor.
+ *
+ * The sheet stays private: this web app is deployed for "Anyone", so NEVER
+ * serve the statistics from doGet.
  */
+var RETENTION_MONTHS = 24;
+var TELEMETRY_HEADER = ['Timestamp', 'App version', 'OS', 'OS version', 'Arch',
+                        'Python', 'Language', 'Screen', 'RAM (MB)', 'Launch count',
+                        'Event', 'Feature', 'Duration (s)', 'Load (ms)', 'Error type',
+                        'Context', 'Count', 'Event time', 'Installation ID',
+                        'Country', 'Rating'];
+var TELEMETRY_ID_COL = 19;  // 'Installation ID' (1-based)
+var CLIENTS_HEADER = ['Installation ID', 'Country', 'App version', 'OS',
+                      'Language', 'First seen', 'Last seen', 'Launch count',
+                      'Consent version'];
+
 function handleTelemetry_(p) {
   var payload;
   try {
@@ -132,31 +162,236 @@ function handleTelemetry_(p) {
   } catch (err) {
     return textOut_('ERROR: bad payload');
   }
-  var env    = payload.environment || {};
-  var launch = payload.launch_count || '';
-  var events = payload.events || [];
-
-  var header = ['Timestamp', 'App version', 'OS', 'OS version', 'Arch',
-                'Python', 'Language', 'Screen', 'RAM (MB)', 'Launch count',
-                'Event', 'Feature', 'Duration (s)', 'Load (ms)', 'Error type',
-                'Context', 'Count', 'Event time'];
-  var now = new Date();
+  var env     = payload.environment || {};
+  var launch  = Number(payload.launch_count) || '';
+  var events  = payload.events || [];
+  var id      = validId_(payload.installation_id);
+  var country = /^[A-Z]{2}$/.test(String(payload.country || '')) ? payload.country : '';
+  var now     = new Date();
 
   if (!events.length) {
     // No queued events (unusual) — still log an environment heartbeat row.
     events = [{}];
   }
-  for (var i = 0; i < events.length; i++) {
+  var rows = [];
+  for (var i = 0; i < events.length && i < 500; i++) {
     var ev = events[i] || {};
-    appendRow_('Telemetry', header, [
-      now, env.app_version || '', env.os || '', env.os_version || '',
-      env.arch || '', env.python || '', env.language || '', env.screen || '',
-      env.ram_mb || '', launch,
-      ev.event || '', ev.feature || '', ev.duration_s || '', ev.load_ms || '',
-      ev.error_type || '', ev.context || '', ev.count || '', ev.ts || ''
-    ]);
+    rows.push([
+      now, env.app_version, env.os, env.os_version, env.arch, env.python,
+      env.language, env.screen, env.ram_mb, launch,
+      ev.event, ev.feature, ev.duration_s, ev.load_ms, ev.error_type,
+      ev.context, ev.count, ev.ts, id, country, ev.rating
+    ].map(cell_));
+  }
+  var sh = sheet_('Telemetry', TELEMETRY_HEADER);
+  sh.getRange(sh.getLastRow() + 1, 1, rows.length, TELEMETRY_HEADER.length)
+    .setValues(rows);
+
+  if (id) {
+    upsertClient_(id, country, env, launch, Number(payload.consent_version) || '', now);
   }
   return textOut_('OK');
+}
+
+function upsertClient_(id, country, env, launch, consentVersion, now) {
+  var sh = sheet_('Clients', CLIENTS_HEADER);
+  var row = findRow_(sh, 1, id);
+  if (row) {
+    var prevLaunch = Number(sh.getRange(row, 8).getValue()) || 0;
+    sh.getRange(row, 2, 1, 4).setValues([[country, env.app_version, env.os,
+                                          env.language].map(cell_)]);
+    sh.getRange(row, 7, 1, 3).setValues([[now, Math.max(prevLaunch, Number(launch) || 0),
+                                          consentVersion]]);
+  } else {
+    sh.appendRow([id, country, env.app_version, env.os, env.language, now, now,
+                  launch, consentVersion].map(cell_));
+  }
+}
+
+function handleTelemetryDelete_(p) {
+  var id = validId_(p.installation_id);
+  if (!id) return textOut_('ERROR: bad id');
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var clients = ss.getSheetByName('Clients');
+  if (clients) {
+    var row = findRow_(clients, 1, id);
+    if (row) clients.deleteRow(row);
+  }
+  var tele = ss.getSheetByName('Telemetry');
+  if (tele && tele.getLastRow() > 1) {
+    var cells = tele.getRange(2, TELEMETRY_ID_COL, tele.getLastRow() - 1, 1)
+                    .createTextFinder(id).matchEntireCell(true).findAll();
+    var rowsToDelete = cells.map(function (c) { return c.getRow(); })
+                            .sort(function (a, b) { return b - a; });
+    for (var i = 0; i < rowsToDelete.length; i++) tele.deleteRow(rowsToDelete[i]);
+  }
+  return textOut_('OK');  // idempotent: an id with no rows is already erased
+}
+
+/** Daily job: drop rows older than RETENTION_MONTHS. Run by the trigger. */
+function purgeOldTelemetry() {
+  var cutoff = new Date();
+  cutoff.setMonth(cutoff.getMonth() - RETENTION_MONTHS);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  var tele = ss.getSheetByName('Telemetry');
+  if (tele && tele.getLastRow() > 1) {
+    // Rows are appended in time order: delete the leading stale block.
+    var stamps = tele.getRange(2, 1, tele.getLastRow() - 1, 1).getValues();
+    var stale = 0;
+    while (stale < stamps.length) {
+      var t = asDate_(stamps[stale][0]);
+      if (!t || t >= cutoff) break;
+      stale++;
+    }
+    if (stale) tele.deleteRows(2, stale);
+  }
+
+  var clients = ss.getSheetByName('Clients');
+  if (clients && clients.getLastRow() > 1) {
+    var last = clients.getRange(2, 7, clients.getLastRow() - 1, 1).getValues();
+    for (var r = last.length - 1; r >= 0; r--) {
+      var seen = asDate_(last[r][0]);
+      if (seen && seen < cutoff) clients.deleteRow(r + 2);
+    }
+  }
+}
+
+/** Run ONCE from the editor: installs the daily retention purge. */
+function installTelemetryTriggers() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'purgeOldTelemetry') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('purgeOldTelemetry').timeBased().everyDays(1).atHour(3).create();
+}
+
+/**
+ * Run from the editor to (re)create the "Dashboard" sheet. Everything in it
+ * is a live formula over "Clients", so it never needs re-running for new
+ * data — only after editing this function.
+ */
+function buildTelemetryDashboard() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  sheet_('Clients', CLIENTS_HEADER);
+  var sh = ss.getSheetByName('Dashboard') || ss.insertSheet('Dashboard');
+  sh.clear();
+  sh.getCharts().forEach(function (c) { sh.removeChart(c); });
+
+  // Formulas are parsed with the spreadsheet's locale: an Italian sheet
+  // separates arguments with ";". Probe once, then write every formula below
+  // with "," and let fx() convert it.
+  var sep = argSeparator_(sh);
+  var fx = function (f) { return sep === ',' ? f : localizeSeparators_(f); };
+
+  sh.getRange('A1').setValue('Cabinet Designer — statistiche di utilizzo')
+    .setFontSize(14).setFontWeight('bold');
+  var kpis = [
+    ['Installazioni con consenso', '=COUNTA(Clients!A2:A)'],
+    ['Attive negli ultimi 7 giorni', '=COUNTIF(Clients!G2:G,">="&(TODAY()-7))'],
+    ['Attive negli ultimi 30 giorni', '=COUNTIF(Clients!G2:G,">="&(TODAY()-30))'],
+    ['Nuove negli ultimi 30 giorni', '=COUNTIF(Clients!F2:F,">="&(TODAY()-30))'],
+    ['Avvii totali', '=SUM(Clients!H2:H)']
+  ];
+  for (var k = 0; k < kpis.length; k++) {
+    sh.getRange(3 + k, 1).setValue(kpis[k][0]).setFontWeight('bold');
+    sh.getRange(3 + k, 2).setFormula(fx(kpis[k][1]));
+  }
+
+  sh.getRange('A9').setValue('Per Paese').setFontWeight('bold');
+  sh.getRange('A10').setFormula(
+    fx('=QUERY(Clients!A2:I,"select B, count(A) where A is not null group by B ' +
+    'order by count(A) desc label B \'Paese\', count(A) \'Installazioni\'",0)'));
+  sh.getRange('D9').setValue('Per versione').setFontWeight('bold');
+  sh.getRange('D10').setFormula(
+    fx('=QUERY(Clients!A2:I,"select C, count(A) where A is not null group by C ' +
+    'order by C desc label C \'Versione\', count(A) \'Installazioni\'",0)'));
+  sh.getRange('G9').setValue('Installazioni (una riga ciascuna, ultimo uso in alto)')
+    .setFontWeight('bold');
+  sh.getRange('G10').setFormula(
+    fx('=QUERY(Clients!A2:I,"select A, B, C, H, F, G where A is not null order by G desc ' +
+    'label A \'Codice\', B \'Paese\', C \'Versione\', H \'Avvii\', ' +
+    'F \'Primo uso\', G \'Ultimo uso\'",0)'));
+  sh.getRange('K:L').setNumberFormat('dd/mm/yyyy hh:mm');
+
+  sh.insertChart(sh.newChart()
+    .setChartType(Charts.ChartType.GEO)
+    .addRange(sh.getRange('A10:B200'))
+    .setNumHeaders(1)
+    .setOption('title', 'Installazioni per Paese')
+    .setPosition(2, 14, 0, 0)
+    .build());
+  sh.insertChart(sh.newChart()
+    .asColumnChart()
+    .addRange(sh.getRange('D10:E60'))
+    .setNumHeaders(1)
+    .setOption('title', 'Installazioni per versione')
+    .setOption('legend', { position: 'none' })
+    .setPosition(24, 14, 0, 0)
+    .build());
+  sh.autoResizeColumns(1, 12);
+  sh.setColumnWidths(11, 2, 130);  // dates: sized before any data exists
+}
+
+/** A sheet value as a Date: real dates, or the text form an older build of
+ * this script wrote ("Sun Oct 11 2026 16:42:28 GMT+0200 ..."); else null. */
+function asDate_(v) {
+  if (v instanceof Date) return v;
+  if (!v) return null;
+  var d = new Date(String(v));
+  return isNaN(d.getTime()) ? null : d;
+}
+
+/** "," or ";": whichever argument separator this spreadsheet's locale parses. */
+function argSeparator_(sh) {
+  var probe = sh.getRange('Z1');
+  probe.setFormula('=SUM(1,2)');
+  SpreadsheetApp.flush();
+  var ok = probe.getValue() === 3;
+  probe.clearContent();
+  return ok ? ',' : ';';
+}
+
+/** Commas outside double-quoted strings become ";" (the query text keeps its own). */
+function localizeSeparators_(f) {
+  var out = '', inQuote = false;
+  for (var i = 0; i < f.length; i++) {
+    var ch = f.charAt(i);
+    if (ch === '"') inQuote = !inQuote;
+    out += (ch === ',' && !inQuote) ? ';' : ch;
+  }
+  return out;
+}
+
+function sheet_(name, header) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(name) || ss.insertSheet(name);
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(header);
+  } else if (sh.getLastColumn() < header.length) {
+    // An older header (columns appended since): extend it in place.
+    sh.getRange(1, 1, 1, header.length).setValues([header]);
+  }
+  return sh;
+}
+
+function findRow_(sh, col, value) {
+  if (sh.getLastRow() < 2) return 0;
+  var hit = sh.getRange(2, col, sh.getLastRow() - 1, 1)
+              .createTextFinder(value).matchEntireCell(true).findNext();
+  return hit ? hit.getRow() : 0;
+}
+
+function validId_(v) {
+  v = String(v || '');
+  return /^[0-9a-f]{32}$/.test(v) ? v : '';
+}
+
+/** A cell value from untrusted input: no formulas, bounded length. */
+function cell_(v) {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'number' || typeof v === 'boolean' || v instanceof Date) return v;
+  v = String(v).slice(0, 200);
+  return /^[=+\-@]/.test(v) ? "'" + v : v;
 }
 
 /* ---------- online demo gating (Maestro export cap) ---------- */
