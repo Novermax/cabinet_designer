@@ -340,6 +340,7 @@ function buildTelemetryDashboard() {
   sh.setColumnWidths(11, 2, 130);  // dates: sized before any data exists
 
   buildUsageSheet_(ss, fx);
+  buildWhenSheet_(ss, fx);
 }
 
 /** The "Utilizzo" sheet: how, how much and when the app is used. Every cell
@@ -364,7 +365,9 @@ function buildUsageSheet_(ss, fx) {
     ['Generazione CNC media (s)',
      '=IFERROR(ROUND(AVERAGEIF(' + T + 'K2:K,"export_cnc",' + T + 'N2:N)/1000,1),"")'],
     ['Installazioni con almeno un programma CNC',
-     '=IFERROR(COUNTUNIQUE(FILTER(' + T + 'S2:S,' + T + 'K2:K="export_cnc",' + T + 'S2:S<>"")),0)'],
+     // ROWS(UNIQUE(...)) and not COUNTUNIQUE: an empty FILTER is #N/A, which
+     // COUNTUNIQUE counts as one value instead of failing into IFERROR.
+     '=IFERROR(ROWS(UNIQUE(FILTER(' + T + 'S2:S,' + T + 'K2:K="export_cnc",' + T + 'S2:S<>""))),0)'],
     ['Installazioni ancora in uso 30 giorni dopo la prima volta',
      '=SUMPRODUCT((Clients!A2:A<>"")*(Clients!G2:G-Clients!F2:F>=30))'],
     ['Errori mostrati (distinti per sessione)', '=COUNTIF(' + T + 'K2:K,"error")']
@@ -405,30 +408,6 @@ function buildUsageSheet_(ss, fx) {
     cell.setFormula(fx('=QUERY(' + Q + ',"' + tables[t][2] + '",0)'));
   }
 
-  // When: launches by hour of the user's own day x weekday.
-  sh.getRange('A78').setValue('Quando: avvii per ora del giorno e giorno della ' +
-                              'settimana (1 = domenica … 7 = sabato)').setFontWeight('bold');
-  sh.getRange('A79').setFormula(fx('=QUERY(' + Q + ',"select hour(R), count(K) ' +
-    "where K = 'launch' and R is not null group by hour(R) pivot dayOfWeek(R) " +
-    "label hour(R) 'Ora'" + '",0)'));
-  sh.setConditionalFormatRules([SpreadsheetApp.newConditionalFormatRule()
-    .setGradientMinpoint('#ffffff').setGradientMaxpoint('#1a73e8')
-    .setRanges([sh.getRange('B80:H103')]).build()]);
-
-  // How much over time: launches per day.
-  sh.getRange('K78').setValue('Avvii per giorno').setFontWeight('bold');
-  sh.getRange('K79').setFormula(fx('=QUERY(' + Q + ',"select toDate(R), count(K) ' +
-    "where K = 'launch' and R is not null group by toDate(R) order by toDate(R) " +
-    "label toDate(R) 'Giorno', count(K) 'Avvii'" + '",0)'));
-  sh.insertChart(sh.newChart()
-    .asLineChart()
-    .addRange(sh.getRange('K79:L500'))
-    .setNumHeaders(1)
-    .setOption('title', 'Avvii per giorno')
-    .setOption('legend', { position: 'none' })
-    .setPosition(78, 14, 0, 0)
-    .build());
-
   sh.setColumnWidth(1, 320);
   sh.setColumnWidth(4, 280);
   sh.setColumnWidth(7, 170);
@@ -446,6 +425,57 @@ function asDate_(v) {
   return isNaN(d.getTime()) ? null : d;
 }
 
+/** The "Quando" sheet: launches by hour of the user's own day x weekday,
+ * and launches per day. */
+function buildWhenSheet_(ss, fx) {
+  var sh = ss.getSheetByName('Quando') || ss.insertSheet('Quando');
+  sh.clear();
+  sh.getCharts().forEach(function (c) { sh.removeChart(c); });
+  sh.clearConditionalFormatRules();
+  var Q = 'Telemetry!A2:U';
+
+  sh.getRange('A1').setValue('Cabinet Designer — quando viene usato')
+    .setFontSize(14).setFontWeight('bold');
+  // When: launches by hour of the user's own day x weekday. One formula per
+  // cell (HOUR/WEEKDAY) rather than a QUERY pivot: QUERY decides by the
+  // column's format whether "Event time" is a date or a date-time, and
+  // hour() fails on a plain date.
+  sh.getRange('A3').setValue('Avvii per ora del giorno (ora del cliente) e giorno della settimana')
+    .setFontWeight('bold');
+  sh.getRange('A4:H4').setValues([['Ora', 'dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab']])
+    .setFontWeight('bold');
+  var grid = [];
+  for (var h = 0; h < 24; h++) {
+    var row = [h];
+    for (var d = 1; d <= 7; d++) {
+      row.push(fx('=SUMPRODUCT((Telemetry!$K$2:$K="launch")*(Telemetry!$R$2:$R<>"")*' +
+                  '(HOUR(Telemetry!$R$2:$R)=' + h + ')*(WEEKDAY(Telemetry!$R$2:$R)=' + d + '))'));
+    }
+    grid.push(row);
+  }
+  sh.getRange('A5:A28').setValues(grid.map(function (r) { return [r[0]]; }));
+  sh.getRange('B5:H28').setFormulas(grid.map(function (r) { return r.slice(1); }));
+  sh.setConditionalFormatRules([SpreadsheetApp.newConditionalFormatRule()
+    .setGradientMinpoint('#ffffff').setGradientMaxpoint('#1a73e8')
+    .setRanges([sh.getRange('B5:H28')]).build()]);
+
+  // How much over time: launches per day.
+  sh.getRange('K3').setValue('Avvii per giorno').setFontWeight('bold');
+  sh.getRange('K4').setFormula(fx('=QUERY(' + Q + ',"select toDate(R), count(K) ' +
+    "where K = 'launch' and R is not null group by toDate(R) order by toDate(R) " +
+    "label toDate(R) 'Giorno', count(K) 'Avvii'" + '",0)'));
+  sh.insertChart(sh.newChart()
+    .asLineChart()
+    .addRange(sh.getRange('K4:L1000'))
+    .setNumHeaders(1)
+    .setOption('title', 'Avvii per giorno')
+    .setOption('legend', { position: 'none' })
+    .setPosition(3, 14, 0, 0)
+    .build());
+
+  sh.setColumnWidth(11, 110);
+}
+
 /**
  * Older builds of this script stored "Timestamp" (column A, briefly) and
  * "Event time" (column R, always) as text. QUERY types a column by its
@@ -454,8 +484,9 @@ function asDate_(v) {
  */
 function normalizeTelemetryDates_(sh) {
   var rows = sh.getLastRow() - 1;
-  if (rows < 1) return;
+  if (rows < 1) rows = 0;
   [1, 18].forEach(function (col) {
+    if (!rows) return;
     var range = sh.getRange(2, col, rows, 1);
     var values = range.getValues();
     var changed = false;
@@ -469,6 +500,9 @@ function normalizeTelemetryDates_(sh) {
     }
     if (changed) range.setValues(values);
   });
+  // Whole columns, so the rows appended later inherit it too.
+  sh.getRange('A:A').setNumberFormat('dd/mm/yyyy hh:mm:ss');
+  sh.getRange('R:R').setNumberFormat('dd/mm/yyyy hh:mm:ss');
 }
 
 /** "," or ";": whichever argument separator this spreadsheet's locale parses. */
