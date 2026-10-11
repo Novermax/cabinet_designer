@@ -1,5 +1,29 @@
 [
   {
+    "version": "5.2.0",
+    "date": "2026-10-11",
+    "notes": [
+      "New handle type \"3-sided notch\": a recessed grip milled along three sides near the edge of the door or drawer front, with its shape, distances from the ends, direction, lead-in/lead-out and depth defined by the article in the Hardware Library. It can go right through the board only when the minimum residual material is set to a negative value, and a negative value is confirmed before every CNC generation.",
+      "\"Force machining from the inner side of the cabinet\" (formerly \"hinge side\") now also appears in the Handles accordion: it moves only the through handle machining to the back face, hinge side on doors and drawer side on drawer fronts.",
+      "Groove handles and 3-sided notches are milled with their own tools, chosen in the technology configuration; they are never milled with the contour bit. Without a tool the handle machining is left out and reported.",
+      "New drawer fillers: an optional fixed rail above each drawer, behind the fronts, with its own top and bottom clearances, fixed to the compartment walls with dowels. A filler that cannot be built (too low for the dowel, set-back wall, dowels meeting inside a divider) is refused with the reason.",
+      "Missing tools are now reported before any CNC file is written, in Cabinet Designer and in the Composer: every machining that would be left out, the field of the technology configuration to fill in and where to find it, with buttons to open the configuration or copy into the project the tools it already names. Blade cuts and 5-axis holes without a tool are now reported too.",
+      "Composer: the CNC generation of the room works again."
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.2.0/maniglia_3lati.png",
+        "caption": "3-sided notches"
+      },
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.2.0/traversini.png",
+        "caption": "drawer fillers"
+      }
+    ]
+  },
+  {
     "version": "5.1.1",
     "date": "2026-09-28",
     "notes": [

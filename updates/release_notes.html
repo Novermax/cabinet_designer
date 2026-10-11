@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cabinet Designer 5.1.1 — Note di rilascio</title>
+  <title>Cabinet Designer 5.2.0 — Note di rilascio</title>
   <style>
     body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
            max-width: 760px; margin: 0 auto; padding: 24px; color: #222;
@@ -24,6 +24,18 @@
 <body>
   <h1>Cabinet Designer</h1>
 
+  <section class="rel" id="v5-2-0" data-version="5.2.0">
+    <h2>Cabinet Designer 5.2.0</h2>
+    <div class="date">2026-10-11</div>
+  <p class="note">New handle type "3-sided notch": a recessed grip milled along three sides near the edge of the door or drawer front, with its shape, distances from the ends, direction, lead-in/lead-out and depth defined by the article in the Hardware Library. It can go right through the board only when the minimum residual material is set to a negative value, and a negative value is confirmed before every CNC generation.</p>
+  <p class="note">"Force machining from the inner side of the cabinet" (formerly "hinge side") now also appears in the Handles accordion: it moves only the through handle machining to the back face, hinge side on doors and drawer side on drawer fronts.</p>
+  <p class="note">Groove handles and 3-sided notches are milled with their own tools, chosen in the technology configuration; they are never milled with the contour bit. Without a tool the handle machining is left out and reported.</p>
+  <p class="note">New drawer fillers: an optional fixed rail above each drawer, behind the fronts, with its own top and bottom clearances, fixed to the compartment walls with dowels. A filler that cannot be built (too low for the dowel, set-back wall, dowels meeting inside a divider) is refused with the reason.</p>
+  <p class="note">Missing tools are now reported before any CNC file is written, in Cabinet Designer and in the Composer: every machining that would be left out, the field of the technology configuration to fill in and where to find it, with buttons to open the configuration or copy into the project the tools it already names. Blade cuts and 5-axis holes without a tool are now reported too.</p>
+  <p class="note">Composer: the CNC generation of the room works again.</p>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/5.2.0/maniglia_3lati.png" alt="3-sided notches" loading="lazy"><figcaption>3-sided notches</figcaption></figure>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/5.2.0/traversini.png" alt="drawer fillers" loading="lazy"><figcaption>drawer fillers</figcaption></figure>
+  </section>
   <section class="rel" id="v5-1-1" data-version="5.1.1">
     <h2>Cabinet Designer 5.1.1</h2>
     <div class="date">2026-09-28</div>
