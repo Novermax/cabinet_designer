@@ -16,6 +16,9 @@
  *   - telemetry_unlink (in-app, licence link turned off)
  *                                -> blanks the licence code on its rows
  *
+ * Plus owner notifications on Telegram (downloads of the installers, new
+ * installations and installed updates): see "Telegram notifications" below.
+ *
  * DEPLOY (do this logged in as cabinetdesigner.global@gmail.com):
  *   1. Create a Google Sheet, e.g. "Cabinet Designer — Backend".
  *   2. Extensions -> Apps Script. Paste this file. Save.
@@ -222,6 +225,11 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
   var sh = sheet_('Clients', CLIENTS_HEADER);
   var row = findRow_(sh, 1, id);
   if (row) {
+    var prevVersion = String(sh.getRange(row, 3).getValue() || '');
+    if (env.app_version && prevVersion && String(env.app_version) !== prevVersion) {
+      notifyTelegram_('🔄 Aggiornamento installato: ' + editionLabel_(edition) + ' ' +
+                      prevVersion + ' → ' + env.app_version + countryTag_(country));
+    }
     var prevLaunch = Number(sh.getRange(row, 8).getValue()) || 0;
     sh.getRange(row, 2, 1, 4).setValues([[country, env.app_version, env.os,
                                           env.language].map(cell_)]);
@@ -230,6 +238,8 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
   } else {
     sh.appendRow([id, country, env.app_version, env.os, env.language, now, now,
                   launch, consentVersion, edition, license].map(cell_));
+    notifyTelegram_('🆕 Nuova installazione: ' + editionLabel_(edition) + ' ' +
+                    (env.app_version || '') + countryTag_(country));
   }
 }
 
@@ -704,6 +714,122 @@ function counterSheet_() {
 function jsonOut_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/* ---------- Telegram notifications (owner only) ---------- */
+/**
+ * Messages to the owner's Telegram when someone downloads or installs
+ * Cabinet Designer. Two sources, neither of which touches the app:
+ *
+ *   - DOWNLOADS: checkDownloads() — a time trigger — reads the download
+ *     counters of the installers on GitHub Releases and reports every
+ *     increase. Anonymous by construction (GitHub gives a count, nothing
+ *     else). The in-app update downloads the same Full installer, so a Full
+ *     download is a new installation OR an update.
+ *   - INSTALLATIONS / UPDATES: upsertClient_ above — the first time an
+ *     installation id is seen, and when its version changes. Only for users
+ *     who consented to statistics: without consent the app sends nothing.
+ *
+ * The messages carry the minimum: edition, version, country. Never the
+ * installation id, the licence code or anything else from the payload.
+ * A failure to notify never fails the request that triggered it.
+ *
+ * SETUP (once):
+ *   1. Telegram -> @BotFather -> /newbot -> copy the token.
+ *   2. Send any message to your new bot.
+ *   3. Project Settings -> Script properties -> add TELEGRAM_TOKEN = <token>
+ *      (optional: GITHUB_TOKEN = a read-only token, avoids GitHub's limit of
+ *      60 anonymous calls per hour shared by Google's servers).
+ *   4. Run telegramSetup() from the editor: it stores your chat id, sends a
+ *      test message and installs the 15-minute download check.
+ *   5. Deploy -> Manage deployments -> edit the EXISTING one -> New version.
+ */
+var RELEASES_API = 'https://api.github.com/repos/Novermax/cabinet_designer/releases?per_page=30';
+
+function telegramSetup() {
+  var props = PropertiesService.getScriptProperties();
+  var token = props.getProperty('TELEGRAM_TOKEN');
+  if (!token) throw new Error('Aggiungi prima la proprietà TELEGRAM_TOKEN');
+  var res = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/getUpdates',
+                              { muteHttpExceptions: true });
+  var updates = (JSON.parse(res.getContentText()).result) || [];
+  var chat = '';
+  for (var i = updates.length - 1; i >= 0 && !chat; i--) {
+    var m = updates[i].message || updates[i].channel_post;
+    if (m && m.chat) chat = String(m.chat.id);
+  }
+  if (!chat) throw new Error('Nessun messaggio trovato: scrivi qualcosa al bot e riprova');
+  props.setProperty('TELEGRAM_CHAT_ID', chat);
+
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'checkDownloads') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('checkDownloads').timeBased().everyMinutes(15).create();
+  checkDownloads();  // first run: records the current counts, says nothing
+  notifyTelegram_('✅ Cabinet Designer: notifiche attive (download ogni 15 minuti, ' +
+                  'installazioni e aggiornamenti in tempo reale).');
+}
+
+/** Trigger: report every increase of an installer's download counter. The
+ *  first run (no stored counts) only records them. */
+function checkDownloads() {
+  var props = PropertiesService.getScriptProperties();
+  var headers = { 'Accept': 'application/vnd.github+json' };
+  var gh = props.getProperty('GITHUB_TOKEN');
+  if (gh) headers['Authorization'] = 'Bearer ' + gh;
+  var res = UrlFetchApp.fetch(RELEASES_API, { headers: headers, muteHttpExceptions: true });
+  if (res.getResponseCode() !== 200) return;  // try again at the next tick
+  var releases = JSON.parse(res.getContentText());
+
+  var stored = props.getProperty('DOWNLOAD_COUNTS');
+  var first = !stored;
+  var prev = first ? {} : JSON.parse(stored);
+  var now = {};
+  var lines = [];
+  releases.forEach(function (rel) {
+    (rel.assets || []).forEach(function (a) {
+      if (!/\.exe$/i.test(a.name)) return;
+      now[a.id] = a.download_count;
+      var delta = a.download_count - (prev[a.id] || 0);
+      if (!first && delta > 0) {
+        var what = /Demo/i.test(a.name) ? 'Demo'
+                 : /Full/i.test(a.name) ? 'Full (nuova installazione o aggiornamento)'
+                 : a.name;
+        lines.push('⬇️ Download ' + what + ' — ' + a.name + ': +' + delta +
+                   ' (totale ' + a.download_count + ')');
+      }
+    });
+  });
+  props.setProperty('DOWNLOAD_COUNTS', JSON.stringify(now));
+  if (lines.length) notifyTelegram_(lines.join('\n'));
+}
+
+function notifyTelegram_(text) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var token = props.getProperty('TELEGRAM_TOKEN');
+    var chat = props.getProperty('TELEGRAM_CHAT_ID');
+    if (!token || !chat) return;
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+      method: 'post',
+      payload: { chat_id: chat, text: text, disable_web_page_preview: 'true' },
+      muteHttpExceptions: true
+    });
+  } catch (err) {
+    // A missed notification must never cost the statistics or the reply.
+  }
+}
+
+function editionLabel_(edition) {
+  return edition === 'full' ? 'Full' : edition === 'demo' ? 'Demo' : 'versione non dichiarata';
+}
+
+/** " · IT 🇮🇹" from an ISO country code, "" when unknown. */
+function countryTag_(country) {
+  if (!/^[A-Z]{2}$/.test(String(country || ''))) return '';
+  var flag = String.fromCodePoint(0x1F1E6 + country.charCodeAt(0) - 65,
+                                  0x1F1E6 + country.charCodeAt(1) - 65);
+  return ' · ' + country + ' ' + flag;
 }
 
 /* ---------- helpers ---------- */
