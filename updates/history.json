@@ -1,5 +1,16 @@
 [
   {
+    "version": "5.2.1",
+    "date": "2026-10-12",
+    "notes": [
+      "Fixed: on some PCs the program closed right after the licence check. It happened when standard dowels had been deleted from the Hardware Library: the starting cabinet looked them up even though it did not use them. Now a dowel is looked up only when a piece that uses it is built (plinth caps, drawer boxes, fixed panels, corner-unit post).",
+      "New \"Missing dowel\" window: when a piece needs a dowel that was deleted from the Hardware Library, the change is no longer simply refused. The window offers to restore the standard item in the library, or to use another dowel the library still holds (optionally also as the default for new projects), and then applies the change again.",
+      "The plinth cap dowel and the corner-unit post dowel can now be chosen among all the dowels of the Hardware Library, not only the two standard ones.",
+      "Demo version: cut lists and dimensioned drawings are now available too, 5 of each, in addition to the 5 CNC generations. The limits are counted together across Cabinet Designer and the Composer (a finished + raw cut list counts as one), the remaining uses are shown after each export, and an unlock code resets all three counters.",
+      "Usage statistics (optional, only with your consent): they now say whether they come from the Full or the Demo version. In the Full version a new box, unticked by default, lets you link your statistics to your licence code so that support can see how you use the program; you find it when activating the licence and in Settings > Privacy, and unticking it deletes the licence code from the data on the server. The licence agreement has been updated (version 1.5) and will be shown again at the first start."
+    ]
+  },
+  {
     "version": "5.2.0",
     "date": "2026-10-11",
     "notes": [
