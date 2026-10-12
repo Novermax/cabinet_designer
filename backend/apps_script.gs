@@ -8,11 +8,13 @@
  *                                -> saves the uploaded file to Drive,
  *                                   logs it in "Activations", emails it to you
  *   - grant     (in-app demo cap) -> "DemoCounters" sheet, RSA-signed reply
- *   - telemetry (in-app, Full, consent-gated)
+ *   - telemetry (in-app, Full and Demo, consent-gated)
  *                                -> "Telemetry" sheet (one row per event) +
  *                                   "Clients" sheet (one row per installation)
  *   - telemetry_delete (in-app, consent withdrawn)
  *                                -> erases that installation's rows
+ *   - telemetry_unlink (in-app, licence link turned off)
+ *                                -> blanks the licence code on its rows
  *
  * DEPLOY (do this logged in as cabinetdesigner.global@gmail.com):
  *   1. Create a Google Sheet, e.g. "Cabinet Designer — Backend".
@@ -39,8 +41,13 @@ function doPost(e) {
     if (action === 'grant')     return handleGrant_(p);
     if (action === 'telemetry') return handleTelemetry_(p);
     if (action === 'telemetry_delete') return handleTelemetryDelete_(p);
+    if (action === 'telemetry_unlink') return handleTelemetryUnlink_(p);
     if (action === 'activate')  return handleActivate_(p);
     if (action === 'contact')   return handleContact_(p);
+    // request.html posts no action at all; any OTHER unknown action (e.g. a
+    // newer app calling a handler this deployment lacks) must not become a
+    // blank licence request + e-mail.
+    if (action !== 'request') return textOut_('ERROR: unknown action');
     return handleRequest_(p);
   } catch (err) {
     return textOut_('ERROR: ' + err);
@@ -116,13 +123,15 @@ function handleActivate_(p) {
   return textOut_('OK');
 }
 
-/* ---------- usage telemetry (Full, consent-gated) ---------- */
+/* ---------- usage telemetry (Full and Demo, consent-gated) ---------- */
 /**
  * The client (cabinet_services/telemetry_manager.py) POSTs, only with the
  * user's explicit consent:
  *   action=telemetry, product, payload=<JSON string>
  * where payload = { kind:"telemetry", installation_id, consent_version,
- * country, environment:{app_version, os, os_version, arch, python, language,
+ * edition ("full" | "demo"; absent before 5.3), license ("XXXXX-XXXXX" only
+ * when the user ticked the separate licence-link option, else ""), country,
+ * environment:{app_version, os, os_version, arch, python, language,
  * screen, ram_mb}, launch_count, events:[ {event, ts, feature, duration_s,
  * load_ms, error_type, context, count, rating}, ... ] }.
  *
@@ -130,7 +139,11 @@ function handleActivate_(p) {
  * consent (never the licence, never hardware); country is the ISO code of the
  * Windows region setting. No IP address, name or e-mail ever reaches here.
  * Clients older than consent version 2 send no id and no country: their rows
- * land in "Telemetry" only, unattributed.
+ * land in "Telemetry" only, unattributed. Clients that predate the edition
+ * field leave "Edition" empty: Full and Demo cannot be told apart there.
+ * "License" holds the short licence code (cabinet_license.model.license_code)
+ * ONLY for users who opted in; action=telemetry_unlink, installation_id=<id>
+ * blanks it on every row of that id when they opt out again.
  *
  *   "Telemetry" -> one row per event (environment repeated: pivot-able)
  *   "Clients"   -> ONE row per installation: first/last use, launch count
@@ -157,11 +170,11 @@ var TELEMETRY_HEADER = ['Timestamp', 'App version', 'OS', 'OS version', 'Arch',
                         'Python', 'Language', 'Screen', 'RAM (MB)', 'Launch count',
                         'Event', 'Feature', 'Duration (s)', 'Load (ms)', 'Error type',
                         'Context', 'Count', 'Event time', 'Installation ID',
-                        'Country', 'Rating'];
+                        'Country', 'Rating', 'Edition', 'License'];
 var TELEMETRY_ID_COL = 19;  // 'Installation ID' (1-based)
 var CLIENTS_HEADER = ['Installation ID', 'Country', 'App version', 'OS',
                       'Language', 'First seen', 'Last seen', 'Launch count',
-                      'Consent version'];
+                      'Consent version', 'Edition', 'License'];
 
 function handleTelemetry_(p) {
   var payload;
@@ -175,6 +188,8 @@ function handleTelemetry_(p) {
   var events  = payload.events || [];
   var id      = validId_(payload.installation_id);
   var country = /^[A-Z]{2}$/.test(String(payload.country || '')) ? payload.country : '';
+  var edition = (payload.edition === 'full' || payload.edition === 'demo') ? payload.edition : '';
+  var license = /^[0-9A-F]{5}-[0-9A-F]{5}$/.test(String(payload.license || '')) ? payload.license : '';
   var now     = new Date();
 
   if (!events.length) {
@@ -188,7 +203,8 @@ function handleTelemetry_(p) {
       now, env.app_version, env.os, env.os_version, env.arch, env.python,
       env.language, env.screen, env.ram_mb, launch,
       ev.event, ev.feature, ev.duration_s, ev.load_ms, ev.error_type,
-      ev.context, ev.count, eventTime_(ev.ts), id, country, ev.rating
+      ev.context, ev.count, eventTime_(ev.ts), id, country, ev.rating, edition,
+      license
     ].map(cell_));
   }
   var sh = sheet_('Telemetry', TELEMETRY_HEADER);
@@ -196,23 +212,24 @@ function handleTelemetry_(p) {
     .setValues(rows);
 
   if (id) {
-    upsertClient_(id, country, env, launch, Number(payload.consent_version) || '', now);
+    upsertClient_(id, country, env, launch, Number(payload.consent_version) || '', now,
+                  edition, license);
   }
   return textOut_('OK');
 }
 
-function upsertClient_(id, country, env, launch, consentVersion, now) {
+function upsertClient_(id, country, env, launch, consentVersion, now, edition, license) {
   var sh = sheet_('Clients', CLIENTS_HEADER);
   var row = findRow_(sh, 1, id);
   if (row) {
     var prevLaunch = Number(sh.getRange(row, 8).getValue()) || 0;
     sh.getRange(row, 2, 1, 4).setValues([[country, env.app_version, env.os,
                                           env.language].map(cell_)]);
-    sh.getRange(row, 7, 1, 3).setValues([[now, Math.max(prevLaunch, Number(launch) || 0),
-                                          consentVersion]]);
+    sh.getRange(row, 7, 1, 5).setValues([[now, Math.max(prevLaunch, Number(launch) || 0),
+                                          consentVersion, cell_(edition), cell_(license)]]);
   } else {
     sh.appendRow([id, country, env.app_version, env.os, env.language, now, now,
-                  launch, consentVersion].map(cell_));
+                  launch, consentVersion, edition, license].map(cell_));
   }
 }
 
@@ -234,6 +251,31 @@ function handleTelemetryDelete_(p) {
     for (var i = 0; i < rowsToDelete.length; i++) tele.deleteRow(rowsToDelete[i]);
   }
   return textOut_('OK');  // idempotent: an id with no rows is already erased
+}
+
+/** The user turned the licence link off: blank "License" on every row of
+ *  that installation (its other statistics stay, still pseudonymous). */
+function handleTelemetryUnlink_(p) {
+  var id = validId_(p.installation_id);
+  if (!id) return textOut_('ERROR: bad id');
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var clients = ss.getSheetByName('Clients');
+  if (clients) {
+    var row = findRow_(clients, 1, id);
+    if (row && clients.getLastColumn() >= CLIENTS_HEADER.length) {
+      clients.getRange(row, CLIENTS_HEADER.indexOf('License') + 1).setValue('');
+    }
+  }
+  var tele = ss.getSheetByName('Telemetry');
+  var col = TELEMETRY_HEADER.indexOf('License') + 1;
+  if (tele && tele.getLastRow() > 1 && tele.getLastColumn() >= col) {
+    var cells = tele.getRange(2, TELEMETRY_ID_COL, tele.getLastRow() - 1, 1)
+                    .createTextFinder(id).matchEntireCell(true).findAll();
+    for (var i = 0; i < cells.length; i++) {
+      tele.getRange(cells[i].getRow(), col).setValue('');
+    }
+  }
+  return textOut_('OK');  // idempotent
 }
 
 /** Daily job: drop rows older than RETENTION_MONTHS. Run by the trigger. */
