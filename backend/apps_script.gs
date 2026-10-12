@@ -765,20 +765,32 @@ function telegramSetup() {
     if (t.getHandlerFunction() === 'checkDownloads') ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('checkDownloads').timeBased().everyMinutes(15).create();
-  checkDownloads();  // first run: records the current counts, says nothing
+  // First run: records the current counts, says nothing. If GitHub refuses
+  // it, no baseline exists and the first download after it would become the
+  // baseline in silence — so say it now instead.
+  var counted = checkDownloads();
   notifyTelegram_('✅ Cabinet Designer: notifiche attive (download ogni 15 minuti, ' +
-                  'installazioni e aggiornamenti in tempo reale).');
+                  'installazioni e aggiornamenti in tempo reale).' +
+                  (counted ? '' : '\n⚠️ GitHub non ha risposto: aggiungi GITHUB_TOKEN ' +
+                                  'nelle proprietà dello script e riesegui telegramSetup.'));
 }
 
 /** Trigger: report every increase of an installer's download counter. The
- *  first run (no stored counts) only records them. */
+ *  first run (no stored counts) only records them. False when GitHub did not
+ *  answer (nothing recorded). */
 function checkDownloads() {
   var props = PropertiesService.getScriptProperties();
   var headers = { 'Accept': 'application/vnd.github+json' };
   var gh = props.getProperty('GITHUB_TOKEN');
   if (gh) headers['Authorization'] = 'Bearer ' + gh;
   var res = UrlFetchApp.fetch(RELEASES_API, { headers: headers, muteHttpExceptions: true });
-  if (res.getResponseCode() !== 200) return;  // try again at the next tick
+  if (res.getResponseCode() !== 200) {
+    // Try again at the next tick; the log says why (403/429 = GitHub's
+    // anonymous limit, shared by Google's servers: add GITHUB_TOKEN).
+    console.log('GitHub ha risposto ' + res.getResponseCode() + ': ' +
+                res.getContentText().slice(0, 300));
+    return false;
+  }
   var releases = JSON.parse(res.getContentText());
 
   var stored = props.getProperty('DOWNLOAD_COUNTS');
@@ -791,6 +803,8 @@ function checkDownloads() {
       if (!/\.exe$/i.test(a.name)) return;
       now[a.id] = a.download_count;
       var delta = a.download_count - (prev[a.id] || 0);
+      console.log(a.name + ': prima ' + (first ? '(primo giro)' : (prev[a.id] || 0)) +
+                  ', ora ' + a.download_count);
       if (!first && delta > 0) {
         var what = /Demo/i.test(a.name) ? 'Demo'
                  : /Full/i.test(a.name) ? 'Full (nuova installazione o aggiornamento)'
@@ -802,6 +816,7 @@ function checkDownloads() {
   });
   props.setProperty('DOWNLOAD_COUNTS', JSON.stringify(now));
   if (lines.length) notifyTelegram_(lines.join('\n'));
+  return true;
 }
 
 function notifyTelegram_(text) {
