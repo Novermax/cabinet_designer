@@ -46,6 +46,7 @@ function doPost(e) {
     if (action === 'telemetry_delete') return handleTelemetryDelete_(p);
     if (action === 'telemetry_unlink') return handleTelemetryUnlink_(p);
     if (action === 'activate')  return handleActivate_(p);
+    if (action === 'license_alert') return handleLicenseAlert_(p);
     if (action === 'contact')   return handleContact_(p);
     // request.html posts no action at all; any OTHER unknown action (e.g. a
     // newer app calling a handler this deployment lacks) must not become a
@@ -123,6 +124,54 @@ function handleActivate_(p) {
           field_('File', p.filename) + field_('Drive', fileUrl) + field_('Note', p.note),
     attachments: attachments
   });
+  // What the person typed into the activation form, for the owner who sells
+  // by hand: the e-mail and the order are theirs to give, nothing else is added.
+  notifyTelegram_('📩 Richiesta di attivazione: ' + String(p.email || '(nessuna e-mail)').slice(0, 120) +
+                  (p.order ? ' · ordine ' + String(p.order).slice(0, 80) : ''));
+  return textOut_('OK');
+}
+
+/* ---------- licence misuse alert (Full, licence enforcement) ---------- */
+/**
+ * The client (cabinet_license/alert.py) POSTs, without waiting for the
+ * statistics consent (licence enforcement, declared in the EULA, section 3):
+ *   action=license_alert, product, kind ("stored" = a licence folder copied
+ *   to another PC, seen at startup; "import" = someone else's unlock file
+ *   loaded in the activation window), license (short code "XXXXX-XXXXX"),
+ *   machine (12-hex one-way tag of the Machine ID), app_version, country.
+ * Only for a GENUINE licence (valid signature) on the wrong computer, once
+ * per licence + machine + kind. No name, e-mail, hostname or IP: the owner
+ * maps the licence code to the customer it was issued to.
+ *
+ *   "License alerts" -> one row per alert, purged with the statistics
+ *                       after RETENTION_MONTHS (purgeOldTelemetry)
+ */
+var LICENSE_ALERT_HEADER = ['Timestamp', 'Kind', 'License', 'Machine', 'App version', 'Country'];
+
+function handleLicenseAlert_(p) {
+  var kind    = (p.kind === 'stored' || p.kind === 'import') ? p.kind : '';
+  var license = /^[0-9A-F]{5}-[0-9A-F]{5}$/.test(String(p.license || '')) ? p.license : '';
+  var machine = /^[0-9a-f]{12}$/.test(String(p.machine || '')) ? p.machine : '';
+  var country = /^[A-Z]{2}$/.test(String(p.country || '')) ? p.country : '';
+  var version = /^[0-9][0-9A-Za-z.+-]{0,30}$/.test(String(p.app_version || '')) ? p.app_version : '';
+  if (!kind || !license || !machine) return textOut_('ERROR: bad alert');
+
+  var sh = sheet_('License alerts', LICENSE_ALERT_HEADER);
+  sh.appendRow([new Date(), kind, license, machine, version, country].map(cell_));
+
+  // How many different computers this licence has turned up on, this one included.
+  var machines = {};
+  if (sh.getLastRow() > 1) {
+    sh.getRange(2, 3, sh.getLastRow() - 1, 2).getValues().forEach(function (r) {
+      if (String(r[0]) === license) machines[String(r[1])] = true;
+    });
+  }
+  var count = Object.keys(machines).length;
+  notifyTelegram_('⚠️ Licenza ' + license + ' su un altro computer: ' +
+                  (kind === 'stored' ? 'cartella della licenza copiata'
+                                     : 'tentativo di caricare il suo file di sblocco') +
+                  ' · ' + count + (count === 1 ? ' computer estraneo' : ' computer estranei') +
+                  (version ? ' · ' + version : '') + countryTag_(country));
   return textOut_('OK');
 }
 
@@ -318,18 +367,19 @@ function purgeOldTelemetry() {
   cutoff.setMonth(cutoff.getMonth() - RETENTION_MONTHS);
   var ss = SpreadsheetApp.getActiveSpreadsheet();
 
-  var tele = ss.getSheetByName('Telemetry');
-  if (tele && tele.getLastRow() > 1) {
-    // Rows are appended in time order: delete the leading stale block.
-    var stamps = tele.getRange(2, 1, tele.getLastRow() - 1, 1).getValues();
+  // Rows are appended in time order: delete each sheet's leading stale block.
+  ['Telemetry', 'License alerts'].forEach(function (name) {
+    var sh = ss.getSheetByName(name);
+    if (!sh || sh.getLastRow() < 2) return;
+    var stamps = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues();
     var stale = 0;
     while (stale < stamps.length) {
       var t = asDate_(stamps[stale][0]);
       if (!t || t >= cutoff) break;
       stale++;
     }
-    if (stale) tele.deleteRows(2, stale);
-  }
+    if (stale) sh.deleteRows(2, stale);
+  });
 
   var clients = ss.getSheetByName('Clients');
   if (clients && clients.getLastRow() > 1) {
