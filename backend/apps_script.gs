@@ -177,7 +177,8 @@ var TELEMETRY_HEADER = ['Timestamp', 'App version', 'OS', 'OS version', 'Arch',
 var TELEMETRY_ID_COL = 19;  // 'Installation ID' (1-based)
 var CLIENTS_HEADER = ['Installation ID', 'Country', 'App version', 'OS',
                       'Language', 'First seen', 'Last seen', 'Launch count',
-                      'Consent version', 'Edition', 'License'];
+                      'Consent version', 'Edition', 'License', 'Highest version'];
+var CLIENTS_HIGHEST_COL = 12;  // 'Highest version' (1-based)
 
 function handleTelemetry_(p) {
   var payload;
@@ -225,11 +226,19 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
   var sh = sheet_('Clients', CLIENTS_HEADER);
   var row = findRow_(sh, 1, id);
   if (row) {
-    var prevVersion = String(sh.getRange(row, 3).getValue() || '');
-    if (env.app_version && prevVersion && String(env.app_version) !== prevVersion) {
+    // An update is a version above every one this installation has reported,
+    // not a change: one PC may run two versions on the same id (Full and
+    // Demo, an old copy beside the new one) and switching between them is
+    // not an update. Rows from before the column fall back to 'App version'.
+    var highest = String(sh.getRange(row, CLIENTS_HIGHEST_COL).getValue() || '') ||
+                  String(sh.getRange(row, 3).getValue() || '');
+    var version = String(env.app_version || '');
+    if (version && highest && compareVersions_(version, highest) > 0) {
       notifyTelegram_('🔄 Aggiornamento installato: ' + editionLabel_(edition) + ' ' +
-                      prevVersion + ' → ' + env.app_version + countryTag_(country));
+                      highest + ' → ' + version + countryTag_(country));
     }
+    if (version && (!highest || compareVersions_(version, highest) > 0)) highest = version;
+    sh.getRange(row, CLIENTS_HIGHEST_COL).setValue(cell_(highest));
     var prevLaunch = Number(sh.getRange(row, 8).getValue()) || 0;
     sh.getRange(row, 2, 1, 4).setValues([[country, env.app_version, env.os,
                                           env.language].map(cell_)]);
@@ -237,10 +246,25 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
                                           consentVersion, cell_(edition), cell_(license)]]);
   } else {
     sh.appendRow([id, country, env.app_version, env.os, env.language, now, now,
-                  launch, consentVersion, edition, license].map(cell_));
+                  launch, consentVersion, edition, license, env.app_version].map(cell_));
     notifyTelegram_('🆕 Nuova installazione: ' + editionLabel_(edition) + ' ' +
                     (env.app_version || '') + countryTag_(country));
   }
+}
+
+/** Numeric, per-field: -1, 0 or 1 ("5.10.0" > "5.9.2"; "5.3" == "5.3.0").
+ *  A leading v and any "-beta"/"+build" suffix are ignored. */
+function compareVersions_(a, b) {
+  var parse = function (v) {
+    return String(v).trim().replace(/^[vV]/, '').split(/[-+ ]/)[0].split('.')
+                    .map(function (x) { return parseInt(x, 10) || 0; });
+  };
+  var pa = parse(a), pb = parse(b);
+  for (var i = 0; i < Math.max(pa.length, pb.length); i++) {
+    var d = (pa[i] || 0) - (pb[i] || 0);
+    if (d) return d > 0 ? 1 : -1;
+  }
+  return 0;
 }
 
 function handleTelemetryDelete_(p) {
