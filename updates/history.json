@@ -1,5 +1,21 @@
 [
   {
+    "version": "5.3.1",
+    "date": "2026-10-17",
+    "notes": [
+      "Grain direction per element: when a piece's material has a grain (wood finish or a texture of its own), right-click the piece and choose \"Change grain direction\" to turn its grain by 90°; \"Default grain\" brings back the material's own direction. The texture of the piece turns with it and the choice is saved in the project.",
+      "New V key (View > Grain of the pointed element, also as a badge in the status bar): a double arrow on the piece under the mouse shows which way its grain runs. It is a view aid only: it never appears in renderings or in the project preview.",
+      "The grain now decides how a piece is oriented: in the cut list the Length is the size along the grain, even when it is the shorter side, and in the CNC programs the piece is loaded with the grain along X; the nesting list follows the programs. Pieces without grain keep the longest side along X, exactly as before.",
+      "Composer: modules and rooms saved with older versions now open and are updated automatically; a file saved by a newer version is refused with a message saying so, instead of an error.",
+      "Composer: every module now carries a copy of the hardware it uses. A dowel or hinge deleted or changed in the Hardware Library no longer stops a room from being drawn, the room's hardware list prints the articles as they were when the module was exported, and any difference from the library is reported when the room is opened and marked with * in the drawings.",
+      "Composer: right-click a module in the library to \"Extract project…\" (the editable Cabinet Designer project, with its preview and hardware) or \"Extract frozen module…\".",
+      "Projects now save a copy of their hardware too: when a project is opened and one of its articles is no longer in the Hardware Library, you are asked whether to restore it from the copy; an article that has changed is reported.",
+      "User manual: new sections on extracting modules from a room and on how changed or deleted hardware articles are handled across projects, modules, rooms and PCs.",
+      "Cut list: the pieces of a drawer box are now named for what they are (Drawer side, Drawer back, Drawer inner front, Drawer bottom) instead of all being called \"Drawer\".",
+      "Sink base unit: the low rear rail that replaces the back panel is now called Back panel in the element names, CNC file names and cut list."
+    ]
+  },
+  {
     "version": "5.2.1",
     "date": "2026-10-12",
     "notes": [
