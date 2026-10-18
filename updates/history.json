@@ -1,5 +1,17 @@
 [
   {
+    "version": "5.4.0",
+    "date": "2026-10-18",
+    "notes": [
+      "How a piece is loaded on the machine is now your choice. Technology configuration > Output format has two rows: \"Machine orientation — grained parts\" (grain, longest side or groove on X) and \"Machine orientation — parts without grain\" (longest side or groove on X). With \"Groove on X\", a piece with a back-panel groove or a drawer-bottom groove is loaded with the groove along X, so the drilling machine's blade can cut it; a piece without grooves follows the default of its row.",
+      "The same side along X is used in all three documents, in Cabinet Designer and in the Composer: it is the X axis of the CNC program, the Length in the cut list and the horizontal side of the technical drawings. No machining moves on the piece: only the way it is read changes.",
+      "Cut list: new Grain column (0 none, 1 along the Length, 2 along the Width, the same codes as the nesting list), because the Length is no longer always the grain direction.",
+      "Configuration profiles now carry their own library: choosing a profile in Technology configuration replaces the materials, edge bands, Hardware Library and textures in use with exactly the ones of that profile, and the library you leave is saved in the profile you leave.",
+      "New Export… and Import… buttons in the profile bar of Technology configuration: the technology configuration, the profiles and the library in one .zip file, to send to support or to move to another PC (licence and projects are not included). An imported file becomes a new profile, under a name that never clashes with one already in the list, and is put in use; the previous configuration and library stay in the profile that was active.",
+      "User manual: new sections on loading orientation, on profiles with their library and on exporting and importing the configuration; the path of the configuration folder is now shown correctly (CabinetDesigner)."
+    ]
+  },
+  {
     "version": "5.3.1",
     "date": "2026-10-17",
     "notes": [
