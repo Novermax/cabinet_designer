@@ -6,7 +6,7 @@ Most reliable channel for international customers: no mail client needed,
 works from any machine with internet. Pure standard library (no extra deps).
 
 Wire it to a Help -> Activate menu action. After a successful upload, tell the
-user the license will arrive by email once payment is verified.
+user the license will arrive by email once the request is verified.
 
 Set ENDPOINT to your deployed Apps Script Web app URL (…/exec).
 """
@@ -21,7 +21,7 @@ ENDPOINT = "https://script.google.com/macros/s/AKfycbwBr_eCBurBgWLB67oTVHHlJxTA_
 
 def send_activation(file_path: str, email: str, order: str, note: str = "", timeout: int = 30) -> bool:
     """
-    POST the activation file (base64) + customer email + Stripe order number.
+    POST the activation file (base64) + customer email + reference.
     Returns True on HTTP 200 with an "OK" body. Raises on network errors so the
     caller can show a friendly message.
     """
@@ -63,8 +63,8 @@ def send_activation(file_path: str, email: str, order: str, note: str = "", time
 #         self._path = activation_file_path  # the .req file the app just generated
 #         form = QFormLayout(self)
 #         self.email = QLineEdit(); self.order = QLineEdit()
-#         form.addRow("Email used at checkout:", self.email)
-#         form.addRow("Stripe receipt / order #:", self.order)
+#         form.addRow("Email:", self.email)
+#         form.addRow("Reference:", self.order)
 #         send = QPushButton("Send activation request")
 #         send.clicked.connect(self._send)
 #         form.addRow(send)
@@ -80,7 +80,7 @@ def send_activation(file_path: str, email: str, order: str, note: str = "", time
 #             return
 #         if ok:
 #             QMessageBox.information(self, "Activation",
-#                 "Sent! We'll email your license once payment is verified.")
+#                 "Sent! We'll email your license once it is verified.")
 #             self.accept()
 #         else:
 #             QMessageBox.warning(self, "Activation",

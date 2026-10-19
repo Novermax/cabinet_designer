@@ -53,7 +53,7 @@
       </a>
       <ul class="nav-links">
         <li><a href="index.html#features" class="nav-link">Features</a></li>
-        <li><a href="index.html#pricing" class="nav-link">Pricing</a></li>
+        <li><a href="index.html#editions" class="nav-link">Editions</a></li>
         <li><a href="index.html#contact" class="nav-link">Contact</a></li>
       </ul>
     </div>
@@ -66,7 +66,7 @@
       <div class="section-header" style="text-align:left; margin-bottom:32px;">
         <span class="section-label">License Activation</span>
         <h2 style="margin-bottom:12px;">Activate Your License</h2>
-        <p>Thank you for your purchase. Follow the three steps below to receive your license.</p>
+        <p>Follow the three steps below to receive your license.</p>
       </div>
 
       <div class="steps">
@@ -84,7 +84,7 @@
         <div class="step">
           <div class="step-num">3</div>
           <h4>Upload here</h4>
-          <p>Send us the file below. We'll email your license after payment is confirmed.</p>
+          <p>Send us the file below. We'll email your license once it is verified.</p>
         </div>
       </div>
 
@@ -99,14 +99,14 @@
         <input type="hidden" name="filedata" id="filedata">
 
         <div class="form-group">
-          <label for="email">Email used at checkout *</label>
+          <label for="email">Your email *</label>
           <input type="email" id="email" name="email" placeholder="you@example.com" required>
           <span class="form-error"></span>
         </div>
         <div class="form-group">
-          <label for="order">Payment reference *</label>
-          <input type="text" id="order" name="order" placeholder="Bank transfer reference, or the date and amount you paid" required>
-          <span class="form-hint">Anything that lets us match your payment: the transfer reference, or simply the date and amount.</span>
+          <label for="order">Reference *</label>
+          <input type="text" id="order" name="order" placeholder="The reference we sent you" required>
+          <span class="form-hint">Anything that lets us match your request.</span>
           <span class="form-error"></span>
         </div>
 
@@ -127,7 +127,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-paper-plane"></i> Send Activation File</button>
-        <p class="form-success" id="formSuccess"><i class="fas fa-check-circle"></i> File received! We'll verify your payment and email your license shortly.</p>
+        <p class="form-success" id="formSuccess"><i class="fas fa-check-circle"></i> File received! We'll verify it and email your license shortly.</p>
       </form>
 
       <p class="activate-note">
@@ -204,7 +204,7 @@
         if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
           showError('email', 'Enter a valid email.'); ok = false;
         }
-        if (!order.value.trim()) { showError('order', 'Payment reference required.'); ok = false; }
+        if (!order.value.trim()) { showError('order', 'Reference required.'); ok = false; }
         if (!chosenFile) { document.getElementById('fileError').textContent = 'Please choose your activation file.'; ok = false; }
         if (chosenFile && chosenFile.size > MAX_BYTES) {
           document.getElementById('fileError').textContent = 'File too large (max 5 MB).'; ok = false;
@@ -222,7 +222,7 @@
             alert('Upload endpoint not configured yet. Please email your activation file to cabinetdesigner.global@gmail.com — thank you.');
             location.href = 'mailto:cabinetdesigner.global@gmail.com?subject=' +
               encodeURIComponent('Activation file - ' + order.value.trim()) +
-              '&body=' + encodeURIComponent('Email: ' + email.value.trim() + '\nOrder: ' + order.value.trim() +
+              '&body=' + encodeURIComponent('Email: ' + email.value.trim() + '\nReference: ' + order.value.trim() +
               '\n(Please attach the activation file: ' + chosenFile.name + ')');
             return;
           }

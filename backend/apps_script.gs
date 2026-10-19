@@ -105,29 +105,29 @@ function handleActivate_(p) {
     var blob = Utilities.newBlob(bytes, 'application/octet-stream', p.filename);
     var folder = getFolder_(DRIVE_FOLDER);
     var stamped = new Date().toISOString().replace(/[:.]/g, '-') + ' — ' +
-                  (p.order || 'no-order') + ' — ' + p.filename;
+                  (p.order || 'no-ref') + ' — ' + p.filename;
     var file = folder.createFile(blob.setName(stamped));
     fileUrl = file.getUrl();
     attachments.push(blob);
   }
 
   appendRow_('Activations',
-    ['Timestamp', 'Email', 'Order / receipt', 'Filename', 'Drive link', 'Note'],
+    ['Timestamp', 'Email', 'Reference', 'Filename', 'Drive link', 'Note'],
     [new Date(), p.email, p.order, p.filename || '', fileUrl, p.note || '']);
 
   MailApp.sendEmail({
     to: NOTIFY_EMAIL,
-    subject: 'ACTIVATION request — order ' + (p.order || '') + ' — ' + (p.email || ''),
+    subject: 'ACTIVATION request — ref ' + (p.order || '') + ' — ' + (p.email || ''),
     replyTo: p.email || NOTIFY_EMAIL,
-    body: 'Verify this payment in Stripe, then send the license.\n\n' +
-          field_('Email', p.email) + field_('Order/receipt', p.order) +
+    body: 'Verify the request, then send the license.\n\n' +
+          field_('Email', p.email) + field_('Reference', p.order) +
           field_('File', p.filename) + field_('Drive', fileUrl) + field_('Note', p.note),
     attachments: attachments
   });
-  // What the person typed into the activation form, for the owner who sells
-  // by hand: the e-mail and the order are theirs to give, nothing else is added.
+  // What the person typed into the activation form, for the owner who handles
+  // it by hand: the e-mail and the reference are theirs to give, nothing else is added.
   notifyTelegram_('📩 Richiesta di attivazione: ' + String(p.email || '(nessuna e-mail)').slice(0, 120) +
-                  (p.order ? ' · ordine ' + String(p.order).slice(0, 80) : ''));
+                  (p.order ? ' · riferimento ' + String(p.order).slice(0, 80) : ''));
   return textOut_('OK');
 }
 
