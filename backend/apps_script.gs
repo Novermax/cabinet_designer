@@ -284,7 +284,7 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
     var version = String(env.app_version || '');
     if (version && highest && compareVersions_(version, highest) > 0) {
       notifyTelegram_('🔄 Aggiornamento installato: ' + editionLabel_(edition) + ' ' +
-                      highest + ' → ' + version + countryTag_(country));
+                      highest + ' → ' + version + countryTag_(country) + licenseTag_(license));
     }
     if (version && (!highest || compareVersions_(version, highest) > 0)) highest = version;
     sh.getRange(row, CLIENTS_HIGHEST_COL).setValue(cell_(highest));
@@ -297,7 +297,7 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
     sh.appendRow([id, country, env.app_version, env.os, env.language, now, now,
                   launch, consentVersion, edition, license, env.app_version].map(cell_));
     notifyTelegram_('🆕 Nuova installazione: ' + editionLabel_(edition) + ' ' +
-                    (env.app_version || '') + countryTag_(country));
+                    (env.app_version || '') + countryTag_(country) + licenseTag_(license));
   }
 }
 
@@ -804,8 +804,10 @@ function jsonOut_(obj) {
  *     installation id is seen, and when its version changes. Only for users
  *     who consented to statistics: without consent the app sends nothing.
  *
- * The messages carry the minimum: edition, version, country. Never the
- * installation id, the licence code or anything else from the payload.
+ * The messages carry the minimum: edition, version, country, plus the short
+ * licence code only when the user ticked "link my statistics to my licence"
+ * (the payload carries it only then). Never the installation id or anything
+ * else from the payload.
  * A failure to notify never fails the request that triggered it.
  *
  * SETUP (once):
@@ -907,6 +909,12 @@ function notifyTelegram_(text) {
   } catch (err) {
     // A missed notification must never cost the statistics or the reply.
   }
+}
+
+/** " · licenza XXXXX-XXXXX" for an installation that chose to link its
+ *  statistics to its licence, "" otherwise. */
+function licenseTag_(license) {
+  return /^[0-9A-F]{5}-[0-9A-F]{5}$/.test(String(license || '')) ? ' · licenza ' + license : '';
 }
 
 function editionLabel_(edition) {
