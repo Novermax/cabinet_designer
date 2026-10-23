@@ -1,5 +1,35 @@
 [
   {
+    "version": "5.5.3",
+    "date": "2026-10-23",
+    "notes": [
+      "New language: Arabic. The whole interface and the user manual are available in Arabic, and with Arabic selected both Cabinet Designer and the Composer are laid out from right to left (the 3D view is not mirrored). CNC file names stay in English, so that every machine can read them.",
+      "Dividers in contact: in \"Split with expression\" a quota of 0 now means 0 mm, so * / 0 / * places two dividers touching each other. A number below 1 is still a fraction of the compartment (0.25 = a quarter), as before; this is why 0.001 used to give a 0.6 mm compartment and an error.",
+      "On two dividers in contact the minifix cam of each divider is drilled on its free face, where it can be tightened. A divider touched by other dividers on both faces cannot take a minifix and is refused with the reason (dowels work). A 0 mm compartment cannot be split or hold shelves, drawers or a door of its own; a door covering it together with the compartments beside it is fine.",
+      "Sink base units with horizontal rails now accept vertical dividers. At the top a divider is fixed only to the rails it touches (the front one and the upper rear one), with the joint's usual distribution over each rail; at the bottom nothing changes. The divider stops in front of the low rear rail instead of running into it. With vertical rails a divider reaching the top is refused with the reason, instead of the old \"No panel found\" error.",
+      "Back panel: new fourth mounting, \"Rear rail\". The cabinet has no back panel: the rear is closed by a low rail on edge, as high as the \"Rail size\", fixed to the sides with the hardware of the Joinery section, and vertical dividers stop in front of it. It is available on the standard cabinet, with or without a top.",
+      "The back panel no longer depends on the top: a sink base unit now accepts every mounting. With horizontal rails a full back sits under the upper rear rail (grooved, it is housed in it; with fittings, it is fixed to it) and the low rear rail goes; with vertical rails the full back replaces the rear rail and runs up to the top of the sides. \"Rear rail\" keeps the two rear rails of before.",
+      "Sink base units saved with earlier versions open with the \"Rear rail\" mounting, exactly as they were."
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.5.3/01_rear_rail_back.png",
+        "caption": "Rear rail back.png"
+      },
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.5.3/02_sink_vertical_dividers.png",
+        "caption": "Sink vertical dividers"
+      },
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/5.5.3/03_dividers_in_contact.png",
+        "caption": "Dividers in contact.png"
+      }
+    ]
+  },
+  {
     "version": "5.4.0",
     "date": "2026-10-18",
     "notes": [
