@@ -1095,6 +1095,22 @@ img { max-width: 100%; display: block; }
   transform: scale(1.1);
 }
 
+/* A language whose channel is not open yet: the same card on a row of its
+   own, not a link, so it does not lift on hover. */
+.channel-card.channel-soon {
+  grid-column: 1 / -1;
+  border-style: dashed;
+}
+.channel-card.channel-soon:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(139,94,60,0.12);
+}
+.channel-card.channel-soon:hover .channel-icon {
+  background: rgba(255,0,0,0.1);
+  transform: none;
+}
+
 .channel-lang {
   display: inline-block;
   font-size: 0.75rem;
