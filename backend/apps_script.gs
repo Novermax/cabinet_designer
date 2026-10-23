@@ -167,7 +167,7 @@ function handleLicenseAlert_(p) {
     });
   }
   var count = Object.keys(machines).length;
-  notifyTelegram_('⚠️ Licenza ' + license + ' su un altro computer: ' +
+  notifyTelegram_('⚠️ Licenza ' + license + holderSuffix_(license) + ' su un altro computer: ' +
                   (kind === 'stored' ? 'cartella della licenza copiata'
                                      : 'tentativo di caricare il suo file di sblocco') +
                   ' · ' + count + (count === 1 ? ' computer estraneo' : ' computer estranei') +
@@ -805,9 +805,10 @@ function jsonOut_(obj) {
  *     who consented to statistics: without consent the app sends nothing.
  *
  * The messages carry the minimum: edition, version, country, plus the short
- * licence code only when the user ticked "link my statistics to my licence"
- * (the payload carries it only then). Never the installation id or anything
- * else from the payload.
+ * licence code — and its holder from the "Licenses" register — only when the
+ * user ticked "link my statistics to my licence" (the payload carries the
+ * code only then). Never the installation id or anything else from the
+ * payload.
  * A failure to notify never fails the request that triggered it.
  *
  * SETUP (once):
@@ -911,10 +912,38 @@ function notifyTelegram_(text) {
   }
 }
 
-/** " · licenza XXXXX-XXXXX" for an installation that chose to link its
- *  statistics to its licence, "" otherwise. */
+/** " · licenza XXXXX-XXXXX (Holder)" for an installation that chose to link
+ *  its statistics to its licence, "" otherwise. */
 function licenseTag_(license) {
-  return /^[0-9A-F]{5}-[0-9A-F]{5}$/.test(String(license || '')) ? ' · licenza ' + license : '';
+  return /^[0-9A-F]{5}-[0-9A-F]{5}$/.test(String(license || ''))
+      ? ' · licenza ' + license + holderSuffix_(license) : '';
+}
+
+/**
+ * Who holds a licence, from the owner's register of issued licences: the
+ * private sheet "Licenses" (A = code "XXXXX-XXXXX", B = holder), filled by
+ * hand from the licences the owner generates. Never stored in this file,
+ * which is public. The register names whom the owner sold to; nothing here
+ * is inferred from the statistics.
+ */
+var LICENSES_SHEET = 'Licenses';
+
+/** " (Holder)" when the register knows the code, "" otherwise. */
+function holderSuffix_(license) {
+  try {
+    var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LICENSES_SHEET);
+    if (!sh || sh.getLastRow() < 2) return '';
+    var rows = sh.getRange(2, 1, sh.getLastRow() - 1, 2).getValues();
+    for (var i = 0; i < rows.length; i++) {
+      if (String(rows[i][0]).trim().toUpperCase() === license) {
+        var holder = String(rows[i][1] || '').trim();
+        return holder ? ' (' + holder + ')' : '';
+      }
+    }
+  } catch (err) {
+    // A missing name must never cost the notification.
+  }
+  return '';
 }
 
 function editionLabel_(edition) {
