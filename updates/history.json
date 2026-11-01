@@ -1,5 +1,13 @@
 [
   {
+    "version": "6.0.1",
+    "date": "2026-11-01",
+    "notes": [
+      "AI assistant: the assistant no longer mixes up the top and the bottom drawer. Every piece it reads now carries its position (height from the bottom of the cabinet and distance from the left), and drawers and shelves say where they sit counted from the top, as you say it: \"top drawer\", \"drawer 2 of 4 from the top\", \"bottom drawer\". The number in a piece's name follows the building order, from the bottom, and is no longer taken for its position. The same holds for the drawers of a module in the Composer.",
+      "Claude Desktop: Cabinet Designer could end up connected twice, once as an extension and once in the configuration file, and Claude Desktop then used neither. AI assistant settings now shows \"connected (extension)\" when the extension is installed and never adds the duplicate; if both are already there it shows \"connected twice\", and the \"Remove the duplicate\" button keeps the extension and removes the entries from the file."
+    ]
+  },
+  {
     "version": "6.0.0",
     "date": "2026-11-01",
     "notes": [
