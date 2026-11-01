@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cabinet Designer 5.5.4 — Note di rilascio</title>
+  <title>Cabinet Designer 6.0.0 — Note di rilascio</title>
   <style>
     body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
            max-width: 760px; margin: 0 auto; padding: 24px; color: #222;
@@ -24,6 +24,18 @@
 <body>
   <h1>Cabinet Designer</h1>
 
+  <section class="rel" id="v6-0-0" data-version="6.0.0">
+    <h2>Cabinet Designer 6.0.0</h2>
+    <div class="date">2026-11-01</div>
+  <p class="note">New: AI assistant. Cabinet Designer and the Composer can now be driven by an AI assistant (Claude Desktop, the ChatGPT desktop app, Claude Code, VS Code, Cursor, or a local model in LM Studio): you ask in plain words, and the assistant changes the cabinet in the program that is open on your screen. It is off by default: switch it on in the new "AI assistant" menu, then use "AI assistant settings…" to connect an assistant installed on this PC with one click, or to create the plugin for Claude Desktop or ChatGPT (saved in Documents\CabinetDesigner\Plugins).</p>
+  <p class="note">The assistant works the way you do: it reads and changes the sidebar parameters, the right-click menus of compartments and pieces, the menu bar and the windows it opens (Technology configuration, Hardware Library, material and edge-band catalogues), with the same checks, the same refusals and Undo. It can also turn the 3D view and take pictures of it, and in the Composer it can arrange the room and start a rendering. The CNC safety confirmations always stay yours: the assistant cannot see or answer them, and a question such as deleting an article is answered only if you agreed.</p>
+  <p class="note">New View &gt; Perspective projection (P key, also as a badge in the status bar), in Cabinet Designer and in the Composer.</p>
+  <p class="note">Handles: new "To all" button beside Handle type. It applies the cabinet's handle to every door and drawer front, also to the pieces that had a handle of their own; a confirmation says how many pieces change. Pieces set to no handle stay without one, and sliding doors keep their own handle when the new one would stick out.</p>
+  <p class="note">Prices and supplier links: every Hardware Library article (unit price), every material in the material catalogue (price per m²) and every edge band in the edge-band catalogue (price per metre) now has a supplier link, with an Open button that opens it in the browser, and a price in euro, VAT excluded. An empty price means "not entered", never zero.</p>
+  <p class="note">New File &gt; Export quote… in Cabinet Designer and in the Composer: an Excel file in the project folder with the panels (m² per material, from the cut list), the edge bands (metres per band, measured edge by edge) and the hardware (pieces from the hardware list), at the prices of your library today, plus a labour line where you enter your hours and hourly rate. The waste is set in Technology configuration &gt; Quote (20% to start) and is added to panels and edge bands, never to hardware. The file has real formulas: change a price or the waste in Excel and the totals follow. Rows without a price are listed and left out of the total, never counted as zero.</p>
+  <p class="note">When the AI assistant changes a price, the program asks you to confirm it in a window of its own, with the old and the new price and No as the default; the assistant cannot answer it for you. A price you type yourself is saved without questions.</p>
+
+  </section>
   <section class="rel" id="v5-5-4" data-version="5.5.4">
     <h2>Cabinet Designer 5.5.4</h2>
     <div class="date">2026-10-29</div>
