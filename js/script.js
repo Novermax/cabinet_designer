@@ -541,4 +541,123 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (e.key === 'ArrowRight') showAt(currentIndex + 1);
     });
   }
+  /* ===== AI ASSISTANT — scripted conversation (new in 6.0) ===== */
+  (function aiDemo() {
+    const body = document.getElementById('aiChatBody');
+    const demo = document.getElementById('aiDemo');
+    if (!body || !demo) return;
+    const steps = Array.from(document.querySelectorAll('#aiSteps li'));
+    const confirmBox = document.getElementById('aiConfirm');
+    const replay = document.getElementById('aiReplay');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Adapted from a real session with the free ChatGPT desktop app.
+    const script = [
+      { who: 'user', html: 'Open the doors, I want to see the hinges.' },
+      { who: 'work', label: 'Working with Cabinet Designer', ms: 1400, step: 1 },
+      { who: 'bot', html: '<p>Done: I turned on <b>Open doors</b>. The doors now open like a book, with the outer hinges on the left side and the middle ones between the doors.</p><p>Saved as <code>montreal_unit.cabinet</code>.</p>' },
+      { who: 'user', html: 'Find me an alternative for the middle hinges and put it in the project, after adding it to the library. Look for the most convenient prices.' },
+      { who: 'work', label: 'Searching the web and comparing hinges', ms: 2600, step: 2, done: 'Worked for 5m 4s' },
+      { who: 'step', step: 3 },
+      { who: 'confirm', step: 4 },
+      { who: 'step', step: 5 },
+      { who: 'bot', html: '<p>I added the <b>Hettich 46787</b> to your Hardware Library and fitted it between the doors. Cabinet Designer now counts <b>2 Hettich middle hinges</b> and 2 standard side hinges.</p><p>Why this one: it is made for bi-fold doors, opens up to 180° and takes panels from 15&nbsp;mm &mdash; your doors are 18&nbsp;mm.</p><p>Best price found: <b>€10.00 each</b> (about €20 for the pair), against €20.20 each for the Praemeta 875 you had. Estimated saving <b>€20.40</b> before shipping. Supplier link and price are on the article.</p>' },
+      { who: 'user', html: 'Great. Now make me the quote.' },
+      { who: 'work', label: 'Exporting the quote', ms: 1500, step: 6 },
+      { who: 'bot', html: '<p>Quote written: <code>montreal_unit_Quote.xlsx</code> &mdash; panels in m² with 20% waste, edge bands in metres, hardware in pieces, at your library prices &mdash; plus a labour line where you enter your hours.</p><p>One row has no price yet: the white melamine. Tell me its price and I will add it &mdash; you will be asked to confirm.</p>' }
+    ];
+
+    let timers = [];
+    let started = false;
+    const later = (fn, ms) => { timers.push(setTimeout(fn, ms)); };
+
+    function reset() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      body.innerHTML = '';
+      steps.forEach(li => li.classList.remove('active', 'done'));
+      if (confirmBox) confirmBox.classList.remove('show', 'clicked');
+    }
+
+    function scroll() { body.scrollTop = body.scrollHeight; }
+
+    function add(cls, html) {
+      const el = document.createElement('div');
+      el.className = cls;
+      el.innerHTML = html;
+      body.appendChild(el);
+      scroll();
+      return el;
+    }
+
+    function light(n) {
+      steps.forEach(li => {
+        const s = Number(li.dataset.step);
+        if (s < n) { li.classList.remove('active'); li.classList.add('done'); }
+        else if (s === n) { li.classList.add('active'); }
+      });
+    }
+
+    function finishAll() {
+      steps.forEach(li => { li.classList.remove('active'); li.classList.add('done'); });
+    }
+
+    function play() {
+      reset();
+      if (reduced) {
+        script.forEach(m => {
+          if (m.who === 'user') add('ai-msg ai-msg-user', m.html);
+          if (m.who === 'bot') add('ai-msg ai-msg-bot', m.html);
+        });
+        finishAll();
+        return;
+      }
+      let t = 300;
+      script.forEach(m => {
+        if (m.who === 'user') {
+          later(() => add('ai-msg ai-msg-user', m.html), t);
+          t += 1200;
+        } else if (m.who === 'work') {
+          let el;
+          later(() => {
+            el = add('ai-msg-meta', '<i class="fas fa-gear fa-spin"></i> ' + m.label +
+                     ' <span class="ai-typing"><span></span><span></span><span></span></span>');
+            light(m.step);
+          }, t);
+          t += m.ms;
+          later(() => {
+            if (el) el.innerHTML = '<i class="fas fa-check"></i> ' + (m.done || 'Done');
+          }, t);
+          t += 400;
+        } else if (m.who === 'step') {
+          later(() => light(m.step), t);
+          t += 1300;
+        } else if (m.who === 'confirm') {
+          later(() => { light(m.step); confirmBox && confirmBox.classList.add('show'); }, t);
+          t += 1900;
+          later(() => confirmBox && confirmBox.classList.add('clicked'), t);
+          t += 700;
+          later(() => confirmBox && confirmBox.classList.remove('show', 'clicked'), t);
+          t += 500;
+        } else if (m.who === 'bot') {
+          later(() => add('ai-msg ai-msg-bot', m.html), t);
+          t += 2600;
+        }
+      });
+      later(finishAll, t);
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries, obs) => {
+        if (entries.some(e => e.isIntersecting) && !started) {
+          started = true;
+          play();
+          obs.disconnect();
+        }
+      }, { threshold: 0.35 }).observe(demo);
+    } else {
+      play();
+    }
+    if (replay) replay.addEventListener('click', () => { started = true; play(); });
+  })();
 });

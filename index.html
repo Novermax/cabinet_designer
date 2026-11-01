@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cabinet Designer — professional parametric cabinet design software. 2D/3D design, photorealistic rendering, corner &amp; slanted typologies, cut lists and native SCM Maestro CNC export.">
+  <meta name="description" content="Cabinet Designer — professional parametric cabinet design software, now with an AI assistant (MCP) and quotes. 2D/3D design, photorealistic rendering, corner &amp; slanted typologies, cut lists and native SCM Maestro CNC export.">
   <meta name="keywords" content="cabinet design software, parametric furniture, CNC export, SCM Maestro, cut list, cabinet maker, woodworking software, photorealistic rendering">
   <meta name="author" content="Cabinet Designer">
   <title>Cabinet Designer — Professional Cabinet Design Software</title>
@@ -75,6 +75,22 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "Which AI can I use with Cabinet Designer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Any AI app that speaks MCP and runs on the same PC. We tested it with the free ChatGPT desktop app (no subscription; download it separately from OpenAI); it also works with Claude Desktop, Claude Code, VS Code, Cursor and LM Studio for fully local models. In Cabinet Designer open the AI assistant menu, tick Enable the AI assistant, then use AI assistant settings to connect your app in one click or create its plugin."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the AI change my project or prices without asking?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It works through the normal interface, so every change shows on screen and can be undone. CNC safety confirmations are always yours, and when the AI changes a price the program asks you to confirm it, with No as the default. The assistant is off until you switch it on, and only the AI app you connect can reach it."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "What can I do with the free trial?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -135,6 +151,7 @@
         <i class="fas fa-bars"></i>
       </button>
       <ul class="nav-links" id="navLinks">
+        <li><a href="#ai-assistant" class="nav-link">AI Assistant<span class="nav-new">NEW</span></a></li>
         <li><a href="#features" class="nav-link">Features</a></li>
         <li><a href="#gallery" class="nav-link">Gallery</a></li>
         <li><a href="#whats-new" class="nav-link">What's New</a></li>
@@ -157,6 +174,7 @@
       <span class="orb orb-3"></span>
     </div>
     <div class="container hero-content">
+      <a href="#ai-assistant" class="hero-ai-pill"><span class="pill-tag">NEW 6.0</span> Talk to your cabinets: Cabinet Designer now works with your AI <i class="fas fa-arrow-right"></i></a><br>
       <span class="hero-eyebrow"><i class="fas fa-bolt"></i> From concept to CNC — one workflow</span>
       <h1 class="hero-title">Design Custom Cabinets<br><span class="hero-accent">in Minutes</span></h1>
       <p class="hero-subtitle">
@@ -213,6 +231,118 @@
       <div class="stat-item fade-section">
         <span class="stat-number" data-count="100" data-suffix="%">0</span>
         <span class="stat-label">Native Maestro export</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AI ASSISTANT (new in 6.0) ===== -->
+  <section class="section ai-assistant" id="ai-assistant">
+    <div class="ai-bg" aria-hidden="true"><span class="ai-glow ai-glow-1"></span><span class="ai-glow ai-glow-2"></span></div>
+    <div class="container">
+      <div class="section-header fade-section">
+        <span class="section-label"><i class="fas fa-wand-magic-sparkles"></i> New in 6.0 &middot; AI Assistant</span>
+        <h2>Design Your Cabinets<br><span class="ai-accent">by Talking to Your AI</span></h2>
+        <p>Cabinet Designer 6 plugs into the AI app you already have on your PC &mdash; ChatGPT, Claude or a fully local model &mdash; as an <strong>MCP server</strong>. Ask in plain words: it builds the cabinet, scouts the hardware, prices it and writes the quote, right in the program open on your screen.</p>
+      </div>
+
+      <!-- Live demo: chat + what happens in Cabinet Designer -->
+      <div class="ai-demo fade-section" id="aiDemo">
+        <div class="ai-chat">
+          <div class="ai-chat-bar">
+            <span class="ai-chat-title"><i class="fas fa-robot"></i> Your AI assistant</span>
+            <span class="ai-chat-tag">free ChatGPT desktop app</span>
+          </div>
+          <div class="ai-chat-body" id="aiChatBody" aria-live="polite"></div>
+          <div class="ai-chat-input" aria-hidden="true">
+            <span class="ai-chat-placeholder">Ask anything about your cabinet&hellip;</span>
+            <i class="fas fa-microphone"></i><i class="fas fa-arrow-up ai-send"></i>
+          </div>
+        </div>
+
+        <div class="ai-app">
+          <div class="ai-app-bar">
+            <span><i class="fas fa-cube"></i> Cabinet Designer 6</span>
+            <span class="ai-live"><span class="ai-live-dot"></span> AI assistant on</span>
+          </div>
+          <ol class="ai-steps" id="aiSteps">
+            <li data-step="1"><i class="fas fa-door-open"></i><div><strong>Open doors</strong><span>Bi-fold doors shown open, hinges in view</span></div></li>
+            <li data-step="2"><i class="fas fa-magnifying-glass-dollar"></i><div><strong>Hardware scouting</strong><span>Alternatives compared on fit and price</span></div></li>
+            <li data-step="3"><i class="fas fa-book-open"></i><div><strong>Hardware Library</strong><span>New hinge added with supplier link and price</span></div></li>
+            <li data-step="4" class="ai-step-human"><i class="fas fa-user-shield"></i><div><strong>Confirm price &mdash; you decide</strong><span>Old &rarr; new price, No by default</span></div></li>
+            <li data-step="5"><i class="fas fa-screwdriver-wrench"></i><div><strong>Middle hinges replaced</strong><span>Bores and hardware list updated</span></div></li>
+            <li data-step="6"><i class="fas fa-file-excel"></i><div><strong>Quote exported</strong><span>Excel with real formulas, waste included</span></div></li>
+          </ol>
+          <div class="ai-confirm" id="aiConfirm" aria-hidden="true">
+            <div class="ai-confirm-title"><i class="fas fa-triangle-exclamation"></i> Confirm price</div>
+            <p>The AI assistant wants to change these prices:<br><b>&bull; Hettich 46787: no price &rarr; 10,00 &euro;</b></p>
+            <div class="ai-confirm-btns"><span class="ai-btn-yes">Yes</span><span class="ai-btn-no">No</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="ai-disclaimer fade-section"><i class="fas fa-circle-info"></i> Example adapted from a real session with the free ChatGPT desktop app (no subscription). Prices are examples; web search and price finding depend on what your AI app can do.</p>
+      <div class="ai-replay-wrap"><button class="btn btn-outline ai-replay" id="aiReplay" type="button"><i class="fas fa-rotate-right"></i> Replay the conversation</button></div>
+
+      <!-- How it connects -->
+      <div class="ai-flow fade-section">
+        <h3 class="ai-sub">How it connects</h3>
+        <svg class="ai-flow-svg" viewBox="0 0 1000 250" role="img" aria-label="You talk to your AI app, which drives Cabinet Designer on your PC through MCP; Cabinet Designer produces the cabinet, the hardware library entries, the quote and the CNC programs.">
+          <defs>
+            <linearGradient id="aiNode" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2f27"/><stop offset="1" stop-color="#2a221d"/></linearGradient>
+          </defs>
+          <path class="ai-wire" d="M190 110 H300"/>
+          <path class="ai-wire" d="M470 110 H560"/>
+          <path class="ai-wire" d="M730 110 C780 110 780 40 830 40"/>
+          <path class="ai-wire" d="M730 110 C780 110 780 95 830 95"/>
+          <path class="ai-wire" d="M730 110 C780 110 780 150 830 150"/>
+          <path class="ai-wire" d="M730 110 C780 110 780 205 830 205"/>
+          <g class="ai-node"><rect x="30" y="60" width="160" height="100" rx="16"/><text x="110" y="100" class="ai-n-icon">&#128172;</text><text x="110" y="128">You</text><text x="110" y="146" class="ai-n-small">type or speak</text></g>
+          <g class="ai-node"><rect x="300" y="50" width="170" height="120" rx="16"/><text x="385" y="95" class="ai-n-icon">&#129302;</text><text x="385" y="124">Your AI app</text><text x="385" y="142" class="ai-n-small">ChatGPT &middot; Claude</text><text x="385" y="157" class="ai-n-small">LM Studio (local)</text></g>
+          <g class="ai-node ai-node-hot"><rect x="560" y="50" width="170" height="120" rx="16"/><text x="645" y="95" class="ai-n-icon">&#128230;</text><text x="645" y="124">Cabinet Designer 6</text><text x="645" y="142" class="ai-n-small">MCP server</text><text x="645" y="157" class="ai-n-small">on your PC</text></g>
+          <text x="385" y="30" class="ai-n-small ai-n-label">MCP &middot; local link, no open ports</text>
+          <g class="ai-out"><rect x="830" y="20" width="150" height="40" rx="10"/><text x="905" y="45">3D cabinet</text></g>
+          <g class="ai-out"><rect x="830" y="75" width="150" height="40" rx="10"/><text x="905" y="100">Hardware Library</text></g>
+          <g class="ai-out"><rect x="830" y="130" width="150" height="40" rx="10"/><text x="905" y="155">Quote (Excel)</text></g>
+          <g class="ai-out ai-out-safe"><rect x="830" y="185" width="150" height="40" rx="10"/><text x="905" y="210">CNC &middot; you confirm</text></g>
+        </svg>
+      </div>
+
+      <!-- Three things it does -->
+      <div class="ai-uses">
+        <div class="ai-use fade-section">
+          <div class="ai-use-icon"><i class="fas fa-couch"></i></div>
+          <h3>Design by conversation</h3>
+          <p class="ai-quote">&ldquo;Make it 900 wide, add two drawers and open the doors.&rdquo;</p>
+          <p>The assistant uses the same sidebar, right-click menus and windows you do &mdash; same checks, same refusals, and every change can be undone with Ctrl+Z. It can also turn the 3D view and show you a picture.</p>
+        </div>
+        <div class="ai-use fade-section">
+          <div class="ai-use-icon"><i class="fas fa-magnifying-glass-dollar"></i></div>
+          <h3>Hardware scouting</h3>
+          <p class="ai-quote">&ldquo;Find a cheaper hinge for these doors and put it in the project.&rdquo;</p>
+          <p>With an AI app that can browse, it compares hinges, slides and handles on fit and price, adds the article to your Hardware Library with its supplier link and price, and fits it in the cabinet.</p>
+        </div>
+        <div class="ai-use fade-section">
+          <div class="ai-use-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+          <h3>Quotes in Excel</h3>
+          <p class="ai-quote">&ldquo;Make me the quote for this kitchen.&rdquo;</p>
+          <p>Panels in m&sup2; per material, edge bands in metres, hardware in pieces &mdash; at your library prices, waste included. Add your labour time in its own line. A real Excel file with formulas: change a price and the totals follow. Rows without a price are listed, never counted as zero.</p>
+        </div>
+      </div>
+
+      <!-- What you need -->
+      <div class="ai-setup fade-section">
+        <h3 class="ai-sub">Everything you need for an AI-based workflow</h3>
+        <ol class="ai-setup-steps">
+          <li><span class="ai-num">1</span><div><strong>Cabinet Designer 6</strong><p>Free Trial or Professional, on Windows 10/11. The AI assistant is in both.</p></div></li>
+          <li><span class="ai-num">2</span><div><strong>An AI app on the same PC</strong><p>We tested it with the <strong>free ChatGPT desktop app</strong> &mdash; no subscription, downloaded separately from OpenAI. It also works with Claude Desktop, Claude Code, VS Code, Cursor and LM Studio for fully local models.</p></div></li>
+          <li><span class="ai-num">3</span><div><strong>Switch it on</strong><p>In Cabinet Designer open the <em>AI assistant</em> menu and tick <em>Enable the AI assistant</em>. It is off until you do.</p></div></li>
+          <li><span class="ai-num">4</span><div><strong>Connect in one click</strong><p><em>AI assistant settings&hellip;</em> &rarr; <em>Connect</em> next to your AI app, or <em>Create plugin</em> for ChatGPT or Claude Desktop. Restart the AI app and install the plugin.</p></div></li>
+          <li><span class="ai-num">5</span><div><strong>Keep Cabinet Designer open and ask</strong><p>Your project, your library and the Composer room are all reachable. Watch every change happen on screen.</p></div></li>
+        </ol>
+        <div class="ai-safe">
+          <div><i class="fas fa-user-shield"></i><span><strong>You stay in charge.</strong> CNC safety confirmations are always yours, and a price the AI changes waits for your Yes.</span></div>
+          <div><i class="fas fa-lock"></i><span><strong>On your PC.</strong> Off until you switch it on; only the AI app you connect can reach it &mdash; no ports opened on the internet.</span></div>
+          <div><i class="fas fa-rotate-left"></i><span><strong>Nothing hidden.</strong> Every change goes through the normal interface and can be undone.</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -411,9 +541,21 @@
       <div class="section-header fade-section">
         <span class="section-label">What's New</span>
         <h2>The Latest Release,<br>Packed with New Tools</h2>
-        <p>Recent additions that make designing, visualising and machining faster than ever.</p>
+        <p>Version 6.0 brings artificial intelligence into the workshop &mdash; and puts a price on every panel, edge and hinge.</p>
       </div>
       <div class="new-grid">
+        <a href="#ai-assistant" class="new-card new-card-hero new-card-ai fade-section">
+          <span class="new-badge">New in 6.0</span>
+          <i class="fas fa-wand-magic-sparkles new-icon"></i>
+          <h3>AI Assistant</h3>
+          <p>Connect the AI app you already use &mdash; even the free ChatGPT desktop app &mdash; and design by conversation: it builds the cabinet, scouts the hardware and writes the quote in the program open on your screen.</p>
+        </a>
+        <div class="new-card new-card-hero fade-section">
+          <span class="new-badge">New in 6.0</span>
+          <i class="fas fa-file-invoice-dollar new-icon"></i>
+          <h3>Hardware Prices &amp; Quotes</h3>
+          <p>Supplier link and price on every hardware article, material (per m²) and edge band (per metre). File &gt; Export quote writes an Excel file with real formulas: panels, edges, hardware, waste and a labour line you fill in.</p>
+        </div>
         <div class="new-card new-card-hero fade-section">
           <span class="new-badge">New</span>
           <i class="fas fa-drafting-compass new-icon"></i>
@@ -641,6 +783,14 @@
         <p>Everything you need to know before you download.</p>
       </div>
       <div class="faq-list">
+        <details class="faq-item fade-section">
+          <summary>Which AI can I use with Cabinet Designer?<i class="fas fa-plus"></i></summary>
+          <p>Any AI app that speaks MCP and runs on the same PC. We tested it with the free ChatGPT desktop app (no subscription; download it separately from OpenAI); it also works with Claude Desktop, Claude Code, VS Code, Cursor and LM Studio for fully local models. In Cabinet Designer open the AI assistant menu, tick Enable the AI assistant, then use AI assistant settings to connect your app in one click or create its plugin.</p>
+        </details>
+        <details class="faq-item fade-section">
+          <summary>Can the AI change my project or prices without asking?<i class="fas fa-plus"></i></summary>
+          <p>It works through the normal interface, so every change shows on screen and can be undone. CNC safety confirmations are always yours, and when the AI changes a price the program asks you to confirm it, with No as the default. The assistant is off until you switch it on, and only the AI app you connect can reach it.</p>
+        </details>
         <details class="faq-item fade-section">
           <summary>What can I do with the free trial?<i class="fas fa-plus"></i></summary>
           <p>Design without limits — every typology, the full hardware library, drawers, shelves, edge management and the room composer. The trial shows everything the Professional version does and only meters the production output: 5 SCM Maestro (CNC) exports, 5 cut lists and 5 quoted-drawing PDFs (Cabinet Designer and the Composer together), plus a DEMO watermark on photorealistic renders. In the Professional version they are unlimited.</p>
