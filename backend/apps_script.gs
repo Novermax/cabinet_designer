@@ -279,9 +279,12 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
     // not a change: one PC may run two versions on the same id (Full and
     // Demo, an old copy beside the new one) and switching between them is
     // not an update. Rows from before the column fall back to 'App version'.
-    var highest = String(sh.getRange(row, CLIENTS_HIGHEST_COL).getValue() || '') ||
-                  String(sh.getRange(row, 3).getValue() || '');
-    var version = String(env.app_version || '');
+    // Read as displayed: rows written before cell_ kept versions as text hold
+    // a TIME ("6.0.1" became 06:00:01, shown "6.00.01"), whose getValue() is a
+    // 1899 Date that compared as version 0 — an "update" at every send.
+    var highest = versionText_(sh.getRange(row, CLIENTS_HIGHEST_COL).getDisplayValue()) ||
+                  versionText_(sh.getRange(row, 3).getDisplayValue());
+    var version = versionText_(env.app_version);
     if (version && highest && compareVersions_(version, highest) > 0) {
       notifyTelegram_('🔄 Aggiornamento installato: ' + editionLabel_(edition) + ' ' +
                       highest + ' → ' + version + countryTag_(country) + licenseTag_(license));
@@ -301,14 +304,23 @@ function upsertClient_(id, country, env, launch, consentVersion, now, edition, l
   }
 }
 
+/** A version's fields as numbers: "v6.0.1-beta" -> [6, 0, 1]. The ":" and
+ *  the zero padding are what a version stored as a time looks like
+ *  ("6.00.01", "06:00:01"). */
+function versionParts_(v) {
+  return String(v || '').trim().replace(/^[vV]/, '').split(/[-+ ]/)[0].split(/[.:,]/)
+                         .map(function (x) { return parseInt(x, 10) || 0; });
+}
+
+/** "6.0.1" from any of its spellings ("6.00.01", "06:00:01"); "" when absent. */
+function versionText_(v) {
+  return /^\s*[vV]?\d/.test(String(v || '')) ? versionParts_(v).join('.') : '';
+}
+
 /** Numeric, per-field: -1, 0 or 1 ("5.10.0" > "5.9.2"; "5.3" == "5.3.0").
  *  A leading v and any "-beta"/"+build" suffix are ignored. */
 function compareVersions_(a, b) {
-  var parse = function (v) {
-    return String(v).trim().replace(/^[vV]/, '').split(/[-+ ]/)[0].split('.')
-                    .map(function (x) { return parseInt(x, 10) || 0; });
-  };
-  var pa = parse(a), pb = parse(b);
+  var pa = versionParts_(a), pb = versionParts_(b);
   for (var i = 0; i < Math.max(pa.length, pb.length); i++) {
     var d = (pa[i] || 0) - (pb[i] || 0);
     if (d) return d > 0 ? 1 : -1;
@@ -684,12 +696,48 @@ function validId_(v) {
   return /^[0-9a-f]{32}$/.test(v) ? v : '';
 }
 
-/** A cell value from untrusted input: no formulas, bounded length. */
+/** A cell value from untrusted input: no formulas, bounded length, and a
+ * string stays the string it is — the sheet would read "6.0.1" or "3.11.9"
+ * as a time and "12e34" as a number, so anything starting with a digit is
+ * written as text too (the apostrophe is not part of the value). */
 function cell_(v) {
   if (v === null || v === undefined) return '';
   if (typeof v === 'number' || typeof v === 'boolean' || v instanceof Date) return v;
   v = String(v).slice(0, 200);
-  return /^[=+\-@]/.test(v) ? "'" + v : v;
+  return /^[=+\-@0-9]/.test(v) ? "'" + v : v;
+}
+
+/**
+ * Run ONCE from the editor after pasting this version: the versions written
+ * before cell_ kept them as text ("App version", "Highest version" in
+ * Clients; "App version", "OS version", "Python" in Telemetry) became times
+ * or numbers. Rewrites each such cell as the text it was ("06:00:01" ->
+ * "6.0.1"). Idempotent: text cells are left alone.
+ */
+function fixVersionCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var fixed = 0;
+  [['Clients', [3, CLIENTS_HIGHEST_COL]], ['Telemetry', [2, 4, 6]]].forEach(function (spec) {
+    var sh = ss.getSheetByName(spec[0]);
+    if (!sh || sh.getLastRow() < 2) return;
+    spec[1].forEach(function (col) {
+      var range = sh.getRange(2, col, sh.getLastRow() - 1, 1);
+      var values = range.getValues(), shown = range.getDisplayValues();
+      var out = [], changed = false;
+      for (var i = 0; i < values.length; i++) {
+        var v = values[i][0];
+        if (v instanceof Date || typeof v === 'number') {
+          out.push(["'" + versionText_(shown[i][0])]);
+          changed = true;
+          fixed++;
+        } else {
+          out.push([v]);
+        }
+      }
+      if (changed) range.setValues(out);
+    });
+  });
+  console.log('Celle di versione riscritte come testo: ' + fixed);
 }
 
 /* ---------- online demo gating (Maestro export cap) ---------- */
@@ -861,12 +909,26 @@ function checkDownloads() {
   var gh = props.getProperty('GITHUB_TOKEN');
   if (gh) headers['Authorization'] = 'Bearer ' + gh;
   var res = UrlFetchApp.fetch(RELEASES_API, { headers: headers, muteHttpExceptions: true });
-  if (res.getResponseCode() !== 200) {
+  var code = res.getResponseCode();
+  if (code !== 200) {
     // Try again at the next tick; the log says why (403/429 = GitHub's
-    // anonymous limit, shared by Google's servers: add GITHUB_TOKEN).
-    console.log('GitHub ha risposto ' + res.getResponseCode() + ': ' +
-                res.getContentText().slice(0, 300));
+    // anonymous limit, shared by Google's servers: add GITHUB_TOKEN; 401 =
+    // the token expired). Said on Telegram ONCE per outage: a check that
+    // fails in silence looks exactly like nobody downloading.
+    console.log('GitHub ha risposto ' + code + ': ' + res.getContentText().slice(0, 300));
+    if (!props.getProperty('DOWNLOAD_CHECK_FAILING')) {
+      props.setProperty('DOWNLOAD_CHECK_FAILING', String(code));
+      notifyTelegram_('⚠️ Controllo dei download fermo: GitHub risponde ' + code + '. ' +
+                      (code === 401 ? 'Il GITHUB_TOKEN è scaduto: creane uno nuovo e ' +
+                                      'sostituiscilo nelle proprietà dello script.'
+                                    : gh ? 'Riprovo ogni 15 minuti.'
+                                         : 'Aggiungi GITHUB_TOKEN nelle proprietà dello script.'));
+    }
     return false;
+  }
+  if (props.getProperty('DOWNLOAD_CHECK_FAILING')) {
+    props.deleteProperty('DOWNLOAD_CHECK_FAILING');
+    notifyTelegram_('✅ Controllo dei download ripreso.');
   }
   var releases = JSON.parse(res.getContentText());
 
@@ -901,12 +963,20 @@ function notifyTelegram_(text) {
     var props = PropertiesService.getScriptProperties();
     var token = props.getProperty('TELEGRAM_TOKEN');
     var chat = props.getProperty('TELEGRAM_CHAT_ID');
-    if (!token || !chat) return;
-    UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+    if (!token || !chat) {
+      console.log('Telegram non configurato (TELEGRAM_TOKEN / TELEGRAM_CHAT_ID): ' + text);
+      return;
+    }
+    var res = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
       method: 'post',
-      payload: { chat_id: chat, text: text, disable_web_page_preview: 'true' },
+      payload: { chat_id: chat, text: String(text).slice(0, 4000),
+                 disable_web_page_preview: 'true' },
       muteHttpExceptions: true
     });
+    if (res.getResponseCode() !== 200) {
+      console.log('Telegram ha risposto ' + res.getResponseCode() + ': ' +
+                  res.getContentText().slice(0, 300));
+    }
   } catch (err) {
     // A missed notification must never cost the statistics or the reply.
   }
