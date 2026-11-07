@@ -1,5 +1,39 @@
 [
   {
+    "version": "6.5.4",
+    "date": "2026-11-07",
+    "notes": [
+      "Filler Cabinets",
+      "Structural obstacles, such as beams and pillars, can now be added to filler cabinets, provided they do not reach the angled front. The program automatically cuts or shortens the top, bottom, shelves and dividers, just as it does with standard cabinets.",
+      "New Shaped Handles",
+      "You can now create custom recessed handles using shaped profiles made of lines and arcs directly in the Hardware Library, with a live preview. Two predefined profiles are included: the 3-sided recess and a new Ø35 mm half-moon recess. Profiles can be exported and shared as .cdprofile files, without requiring a program update.",
+      "Handle Recess Machining",
+      "All handle recesses now use a single tool, called \"Handle recess tool\". Arcs are transferred to Maestro as true circular geometries rather than approximated segments.",
+      "Technology Configuration – Tool Selection",
+      "Every tool field now includes a drop-down button displaying the cutters and blades available in the Maestro tool database (.tlgx), together with their names, descriptions and diameters. Selecting a tool automatically fills in its name.",
+      "Hardware Library – Handle Tools",
+      "Shaped profiles and groove handles now include a dedicated \"Router bit\" field, allowing you to assign a specific cutter to each handle. If the field is left empty, the tool specified in Technology Configuration is used.",
+      "Back Panel Material",
+      "A dedicated setting is now available under Technology Configuration > Materials > Back Panel Material, allowing you to specify the material used for back panels. If the field is left empty, the project's default material is used.",
+      "Filler Cabinets",
+      "Shelf-pin holes now correctly follow the angled front, maintaining the correct distance from the front edge on both sides of the cabinet. Adjustable feet are also positioned correctly in relation to the angled front edge.",
+      "Corner Cabinets",
+      "The Handles section is now available in the sidebar, including handle type, centre distance and distance from edge settings. Handle drilling now uses the dimensions specified in the handle article (hole diameter, centre distance and distance from edge), ensuring consistent behaviour with other cabinet types.",
+      "Technology Configuration – Tool Selection",
+      "The tool list is only a suggestion: you can still enter any tool name manually. Maestro will continue to check tool availability when opening the program.",
+      "Hardware Library – Handle Tools",
+      "The router bit can also be changed directly on original library items, without having to create a copy. This setting is stored locally on the PC and is not transferred with projects or modules.",
+      "Back Panel Material",
+      "New projects once again use white melamine as the default back panel material. Existing saved projects are not affected.",
+      "Filler Cabinets",
+      "Fixed an issue that caused obstacles touching only the cabinet sides to be cut twice. Obstacles reaching the angled front are now correctly rejected with an explanatory message.",
+      "Corner Cabinets",
+      "Fixed an issue that prevented doors from being added when using a handle copied from an item in the Hardware Library, which previously resulted in an \"Unknown handle type\" error. Fixed an issue where a handle assigned to only one door of a pair was not correctly applied.",
+      "Handle Recess Machining",
+      "If the selected tool is too large to machine the required profile, Maestro now stops the operation and displays an error message. Existing 3-sided recesses continue to be machined exactly as before."
+    ]
+  },
+  {
     "version": "6.2.2",
     "date": "2026-11-06",
     "notes": [
