@@ -1,5 +1,12 @@
 [
   {
+    "version": "6.5.5",
+    "date": "2026-11-08",
+    "notes": [
+      "In the Composer the drawer-bottom groove and the side relief were reported as \"Missing tools\" because projects did not save their tools; re-save the project in Cabinet Designer and add the module to the room again."
+    ]
+  },
+  {
     "version": "6.5.4",
     "date": "2026-11-07",
     "notes": [
