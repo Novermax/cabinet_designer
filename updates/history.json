@@ -1,5 +1,36 @@
 [
   {
+    "version": "7.0.0",
+    "date": "2026-11-09",
+    "notes": [
+      "New Free Machining functionality: a new category has been added to the Hardware Library, allowing users to create custom machining operations such as cable passages, slots, pockets, blind holes and edge cut-outs. Shapes can be defined using contours, tool paths, holes, lines, arcs and fillets. Dimensions can also be defined using formulas based on the panel's L, W and T values.",
+      "Free machining on cabinet components: custom machining operations can now be added directly to any cabinet component through the right-click context menu. Users can define the machining position, face, reference point, distance, rotation and component-specific parameters.",
+      "CNC tool management for free machining: machining tools can be assigned directly to each library article or defined as a default tool in the Technology Configuration settings.",
+      "New option to avoid additional F6 programs: the option Force through free machining from the inner side (joinery) allows through-machining operations to be performed from the joinery side, avoiding the generation of an additional F6 program. Enabled by default.",
+      "Local axes display: pressing the L key displays the X and Y axes and the reference point used to position free machining operations on the selected component.",
+      "Excel quotations: a 3/4 view image of the cabinet or room is now displayed below the project name.",
+      "User manual: a new chapter 18, dedicated to Free Machining, has been added in all languages, including a section explaining how to avoid generating an additional F6 program.",
+      "3D visualization: improved display of rounded hole edges and arcs. Unwanted lines crossing the inside of holes have been removed, and small holes are now displayed correctly.",
+      "Machining accuracy: tool paths now take into account the actual cutter diameter, retrieved from the Maestro tool database (.tlgx).",
+      "Machining validation: operations that exceed the component dimensions are now rejected instead of being automatically adapted. All free machining operations can also be undone using Ctrl+Z.",
+      "3D visualization of through machining: material completely detached by through-machining operations is now automatically removed from the 3D model.",
+      "Default extra depth for through machining: the default value in the libraries has been reduced from 1 mm to 0.1 mm. Existing user-created articles retain their original settings.",
+      "Handle positioning in rendering: fixed an issue where knob and bar handles appeared on the inner side of doors and drawer fronts when the Force machining from the inner side of the cabinet option was enabled. Handles are now always displayed on the outer side. The hole geometry and CNC programs remain unchanged."
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/image/releases/7.0.0/free.png",
+        "caption": "Free Machining example"
+      },
+      {
+        "type": "image",
+        "url": "https://cabinetdesigner.uk/assets/image/releases/7.0.0/quote.png",
+        "caption": "Quote example"
+      }
+    ]
+  },
+  {
     "version": "6.5.5",
     "date": "2026-11-08",
     "notes": [
