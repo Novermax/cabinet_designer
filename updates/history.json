@@ -20,12 +20,12 @@
     "media": [
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/image/releases/7.0.0/free.png",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/7.0.0/free.png",
         "caption": "Free Machining example"
       },
       {
         "type": "image",
-        "url": "https://cabinetdesigner.uk/assets/image/releases/7.0.0/quote.png",
+        "url": "https://cabinetdesigner.uk/assets/images/releases/7.0.0/quote.png",
         "caption": "Quote example"
       }
     ]
