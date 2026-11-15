@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cabinet Designer 7.0.0 — Note di rilascio</title>
+  <title>Cabinet Designer 7.5.0 — Note di rilascio</title>
   <style>
     body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
            max-width: 760px; margin: 0 auto; padding: 24px; color: #222;
@@ -18,12 +18,434 @@
     .media .video-link .play { display: inline-block; padding: 40px 24px;
       background: #f2f2f2; border-radius: 6px; color: #1a5; font-weight: bold; }
     section.rel + section.rel { border-top: 1px solid #eee; padding-top: 8px; }
+    .lang { display: none; }
+    .lang.on { display: block; }
+    h3.kind { font-size: 0.95rem; letter-spacing: 1px; text-transform: uppercase;
+              margin: 18px 0 6px; color: #444; }
+    .item-title { font-weight: bold; margin: 12px 0 2px; }
+    .langpick { float: right; margin-top: 6px; }
     .footer { margin-top: 32px; color: #999; font-size: 0.85rem; }
   </style>
+  <noscript><style>.lang[data-lang="en"] { display: block; }</style></noscript>
 </head>
 <body>
+  <div class="langpick"><select id="langpick" aria-label="Language"><option value="it">Italiano</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="pl">Polski</option><option value="ar">العربية</option></select></div>
   <h1>Cabinet Designer</h1>
 
+  <section class="rel" id="v7-5-0" data-version="7.5.0">
+    <h2>Cabinet Designer 7.5.0</h2>
+    <div class="date">2026-11-15</div>
+    <div class="lang" data-lang="it" lang="it">
+      <h3 class="kind">Nuove funzionalità</h3>
+      <p class="item-title">Tema scuro</p>
+      <p class="note">L'interfaccia ora può essere chiara (come prima) o scura, più riposante per gli occhi. Di serie segue Windows (Impostazioni › Personalizzazione › Colori) e cambia insieme a Windows, anche a programma aperto; da Impostazioni › Tema si sceglie Cabinet Designer chiaro o Cabinet Designer scuro.</p>
+      <p class="note">Pannello laterale, menu, librerie, Configurazione tecnologica e finestre seguono il tema; disegni tecnici, PDF e preventivo restano su carta bianca. Anche la vista 3D diventa scura, a meno che tu non abbia scelto uno sfondo tuo in Vista › Sfondo della vista 3D.</p>
+      <p class="item-title">Nuovo tema «Maestro Lab»</p>
+      <p class="note">Impostazioni › Tema › Maestro Lab, in Cabinet Designer e nel Composer: i colori di SCM Maestro Lab. Barre dei menu e di stato grigio ardesia, blu SCM al posto dei colori delle sezioni, pannelli grigi e campi bianchi; tutte le icone diventano monocromatiche.</p>
+      <p class="note">La vista 3D diventa bianca e ogni pezzo si vede in un unico azzurro con spigoli blu, qualunque sia il materiale: cambia solo la vista, il materiale resta sul pezzo per distinta, disegni, render e programmi CNC. Avvisi ed errori mantengono il rosso e l'arancio.</p>
+      <p class="item-title">Temi da fare tuoi</p>
+      <p class="note">I temi chiaro e scuro ora si chiamano «Cabinet Designer chiaro» e «Cabinet Designer scuro». Ogni tema porta con sé il suo sfondo 3D e lo stato di due tasti della vista: il nuovo M «Mostra il materiale» (pezzi con il loro materiale, oppure nel colore unico del tema) e T «Trasparente» (acceso in Maestro Lab).</p>
+      <p class="note">Con il tasto destro sullo sfondo della vista 3D cambi al volo sfondo, M e T: le modifiche diventano «Personalizzato (non salvato)», non toccano mai il tema da cui partono e restano da una sessione all'altra; «Salva come tema personalizzato…» le conserva con un nome.</p>
+      <p class="note">Impostazioni › Tema › Editor temi… crea, duplica, elimina, importa ed esporta temi (file .cdtheme): colori dell'interfaccia, icone (a colori o monocromatiche) e vista 3D. I temi originali non si modificano, si duplicano. Uno sfondo 3D scelto in una versione precedente diventa il tuo primo tema personalizzato non salvato, quindi non si perde.</p>
+      <p class="item-title">Nuovo aspetto con colori e icone</p>
+      <p class="note">I menu del tasto destro sono divisi in sezioni colorate (Struttura, Ripiani, Cassetti, Ante, Aspetto, Costruzione, Vista), con il nome del pezzo in alto.</p>
+      <p class="note">Ogni libreria (ferramenta, materiali, bordi) ha il suo colore e mostra gli articoli come schede con stella, anteprima e prezzo; il pannello «Questo mobile» e la Configurazione tecnologica danno a ogni sezione il suo colore e la sua icona, uguali nei due posti. Testi e comandi non cambiano.</p>
+      <p class="item-title">Nuovo montaggio schienale «Nessuno (retro aperto)»</p>
+      <p class="note">Niente schienale e niente traversa posteriore: il retro del mobile resta aperto (una libreria a giorno, un divisorio di ambienti). Ripiani, divisori e cassetti arrivano fino al bordo posteriore di cappello e fondo; spessore e arretramento dello schienale si disattivano, perché non servono.</p>
+      <p class="note">Disponibile su mobile standard, compensatore e mobile inclinato; sul sottolavello con traverse orizzontali resta la traversa posteriore alta, che fa parte del piano. Le angoliere con schiene e colonnina non lo offrono.</p>
+      <p class="item-title">Cerniere una per una</p>
+      <p class="note">Riposiziona cerniere… ha un nuovo gruppo per decidere il numero di cerniere e la posizione delle singole cerniere, senza perdere la disposizione automatica. «Aggiungi cerniera» e «Rimuovi cerniera» scrivono N+1, N-1 (N = il numero automatico, così il conteggio segue ancora l'anta quando cambia misura), oppure si scrive una formula come ceil(L/500).</p>
+      <p class="note">Ogni cerniera si può fissare a un numero o a una formula in L (il lato con le cerniere) e W (l'altro lato), per esempio L/2 o L-120; le altre si distribuiscono in modo uniforme fra quelle fissate e, con la ridistribuzione attiva, evitano ancora divisori e ripiani.</p>
+      <p class="note">Una cerniera fissata che cade su un ripiano o un divisorio si sposta al bordo libero più vicino e la barra di stato lo dice; una cerniera fuori dall'anta, fuori ordine o troppo vicina a un'altra si rifiuta con un messaggio, mai tolta. La finestra mostra le posizioni in tempo reale. Vale per ante singole e doppie, file di ante, cerniera 875 fra le ante, angoliere, mobile inclinato e compensatore; le ante che non tocchi tengono le cerniere esattamente dov'erano.</p>
+      <p class="item-title">Cassetti accanto agli ostacoli strutturali</p>
+      <p class="note">Una cassettiera ora può stare accanto a una trave, un pilastro o un tubo. La scatola del cassetto evita la scia dell'ostacolo: l'ostacolo (con le sue pareti di chiusura) allargato della nuova «Luce dagli ostacoli» (Configurazione tecnologica › Cassetti, 5 mm di serie) e prolungato fino al retro della scatola, perché il cassetto si sfila in avanti.</p>
+      <p class="note">Un ostacolo nella corsa della guida (un pilastro nell'angolo posteriore) accorcia tutto il gruppo, fino alla guida più lunga che finisce davanti a esso, così i cassetti restano uguali; una lunghezza di guida scelta a mano e troppo lunga si rifiuta, dicendo quanto spazio resta.</p>
+      <p class="note">Un ostacolo sopra la guida (una trave in alto) apre uno scasso nelle sponde e nel retro, e gli angoli posteriori si fissano di nuovo con almeno due fissaggi. Un ostacolo attraverso il fondo (un sifone) chiude la scatola attorno a sé con tre pareti, il fondo nelle loro cave e il retro aperto dal basso. Un ostacolo e le sue pareti di chiusura contano come uno solo. Gli scassi si fresano come ogni incasso; i cassetti che nessun ostacolo raggiunge restano esattamente come prima.</p>
+      <p class="item-title">Utensili mancanti, risolti sul momento</p>
+      <p class="note">Prima di generare i programmi CNC, la finestra «Utensili mancanti» ora fa scegliere subito ogni utensile mancante, dall'elenco ▾ del database utensili di Maestro (.tlgx) indicato in Formato di output, oppure scrivendone il nome.</p>
+      <p class="note">Gli utensili che appartengono al progetto (scasso schienale, cava del fondo cassetto, ante scorrevoli, scarico della sponda, 5 assi, lavorazioni libere) si salvano nel progetto; contornatura e maniglie valgono per quella generazione. Con la casella «Salva come predefiniti nella Configurazione tecnologica» diventano anche i predefiniti del profilo attivo. «-1» si rifiuta; un campo lasciato vuoto vuol dire ancora che quella lavorazione si fa fuori macchina.</p>
+      <h3 class="kind">Miglioramenti</h3>
+      <p class="item-title">Lavorazioni libere</p>
+      <p class="note">asole in una passata: Un'asola larga esattamente quanto la fresa ora si taglia con una sola passata lungo la sua mezzeria; prima Maestro si fermava sul messaggio bloccante, perché la fresa non aveva spazio per seguire il contorno. Una fresa più stretta dell'asola segue il contorno come prima.</p>
+      <p class="item-title">Lavorazioni libere e profili sagomati</p>
+      <p class="note">parametri che usano altri parametri: Il valore di un parametro ora può usare gli altri parametri, dichiarati prima o dopo (A = L-100-D con D definito sotto). Parametri che si richiamano a cerchio si rifiutano, nominando il cerchio (A → B → A).</p>
+      <p class="item-title">Menu degli utensili nella Configurazione tecnologica</p>
+      <p class="note">L'elenco letto dal database utensili di Maestro (.tlgx) ora offre anche la lama della foratrice, mai le sue punte, e ogni utensile mostra un'icona per il suo tipo: fresa, lama o punta.</p>
+      <p class="item-title">Utensile troppo largo per la cava</p>
+      <p class="note">La finestra «Utensili mancanti» ora avvisa anche quando l'utensile nel .tlgx è più largo dello scasso schienale o della cava del fondo cassetto (per esempio una fresa Ø10 in uno scasso da 8,2 mm) e ne fa scegliere un altro, con un avviso che si aggiorna mentre scegli.</p>
+      <p class="note">In macchina il messaggio non mette più insieme tre cause: dice se l'utensile manca dall'attrezzaggio, se non è né una fresa né una lama, o se è più largo della cava, nominando l'utensile e la larghezza della cava.</p>
+      <p class="item-title">Assistente AI e ChatGPT</p>
+      <p class="note">«Collega a un assistente › ChatGPT» ora trova ChatGPT anche quando è installata solo l'app Codex, o quando è installato in una cartella non standard. La riga e il manuale spiegano che Cabinet Designer si raggiunge da una sessione Codex dell'app ChatGPT per computer, non dalla chat normale.</p>
+      <h3 class="kind">Correzioni</h3>
+      <p class="item-title">Freccia della venatura (tasto V)</p>
+      <p class="note">Sui pezzi trasparenti (T) la freccia ora si vede solo sulla faccia rivolta verso di te; quella della faccia dietro non traspare più accanto.</p>
+    </div>
+    <div class="lang" data-lang="en" lang="en">
+      <h3 class="kind">New features</h3>
+      <p class="item-title">Dark theme</p>
+      <p class="note">The interface can now be light (as before) or dark, which is easier on the eyes. By default it follows Windows (Settings › Personalization › Colors) and switches live when Windows does; Settings › Theme lets you choose Cabinet Designer light or Cabinet Designer dark.</p>
+      <p class="note">Side panel, menus, libraries, Technology configuration and dialogs follow the theme; technical drawings, PDFs and the quote stay on white paper. The 3D view gets a dark background too, unless you chose your own in View › 3D view background.</p>
+      <p class="item-title">New “Maestro Lab” theme</p>
+      <p class="note">Settings › Theme › Maestro Lab, in Cabinet Designer and in the Composer: the colours of SCM Maestro Lab. Slate grey menu and status bars, SCM blue in place of the section colours, grey panels and white fields; all icons become single-colour.</p>
+      <p class="note">The 3D view turns white and every piece is shown in one light blue with blue edges, whatever its material: only the view changes, the material stays on the piece for cut list, drawings, render and CNC programs. Warnings and errors keep their red and orange.</p>
+      <p class="item-title">Themes you can make your own</p>
+      <p class="note">The light and dark themes are now called “Cabinet Designer light” and “Cabinet Designer dark”. Every theme carries its own 3D background and the state of two view keys: the new M “Show material” (pieces with their material, or in the theme's single colour) and T “Transparent” (on in Maestro Lab).</p>
+      <p class="note">Right-click the background of the 3D view to change background, M and T on the fly: the changes become “Custom (not saved)”, never alter the theme they start from, and stay from one session to the next; “Save as custom theme…” keeps them under a name.</p>
+      <p class="note">Settings › Theme › Theme editor… creates, duplicates, deletes, imports and exports themes (.cdtheme files): interface colours, icons (coloured or single-colour) and 3D view. The original themes cannot be changed, only duplicated. A 3D background chosen in an earlier version becomes your first unsaved custom theme, so it is not lost.</p>
+      <p class="item-title">New look with colours and icons</p>
+      <p class="note">Right-click menus are grouped in coloured sections (Structure, Shelves, Drawers, Doors, Appearance, Construction, View) with the name of the piece on top.</p>
+      <p class="note">Every library (hardware, materials, edge bands) has its own colour and shows its items as cards with star, thumbnail and price; the “This cabinet” side panel and Technology configuration give each section its colour and icon, the same in both places. Texts and commands are unchanged.</p>
+      <p class="item-title">New back mounting “None (open back)”</p>
+      <p class="note">No back panel and no rear rail: the rear of the cabinet stays open (an open bookcase, a room divider). Shelves, dividers and drawers reach the rear edge of the top and the bottom; back thickness and back inset are greyed out because nothing uses them.</p>
+      <p class="note">Available on the standard cabinet, the filler cabinet and the slanted cabinet; on a sink unit with horizontal rails the high rear rail stays, as part of the top. Corner units with backs and post do not offer it.</p>
+      <p class="item-title">Hinges one by one</p>
+      <p class="note">Reposition hinges… has a new group to set the number of hinges and the position of single hinges, without losing the automatic layout. “Add hinge” and “Remove hinge” write N+1, N-1 (N = the automatic number, so the count still follows the door when its size changes), or you can type a formula such as ceil(L/500).</p>
+      <p class="note">Each hinge can be pinned at a number or a formula in L (the hinged side) and W (the other side), for example L/2 or L-120; the other hinges are spread evenly between the pinned ones and, with redistribution on, still avoid dividers and shelves.</p>
+      <p class="note">A pinned hinge that falls on a shelf or a divider is moved to the nearest free edge and the status bar says so; a hinge off the door, out of order or too close to another is refused with a message, never dropped. The window shows the positions live. Works on single and double doors, rows of doors, the 875 between-doors hinge, corner units, the slanted cabinet and the filler cabinet; doors you do not touch keep their hinges exactly where they were.</p>
+      <p class="item-title">Drawers beside structural obstacles</p>
+      <p class="note">A drawer unit can now stand beside a beam, a pillar or a pipe. The drawer box keeps clear of the obstacle's wake: the obstacle (and its closing walls) grown by the new “Clearance from obstacles” (Technology configuration › Drawers, 5 mm by default) and extended to the back of the box, because the drawer slides out frontward.</p>
+      <p class="note">An obstacle in the runner's run (a pillar in the rear corner) makes the whole group shorter, down to the longest runner that ends in front of it, so the drawers stay identical; a runner length chosen by hand that is too long is refused, saying how much room is left.</p>
+      <p class="note">An obstacle above the runner (a beam at the top) cuts an open notch in the sides and back, and the rear corners are fixed again with at least two fixings. An obstacle through the bottom (a siphon) closes the drawer box around it with three walls, the bottom housed in their grooves and the back open from below. An obstacle and its closing walls count as one. The notches are milled like every obstacle cut-out; drawers no obstacle reaches are built exactly as before.</p>
+      <p class="item-title">Missing tools, solved on the spot</p>
+      <p class="note">Before generating the CNC programs, the “Missing tools” window now lets you pick each missing tool right there, from the ▾ list of the Maestro tool database (.tlgx) set in Output format, or type its name.</p>
+      <p class="note">Tools a project carries (back groove, drawer bottom groove, sliding doors, side relief, 5-axis, free machining) are saved in the project; contouring and handle tools hold for that generation. Tick “Save as defaults in the Technology configuration” to make them the defaults of the active profile as well. “-1” is refused; a field left empty still means that machining is done off the machine.</p>
+      <h3 class="kind">Improvements</h3>
+      <p class="item-title">Free machining</p>
+      <p class="note">slots in a single pass: A slot exactly as wide as the bit is now cut with a single pass along its centre line; before, Maestro stopped on the blocking message because the bit had no room to follow the contour. A bit narrower than the slot follows the contour as before.</p>
+      <p class="item-title">Free machining and shaped profiles</p>
+      <p class="note">parameters that use other parameters: A parameter's value can now use the other parameters, declared before or after it (A = L-100-D with D defined below). Parameters that refer to each other in a circle are refused, naming the circle (A → B → A).</p>
+      <p class="item-title">Tool menus in Technology configuration</p>
+      <p class="note">The list read from the Maestro tool database (.tlgx) now also offers the blade of the boring head, never its drills, and every tool shows an icon for its kind: router bit, blade or drill.</p>
+      <p class="item-title">Tool too wide for the groove</p>
+      <p class="note">The “Missing tools” window now also warns when the tool's size in the .tlgx is wider than the back groove or the drawer bottom groove (for example a Ø10 bit in an 8.2 mm back groove) and lets you choose another one, with a warning that updates as you choose.</p>
+      <p class="note">At the machine the message no longer lumps three causes together: it says whether the tool is missing from the tooling, is neither a router bit nor a blade, or is wider than the groove, naming the tool and the groove width.</p>
+      <p class="item-title">AI assistant and ChatGPT</p>
+      <p class="note">“Connect to an assistant › ChatGPT” now finds ChatGPT also when only the Codex app is installed, or when it is installed in a non-standard place. The row and the user manual explain that Cabinet Designer is reachable from a Codex session of the ChatGPT desktop app, not from the normal chat.</p>
+      <h3 class="kind">Fixes</h3>
+      <p class="item-title">Grain arrow (V key)</p>
+      <p class="note">On transparent pieces (T) the arrow is now shown only on the face turned towards you; the arrow of the face behind no longer shows through beside it.</p>
+    </div>
+    <div class="lang" data-lang="fr" lang="fr">
+      <h3 class="kind">Nouvelles fonctionnalités</h3>
+      <p class="item-title">Thème sombre</p>
+      <p class="note">L'interface peut désormais être claire (comme avant) ou sombre, plus reposante pour les yeux. Par défaut elle suit Windows (Paramètres › Personnalisation › Couleurs) et change en même temps que Windows, même programme ouvert ; Paramètres › Thème permet de choisir Cabinet Designer clair ou Cabinet Designer sombre.</p>
+      <p class="note">Panneau latéral, menus, bibliothèques, Configuration technologique et fenêtres suivent le thème ; les dessins techniques, les PDF et le devis restent sur papier blanc. La vue 3D passe elle aussi sur fond sombre, sauf si vous avez choisi votre propre arrière-plan dans Affichage › Arrière-plan de la vue 3D.</p>
+      <p class="item-title">Nouveau thème « Maestro Lab »</p>
+      <p class="note">Paramètres › Thème › Maestro Lab, dans Cabinet Designer et dans le Composer : les couleurs de SCM Maestro Lab. Barres de menus et d'état gris ardoise, bleu SCM à la place des couleurs des sections, panneaux gris et champs blancs ; toutes les icônes deviennent monochromes.</p>
+      <p class="note">La vue 3D devient blanche et chaque pièce s'affiche dans un même bleu clair avec des arêtes bleues, quel que soit son matériau : seule la vue change, le matériau reste sur la pièce pour la liste de débit, les dessins, le rendu et les programmes CNC. Les avertissements et les erreurs gardent leur rouge et leur orange.</p>
+      <p class="item-title">Des thèmes à votre image</p>
+      <p class="note">Les thèmes clair et sombre s'appellent désormais « Cabinet Designer clair » et « Cabinet Designer sombre ». Chaque thème emporte son propre arrière-plan 3D et l'état de deux touches de la vue : la nouvelle touche M « Afficher le matériau » (pièces avec leur matériau, ou dans la couleur unique du thème) et T « Transparent » (active dans Maestro Lab).</p>
+      <p class="note">Un clic droit sur le fond de la vue 3D change à la volée l'arrière-plan, M et T : les modifications deviennent « Personnalisé (non enregistré) », ne modifient jamais le thème de départ et restent d'une session à l'autre ; « Enregistrer comme thème personnalisé… » les conserve sous un nom.</p>
+      <p class="note">Paramètres › Thème › Éditeur de thèmes… crée, duplique, supprime, importe et exporte des thèmes (fichiers .cdtheme) : couleurs de l'interface, icônes (en couleur ou monochromes) et vue 3D. Les thèmes d'origine ne se modifient pas, ils se dupliquent. Un arrière-plan 3D choisi dans une version précédente devient votre premier thème personnalisé non enregistré : il n'est pas perdu.</p>
+      <p class="item-title">Nouvel aspect avec couleurs et icônes</p>
+      <p class="note">Les menus du clic droit sont regroupés en sections colorées (Structure, Étagères, Tiroirs, Portes, Aspect, Construction, Affichage), avec le nom de la pièce en haut.</p>
+      <p class="note">Chaque bibliothèque (quincaillerie, matériaux, chants) a sa propre couleur et présente ses articles sous forme de fiches avec étoile, vignette et prix ; le panneau « Ce meuble » et la Configuration technologique donnent à chaque section sa couleur et son icône, identiques aux deux endroits. Les textes et les commandes ne changent pas.</p>
+      <p class="item-title">Nouveau montage du fond « Aucun (arrière ouvert) »</p>
+      <p class="note">Ni panneau arrière ni traverse arrière : l'arrière du meuble reste ouvert (une bibliothèque ouverte, une séparation de pièce). Étagères, séparations et tiroirs vont jusqu'au bord arrière du dessus et du dessous ; l'épaisseur et le retrait du fond sont désactivés, car rien ne les utilise.</p>
+      <p class="note">Disponible sur le meuble standard, le meuble de compensation et le meuble incliné ; sur un meuble sous-évier à traverses horizontales, la traverse arrière haute reste, car elle fait partie du dessus. Les meubles d'angle avec fonds et montant ne le proposent pas.</p>
+      <p class="item-title">Charnières une par une</p>
+      <p class="note">Repositionner les charnières… comporte un nouveau groupe pour choisir le nombre de charnières et la position de chacune, sans perdre la disposition automatique. « Ajouter une charnière » et « Retirer une charnière » écrivent N+1, N-1 (N = le nombre automatique, le compte suit donc toujours la porte quand ses dimensions changent), ou l'on saisit une formule comme ceil(L/500).</p>
+      <p class="note">Chaque charnière peut être fixée à un nombre ou à une formule en L (le côté charnières) et W (l'autre côté), par exemple L/2 ou L-120 ; les autres se répartissent régulièrement entre les charnières fixées et, avec la redistribution active, évitent toujours séparations et étagères.</p>
+      <p class="note">Une charnière fixée qui tombe sur une étagère ou une séparation est déplacée vers le bord libre le plus proche et la barre d'état le signale ; une charnière hors de la porte, hors d'ordre ou trop proche d'une autre est refusée avec un message, jamais supprimée. La fenêtre affiche les positions en direct. Fonctionne sur portes simples et doubles, rangées de portes, charnière 875 entre portes, meubles d'angle, meuble incliné et meuble de compensation ; les portes que vous ne touchez pas gardent leurs charnières exactement où elles étaient.</p>
+      <p class="item-title">Tiroirs à côté des obstacles structurels</p>
+      <p class="note">Un caisson à tiroirs peut désormais se trouver à côté d'une poutre, d'un pilier ou d'un tuyau. Le tiroir évite le sillage de l'obstacle : l'obstacle (et ses parois de fermeture) agrandi du nouveau « Jeu par rapport aux obstacles » (Configuration technologique › Tiroirs, 5 mm par défaut) et prolongé jusqu'à l'arrière du tiroir, puisque le tiroir sort vers l'avant.</p>
+      <p class="note">Un obstacle sur la course de la coulisse (un pilier dans l'angle arrière) raccourcit tout le groupe, jusqu'à la plus longue coulisse qui s'arrête devant lui, afin que les tiroirs restent identiques ; une longueur de coulisse choisie à la main et trop longue est refusée, avec l'espace restant.</p>
+      <p class="note">Un obstacle au-dessus de la coulisse (une poutre en haut) découpe une entaille ouverte dans les côtés et l'arrière, et les angles arrière sont refixés avec au moins deux fixations. Un obstacle qui traverse le fond (un siphon) referme le tiroir autour de lui avec trois parois, le fond logé dans leurs rainures et l'arrière ouvert par le bas. Un obstacle et ses parois de fermeture comptent pour un seul. Les entailles sont fraisées comme toute découpe d'obstacle ; les tiroirs qu'aucun obstacle n'atteint sont construits exactement comme avant.</p>
+      <p class="item-title">Outils manquants, résolus sur-le-champ</p>
+      <p class="note">Avant de générer les programmes CNC, la fenêtre « Outils manquants » permet désormais de choisir chaque outil manquant sur place, dans la liste ▾ de la base d'outils Maestro (.tlgx) indiquée dans Format de sortie, ou d'en saisir le nom.</p>
+      <p class="note">Les outils propres au projet (rainure du fond, rainure du fond de tiroir, portes coulissantes, dégagement de côté, 5 axes, usinages libres) sont enregistrés dans le projet ; ceux de contournage et de poignée valent pour cette génération. Cochez « Enregistrer comme valeurs par défaut dans la Configuration technologique » pour en faire aussi les valeurs par défaut du profil actif. « -1 » est refusé ; un champ laissé vide signifie toujours que cet usinage se fait hors machine.</p>
+      <h3 class="kind">Améliorations</h3>
+      <p class="item-title">Usinages libres</p>
+      <p class="note">rainures en une seule passe: Une rainure exactement aussi large que la fraise est désormais usinée en une seule passe sur son axe ; auparavant Maestro s'arrêtait sur le message bloquant, faute de place pour suivre le contour. Une fraise plus étroite que la rainure suit le contour comme avant.</p>
+      <p class="item-title">Usinages libres et profils façonnés</p>
+      <p class="note">paramètres qui en utilisent d'autres: La valeur d'un paramètre peut désormais utiliser les autres paramètres, déclarés avant ou après lui (A = L-100-D avec D défini plus bas). Les paramètres qui se renvoient l'un à l'autre en boucle sont refusés, en nommant la boucle (A → B → A).</p>
+      <p class="item-title">Menus des outils dans la Configuration technologique</p>
+      <p class="note">La liste lue dans la base d'outils Maestro (.tlgx) propose désormais aussi la lame du groupe de perçage, jamais ses mèches, et chaque outil affiche une icône selon son type : fraise, lame ou mèche.</p>
+      <p class="item-title">Outil trop large pour la rainure</p>
+      <p class="note">La fenêtre « Outils manquants » avertit aussi quand la taille de l'outil dans le .tlgx dépasse la largeur de la rainure du fond ou du fond de tiroir (par exemple une fraise Ø10 dans une rainure de 8,2 mm) et permet d'en choisir une autre, avec un avertissement qui se met à jour pendant le choix.</p>
+      <p class="note">Sur la machine, le message ne mélange plus trois causes : il indique si l'outil manque dans l'outillage, s'il n'est ni une fraise ni une lame, ou s'il est plus large que la rainure, en nommant l'outil et la largeur de la rainure.</p>
+      <p class="item-title">Assistant IA et ChatGPT</p>
+      <p class="note">« Connecter un assistant › ChatGPT » trouve désormais ChatGPT même quand seule l'application Codex est installée, ou quand il est installé dans un emplacement non standard. La ligne et le manuel expliquent que Cabinet Designer est accessible depuis une session Codex de l'application ChatGPT pour ordinateur, pas depuis le chat habituel.</p>
+      <h3 class="kind">Corrections</h3>
+      <p class="item-title">Flèche du fil du bois (touche V)</p>
+      <p class="note">Sur les pièces transparentes (T), la flèche ne s'affiche plus que sur la face tournée vers vous ; celle de la face arrière ne transparaît plus à côté.</p>
+    </div>
+    <div class="lang" data-lang="de" lang="de">
+      <h3 class="kind">Neue Funktionen</h3>
+      <p class="item-title">Dunkles Design</p>
+      <p class="note">Die Oberfläche kann jetzt hell (wie bisher) oder dunkel sein, was die Augen schont. Standardmäßig folgt sie Windows (Einstellungen › Personalisierung › Farben) und wechselt mit Windows, auch bei geöffnetem Programm; unter Einstellungen › Design wählen Sie Cabinet Designer hell oder Cabinet Designer dunkel.</p>
+      <p class="note">Seitenleiste, Menüs, Bibliotheken, Technologiekonfiguration und Dialoge folgen dem Design; technische Zeichnungen, PDFs und das Angebot bleiben auf weißem Papier. Auch die 3D-Ansicht bekommt einen dunklen Hintergrund, außer Sie haben unter Ansicht › Hintergrund der 3D-Ansicht einen eigenen gewählt.</p>
+      <p class="item-title">Neues Design „Maestro Lab“</p>
+      <p class="note">Einstellungen › Design › Maestro Lab, in Cabinet Designer und im Composer: die Farben von SCM Maestro Lab. Schiefergraue Menü- und Statusleisten, SCM-Blau anstelle der Abschnittsfarben, graue Bereiche und weiße Felder; alle Symbole werden einfarbig.</p>
+      <p class="note">Die 3D-Ansicht wird weiß und jedes Teil erscheint in einem einheitlichen Hellblau mit blauen Kanten, unabhängig vom Material: Nur die Ansicht ändert sich, das Material bleibt am Teil für Zuschnittliste, Zeichnungen, Rendering und CNC-Programme. Warnungen und Fehler behalten ihr Rot und Orange.</p>
+      <p class="item-title">Designs nach Ihrem Geschmack</p>
+      <p class="note">Das helle und das dunkle Design heißen jetzt „Cabinet Designer hell“ und „Cabinet Designer dunkel“. Jedes Design bringt seinen eigenen 3D-Hintergrund und den Zustand zweier Ansichtstasten mit: das neue M „Material anzeigen“ (Teile mit ihrem Material oder in der einheitlichen Farbe des Designs) und T „Transparent“ (in Maestro Lab eingeschaltet).</p>
+      <p class="note">Ein Rechtsklick auf den Hintergrund der 3D-Ansicht ändert Hintergrund, M und T im Handumdrehen: Die Änderungen werden zu „Angepasst (nicht gespeichert)“, verändern nie das Ausgangsdesign und bleiben von einer Sitzung zur nächsten erhalten; „Als eigenes Design speichern…“ bewahrt sie unter einem Namen auf.</p>
+      <p class="note">Einstellungen › Design › Design-Editor… erstellt, dupliziert, löscht, importiert und exportiert Designs (.cdtheme-Dateien): Farben der Oberfläche, Symbole (farbig oder einfarbig) und 3D-Ansicht. Die Original-Designs lassen sich nicht ändern, nur duplizieren. Ein in einer früheren Version gewählter 3D-Hintergrund wird Ihr erstes nicht gespeichertes eigenes Design und geht nicht verloren.</p>
+      <p class="item-title">Neues Aussehen mit Farben und Symbolen</p>
+      <p class="note">Die Kontextmenüs sind in farbige Abschnitte gegliedert (Aufbau, Einlegeböden, Schubladen, Türen, Aussehen, Konstruktion, Ansicht), mit dem Namen des Teils oben.</p>
+      <p class="note">Jede Bibliothek (Beschläge, Materialien, Kanten) hat ihre eigene Farbe und zeigt ihre Artikel als Karten mit Stern, Vorschaubild und Preis; die Seitenleiste „Dieses Möbel“ und die Technologiekonfiguration geben jedem Abschnitt seine Farbe und sein Symbol, an beiden Stellen gleich. Texte und Befehle bleiben unverändert.</p>
+      <p class="item-title">Neue Rückwandmontage „Keine (offene Rückseite)“</p>
+      <p class="note">Keine Rückwand und keine hintere Traverse: Die Rückseite des Möbels bleibt offen (ein offenes Regal, ein Raumteiler). Einlegeböden, Trennwände und Schubladen reichen bis zur Hinterkante von Oberboden und Unterboden; Rückwanddicke und Rückwandeinzug sind ausgegraut, weil sie nicht gebraucht werden.</p>
+      <p class="note">Verfügbar für Standardmöbel, Passmöbel und schräges Möbel; beim Spülenunterschrank mit waagerechten Traversen bleibt die obere hintere Traverse, die zur Abdeckung gehört. Eckschränke mit Rückwänden und Pfosten bieten es nicht an.</p>
+      <p class="item-title">Scharniere einzeln</p>
+      <p class="note">Scharniere neu positionieren… hat eine neue Gruppe, um die Anzahl der Scharniere und die Lage einzelner Scharniere festzulegen, ohne die automatische Verteilung zu verlieren. „Scharnier hinzufügen“ und „Scharnier entfernen“ schreiben N+1, N-1 (N = die automatische Anzahl, damit die Zahl der Tür weiter folgt, wenn sich ihre Größe ändert), oder Sie geben eine Formel wie ceil(L/500) ein.</p>
+      <p class="note">Jedes Scharnier lässt sich auf eine Zahl oder eine Formel in L (Scharnierseite) und W (die andere Seite) festlegen, zum Beispiel L/2 oder L-120; die übrigen verteilen sich gleichmäßig zwischen den festgelegten und meiden bei aktiver Umverteilung weiterhin Trennwände und Einlegeböden.</p>
+      <p class="note">Ein festgelegtes Scharnier, das auf einen Einlegeboden oder eine Trennwand fällt, wird an die nächste freie Kante verschoben und die Statusleiste meldet es; ein Scharnier außerhalb der Tür, in falscher Reihenfolge oder zu nah an einem anderen wird mit einer Meldung abgelehnt, nie weggelassen. Das Fenster zeigt die Positionen live. Gilt für einfache und doppelte Türen, Türreihen, das Scharnier 875 zwischen Türen, Eckschränke, schräges Möbel und Passmöbel; Türen, die Sie nicht anfassen, behalten ihre Scharniere genau dort, wo sie waren.</p>
+      <p class="item-title">Schubladen neben baulichen Hindernissen</p>
+      <p class="note">Ein Schubladenschrank kann jetzt neben einem Balken, einem Pfeiler oder einem Rohr stehen. Der Schubkasten hält Abstand vom Nachlauf des Hindernisses: dem Hindernis (mit seinen Abschlusswänden), vergrößert um den neuen „Abstand zu Hindernissen“ (Technologiekonfiguration › Schubladen, standardmäßig 5 mm) und bis zur Rückseite des Kastens verlängert, weil die Schublade nach vorne ausfährt.</p>
+      <p class="note">Ein Hindernis im Laufweg der Führung (ein Pfeiler in der hinteren Ecke) kürzt die ganze Gruppe bis zur längsten Führung, die davor endet, damit die Schubladen gleich bleiben; eine von Hand gewählte, zu lange Führung wird abgelehnt, mit Angabe des verbleibenden Platzes.</p>
+      <p class="note">Ein Hindernis über der Führung (ein Balken oben) schneidet eine offene Aussparung in Seiten und Rückwand, und die hinteren Ecken werden wieder mit mindestens zwei Verbindern befestigt. Ein Hindernis durch den Boden (ein Siphon) schließt den Kasten mit drei Wänden darum, der Boden in ihren Nuten und die Rückwand von unten offen. Ein Hindernis und seine Abschlusswände zählen als eines. Die Aussparungen werden wie jeder Hindernisausschnitt gefräst; Schubladen, die kein Hindernis erreicht, bleiben genau wie vorher.</p>
+      <p class="item-title">Fehlende Werkzeuge, sofort gelöst</p>
+      <p class="note">Vor dem Erzeugen der CNC-Programme lässt das Fenster „Fehlende Werkzeuge“ jetzt jedes fehlende Werkzeug direkt auswählen, aus der ▾-Liste der Maestro-Werkzeugdatenbank (.tlgx) aus dem Ausgabeformat, oder den Namen eingeben.</p>
+      <p class="note">Werkzeuge des Projekts (Rückwandnut, Schubladenbodennut, Schiebetüren, Seitenfreistich, 5 Achsen, freie Bearbeitungen) werden im Projekt gespeichert; Kontur- und Griffwerkzeuge gelten für diese Erzeugung. Mit dem Häkchen „Als Standard in der Technologiekonfiguration speichern“ werden sie auch zu den Standards des aktiven Profils. „-1“ wird abgelehnt; ein leeres Feld bedeutet weiterhin, dass diese Bearbeitung außerhalb der Maschine erfolgt.</p>
+      <h3 class="kind">Verbesserungen</h3>
+      <p class="item-title">Freie Bearbeitungen</p>
+      <p class="note">Langlöcher in einem Durchgang: Ein Langloch, das genau so breit ist wie der Fräser, wird jetzt in einem einzigen Durchgang entlang seiner Mittellinie gefräst; vorher hielt Maestro bei der blockierenden Meldung an, weil der Fräser keinen Platz hatte, der Kontur zu folgen. Ein schmalerer Fräser folgt der Kontur wie bisher.</p>
+      <p class="item-title">Freie Bearbeitungen und Formprofile</p>
+      <p class="note">Parameter, die andere Parameter verwenden: Der Wert eines Parameters kann jetzt andere Parameter verwenden, die davor oder danach deklariert sind (A = L-100-D mit D weiter unten). Parameter, die sich im Kreis aufeinander beziehen, werden abgelehnt, und der Kreis wird genannt (A → B → A).</p>
+      <p class="item-title">Werkzeugmenüs in der Technologiekonfiguration</p>
+      <p class="note">Die aus der Maestro-Werkzeugdatenbank (.tlgx) gelesene Liste bietet jetzt auch das Sägeblatt des Bohraggregats an, nie seine Bohrer, und jedes Werkzeug zeigt ein Symbol für seine Art: Fräser, Sägeblatt oder Bohrer.</p>
+      <p class="item-title">Werkzeug zu breit für die Nut</p>
+      <p class="note">Das Fenster „Fehlende Werkzeuge“ warnt jetzt auch, wenn das Werkzeug laut .tlgx breiter ist als die Rückwandnut oder die Schubladenbodennut (zum Beispiel ein Fräser Ø10 in einer 8,2-mm-Nut), und lässt ein anderes wählen, mit einer Warnung, die sich bei der Auswahl aktualisiert.</p>
+      <p class="note">An der Maschine wirft die Meldung nicht mehr drei Ursachen zusammen: Sie sagt, ob das Werkzeug in der Bestückung fehlt, weder Fräser noch Sägeblatt ist oder breiter als die Nut ist, und nennt Werkzeug und Nutbreite.</p>
+      <p class="item-title">KI-Assistent und ChatGPT</p>
+      <p class="note">„Mit einem Assistenten verbinden › ChatGPT“ findet ChatGPT jetzt auch, wenn nur die Codex-App installiert ist oder es an einem nicht standardmäßigen Ort installiert ist. Die Zeile und das Handbuch erklären, dass Cabinet Designer aus einer Codex-Sitzung der ChatGPT-Desktop-App erreichbar ist, nicht aus dem normalen Chat.</p>
+      <h3 class="kind">Fehlerbehebungen</h3>
+      <p class="item-title">Maserungspfeil (Taste V)</p>
+      <p class="note">Bei transparenten Teilen (T) erscheint der Pfeil jetzt nur auf der Ihnen zugewandten Fläche; der Pfeil der Rückseite scheint nicht mehr daneben durch.</p>
+    </div>
+    <div class="lang" data-lang="es" lang="es">
+      <h3 class="kind">Nuevas funciones</h3>
+      <p class="item-title">Tema oscuro</p>
+      <p class="note">La interfaz ahora puede ser clara (como antes) u oscura, más descansada para la vista. Por defecto sigue a Windows (Configuración › Personalización › Colores) y cambia a la vez que Windows, incluso con el programa abierto; en Ajustes › Tema se elige Cabinet Designer claro o Cabinet Designer oscuro.</p>
+      <p class="note">Panel lateral, menús, bibliotecas, Configuración tecnológica y ventanas siguen el tema; los planos técnicos, los PDF y el presupuesto se quedan en papel blanco. La vista 3D también pasa a fondo oscuro, salvo que hayas elegido uno propio en Vista › Fondo de la vista 3D.</p>
+      <p class="item-title">Nuevo tema «Maestro Lab»</p>
+      <p class="note">Ajustes › Tema › Maestro Lab, en Cabinet Designer y en el Composer: los colores de SCM Maestro Lab. Barras de menú y de estado gris pizarra, azul SCM en lugar de los colores de las secciones, paneles grises y campos blancos; todos los iconos pasan a ser monocromos.</p>
+      <p class="note">La vista 3D se vuelve blanca y cada pieza se muestra en un mismo azul claro con aristas azules, sea cual sea su material: solo cambia la vista, el material sigue en la pieza para la lista de corte, los planos, el render y los programas CNC. Avisos y errores mantienen su rojo y su naranja.</p>
+      <p class="item-title">Temas a tu medida</p>
+      <p class="note">Los temas claro y oscuro ahora se llaman «Cabinet Designer claro» y «Cabinet Designer oscuro». Cada tema lleva su propio fondo 3D y el estado de dos teclas de la vista: la nueva M «Mostrar el material» (piezas con su material, o en el color único del tema) y T «Transparente» (activada en Maestro Lab).</p>
+      <p class="note">Con el botón derecho sobre el fondo de la vista 3D cambias al momento el fondo, M y T: los cambios pasan a «Personalizado (sin guardar)», nunca alteran el tema del que parten y se conservan de una sesión a otra; «Guardar como tema personalizado…» los guarda con un nombre.</p>
+      <p class="note">Ajustes › Tema › Editor de temas… crea, duplica, elimina, importa y exporta temas (archivos .cdtheme): colores de la interfaz, iconos (en color o monocromos) y vista 3D. Los temas originales no se modifican, se duplican. Un fondo 3D elegido en una versión anterior se convierte en tu primer tema personalizado sin guardar, así que no se pierde.</p>
+      <p class="item-title">Nuevo aspecto con colores e iconos</p>
+      <p class="note">Los menús del botón derecho se agrupan en secciones de colores (Estructura, Baldas, Cajones, Puertas, Aspecto, Construcción, Vista), con el nombre de la pieza arriba.</p>
+      <p class="note">Cada biblioteca (herrajes, materiales, cantos) tiene su color y muestra sus artículos como fichas con estrella, miniatura y precio; el panel «Este mueble» y la Configuración tecnológica dan a cada sección su color y su icono, iguales en ambos sitios. Textos y comandos no cambian.</p>
+      <p class="item-title">Nuevo montaje de trasera «Ninguno (trasera abierta)»</p>
+      <p class="note">Sin trasera y sin travesaño trasero: la parte de atrás del mueble queda abierta (una estantería abierta, un separador de ambientes). Baldas, divisiones y cajones llegan hasta el borde trasero del techo y la base; el grosor y el retranqueo de la trasera se desactivan, porque nada los usa.</p>
+      <p class="note">Disponible en el mueble estándar, el mueble de relleno y el mueble inclinado; en el bajo fregadero con travesaños horizontales se mantiene el travesaño trasero alto, que forma parte de la encimera. Los rinconeros con traseras y poste no lo ofrecen.</p>
+      <p class="item-title">Bisagras una a una</p>
+      <p class="note">Reposicionar bisagras… tiene un nuevo grupo para fijar el número de bisagras y la posición de cada una, sin perder la distribución automática. «Añadir bisagra» y «Quitar bisagra» escriben N+1, N-1 (N = el número automático, así la cuenta sigue a la puerta cuando cambia de tamaño), o se escribe una fórmula como ceil(L/500).</p>
+      <p class="note">Cada bisagra se puede fijar a un número o a una fórmula en L (el lado de las bisagras) y W (el otro lado), por ejemplo L/2 o L-120; las demás se reparten por igual entre las fijadas y, con la redistribución activa, siguen evitando divisiones y baldas.</p>
+      <p class="note">Una bisagra fijada que cae sobre una balda o una división se desplaza al borde libre más cercano y la barra de estado lo indica; una bisagra fuera de la puerta, fuera de orden o demasiado cerca de otra se rechaza con un mensaje, nunca se elimina. La ventana muestra las posiciones en tiempo real. Funciona en puertas simples y dobles, filas de puertas, la bisagra 875 entre puertas, rinconeros, mueble inclinado y mueble de relleno; las puertas que no tocas mantienen sus bisagras exactamente donde estaban.</p>
+      <p class="item-title">Cajones junto a obstáculos estructurales</p>
+      <p class="note">Un cajonero ahora puede estar junto a una viga, un pilar o una tubería. La caja del cajón evita la estela del obstáculo: el obstáculo (con sus paredes de cierre) ampliado con la nueva «Holgura respecto a los obstáculos» (Configuración tecnológica › Cajones, 5 mm por defecto) y prolongado hasta el fondo de la caja, porque el cajón sale hacia delante.</p>
+      <p class="note">Un obstáculo en el recorrido de la guía (un pilar en la esquina trasera) acorta todo el grupo, hasta la guía más larga que termina delante de él, para que los cajones sigan siendo iguales; una longitud de guía elegida a mano y demasiado larga se rechaza, indicando cuánto espacio queda.</p>
+      <p class="note">Un obstáculo por encima de la guía (una viga arriba) abre un rebaje en los laterales y la trasera, y las esquinas traseras se vuelven a fijar con al menos dos herrajes. Un obstáculo que atraviesa el fondo (un sifón) cierra la caja a su alrededor con tres paredes, el fondo alojado en sus ranuras y la trasera abierta por abajo. Un obstáculo y sus paredes de cierre cuentan como uno. Los rebajes se fresan como cualquier recorte de obstáculo; los cajones a los que no llega ningún obstáculo se construyen exactamente como antes.</p>
+      <p class="item-title">Herramientas que faltan, resueltas al momento</p>
+      <p class="note">Antes de generar los programas CNC, la ventana «Herramientas que faltan» permite ahora elegir allí mismo cada herramienta que falta, de la lista ▾ de la base de herramientas de Maestro (.tlgx) indicada en Formato de salida, o escribir su nombre.</p>
+      <p class="note">Las herramientas propias del proyecto (ranura de la trasera, ranura del fondo del cajón, puertas correderas, alivio del lateral, 5 ejes, mecanizados libres) se guardan en el proyecto; las de contorneado y tiradores valen para esa generación. Marca «Guardar como predeterminados en la Configuración tecnológica» para que sean también los predeterminados del perfil activo. «-1» se rechaza; un campo vacío sigue significando que ese mecanizado se hace fuera de la máquina.</p>
+      <h3 class="kind">Mejoras</h3>
+      <p class="item-title">Mecanizados libres</p>
+      <p class="note">ranuras en una sola pasada: Una ranura exactamente igual de ancha que la fresa se corta ahora en una sola pasada por su eje; antes Maestro se detenía en el mensaje bloqueante porque la fresa no tenía sitio para seguir el contorno. Una fresa más estrecha que la ranura sigue el contorno como antes.</p>
+      <p class="item-title">Mecanizados libres y perfiles conformados</p>
+      <p class="note">parámetros que usan otros parámetros: El valor de un parámetro ahora puede usar los demás parámetros, declarados antes o después (A = L-100-D con D definido más abajo). Los parámetros que se remiten entre sí en círculo se rechazan, nombrando el círculo (A → B → A).</p>
+      <p class="item-title">Menús de herramientas en la Configuración tecnológica</p>
+      <p class="note">La lista leída de la base de herramientas de Maestro (.tlgx) ahora ofrece también la sierra del grupo de taladrado, nunca sus brocas, y cada herramienta muestra un icono según su tipo: fresa, sierra o broca.</p>
+      <p class="item-title">Herramienta demasiado ancha para la ranura</p>
+      <p class="note">La ventana «Herramientas que faltan» ahora también avisa cuando la medida de la herramienta en el .tlgx supera la ranura de la trasera o del fondo del cajón (por ejemplo una fresa Ø10 en una ranura de 8,2 mm) y permite elegir otra, con un aviso que se actualiza mientras eliges.</p>
+      <p class="note">En la máquina el mensaje ya no mezcla tres causas: dice si la herramienta falta en el equipamiento, si no es ni fresa ni sierra, o si es más ancha que la ranura, nombrando la herramienta y el ancho de la ranura.</p>
+      <p class="item-title">Asistente de IA y ChatGPT</p>
+      <p class="note">«Conectar a un asistente › ChatGPT» ahora encuentra ChatGPT también cuando solo está instalada la app Codex, o cuando está instalado en una ubicación no estándar. La fila y el manual explican que Cabinet Designer se alcanza desde una sesión Codex de la app de escritorio de ChatGPT, no desde el chat normal.</p>
+      <h3 class="kind">Correcciones</h3>
+      <p class="item-title">Flecha de la veta (tecla V)</p>
+      <p class="note">En las piezas transparentes (T) la flecha ahora solo se ve en la cara orientada hacia ti; la de la cara de atrás ya no se transparenta al lado.</p>
+    </div>
+    <div class="lang" data-lang="pt" lang="pt">
+      <h3 class="kind">Novas funcionalidades</h3>
+      <p class="item-title">Tema escuro</p>
+      <p class="note">A interface pode agora ser clara (como antes) ou escura, mais descansada para os olhos. Por predefinição segue o Windows (Definições › Personalização › Cores) e muda em simultâneo com o Windows, mesmo com o programa aberto; em Definições › Tema escolhe-se Cabinet Designer claro ou Cabinet Designer escuro.</p>
+      <p class="note">Painel lateral, menus, bibliotecas, Configuração tecnológica e janelas seguem o tema; desenhos técnicos, PDF e orçamento continuam em papel branco. A vista 3D também passa a fundo escuro, a não ser que tenha escolhido um seu em Visualização › Fundo da vista 3D.</p>
+      <p class="item-title">Novo tema «Maestro Lab»</p>
+      <p class="note">Definições › Tema › Maestro Lab, no Cabinet Designer e no Composer: as cores do SCM Maestro Lab. Barras de menu e de estado cinzento ardósia, azul SCM em vez das cores das secções, painéis cinzentos e campos brancos; todos os ícones passam a monocromáticos.</p>
+      <p class="note">A vista 3D fica branca e cada peça aparece num único azul claro com arestas azuis, seja qual for o material: só muda a vista, o material continua na peça para a lista de corte, desenhos, render e programas CNC. Avisos e erros mantêm o vermelho e o laranja.</p>
+      <p class="item-title">Temas à sua medida</p>
+      <p class="note">Os temas claro e escuro chamam-se agora «Cabinet Designer claro» e «Cabinet Designer escuro». Cada tema leva o seu próprio fundo 3D e o estado de duas teclas da vista: a nova M «Mostrar o material» (peças com o seu material, ou na cor única do tema) e T «Transparente» (ligada no Maestro Lab).</p>
+      <p class="note">Com o botão direito no fundo da vista 3D muda na hora o fundo, M e T: as alterações tornam-se «Personalizado (não guardado)», nunca alteram o tema de partida e mantêm-se de uma sessão para a outra; «Guardar como tema personalizado…» guarda-as com um nome.</p>
+      <p class="note">Definições › Tema › Editor de temas… cria, duplica, elimina, importa e exporta temas (ficheiros .cdtheme): cores da interface, ícones (a cores ou monocromáticos) e vista 3D. Os temas originais não se alteram, duplicam-se. Um fundo 3D escolhido numa versão anterior torna-se o seu primeiro tema personalizado não guardado, por isso não se perde.</p>
+      <p class="item-title">Novo aspeto com cores e ícones</p>
+      <p class="note">Os menus do botão direito estão agrupados em secções coloridas (Estrutura, Prateleiras, Gavetas, Portas, Aspeto, Construção, Visualização), com o nome da peça no topo.</p>
+      <p class="note">Cada biblioteca (ferragens, materiais, orlas) tem a sua cor e mostra os artigos como fichas com estrela, miniatura e preço; o painel «Este móvel» e a Configuração tecnológica dão a cada secção a sua cor e o seu ícone, iguais nos dois locais. Textos e comandos não mudam.</p>
+      <p class="item-title">Nova montagem da traseira «Nenhum (traseira aberta)»</p>
+      <p class="note">Sem painel traseiro e sem travessa traseira: a parte de trás do móvel fica aberta (uma estante aberta, um divisor de ambientes). Prateleiras, divisórias e gavetas chegam ao bordo traseiro do tampo e da base; a espessura e o recuo da traseira ficam desativados, porque nada os usa.</p>
+      <p class="note">Disponível no móvel padrão, no móvel de compensação e no móvel inclinado; no móvel de lava-loiça com travessas horizontais mantém-se a travessa traseira alta, que faz parte do tampo. Os móveis de canto com traseiras e montante não o oferecem.</p>
+      <p class="item-title">Dobradiças uma a uma</p>
+      <p class="note">Reposicionar dobradiças… tem um novo grupo para definir o número de dobradiças e a posição de cada uma, sem perder a distribuição automática. «Adicionar dobradiça» e «Remover dobradiça» escrevem N+1, N-1 (N = o número automático, assim a contagem continua a seguir a porta quando muda de tamanho), ou escreve-se uma fórmula como ceil(L/500).</p>
+      <p class="note">Cada dobradiça pode ser fixada num número ou numa fórmula em L (o lado das dobradiças) e W (o outro lado), por exemplo L/2 ou L-120; as restantes distribuem-se uniformemente entre as fixadas e, com a redistribuição ativa, continuam a evitar divisórias e prateleiras.</p>
+      <p class="note">Uma dobradiça fixada que calhe numa prateleira ou divisória é deslocada para o bordo livre mais próximo e a barra de estado indica-o; uma dobradiça fora da porta, fora de ordem ou demasiado perto de outra é recusada com uma mensagem, nunca removida. A janela mostra as posições em tempo real. Funciona em portas simples e duplas, filas de portas, dobradiça 875 entre portas, móveis de canto, móvel inclinado e móvel de compensação; as portas em que não mexe mantêm as dobradiças exatamente onde estavam.</p>
+      <p class="item-title">Gavetas junto a obstáculos estruturais</p>
+      <p class="note">Um gaveteiro pode agora ficar junto a uma viga, um pilar ou um tubo. A caixa da gaveta evita o rasto do obstáculo: o obstáculo (com as suas paredes de fecho) aumentado da nova «Folga em relação aos obstáculos» (Configuração tecnológica › Gavetas, 5 mm por predefinição) e prolongado até à traseira da caixa, porque a gaveta sai para a frente.</p>
+      <p class="note">Um obstáculo no curso da corrediça (um pilar no canto traseiro) encurta todo o grupo, até à corrediça mais comprida que termina à frente dele, para que as gavetas fiquem iguais; um comprimento de corrediça escolhido à mão e demasiado longo é recusado, indicando o espaço que resta.</p>
+      <p class="note">Um obstáculo acima da corrediça (uma viga em cima) abre um rebaixo nas ilhargas e na traseira, e os cantos traseiros voltam a ser fixados com pelo menos duas fixações. Um obstáculo que atravessa o fundo (um sifão) fecha a caixa à sua volta com três paredes, o fundo alojado nas suas ranhuras e a traseira aberta por baixo. Um obstáculo e as suas paredes de fecho contam como um só. Os rebaixos são fresados como qualquer recorte de obstáculo; as gavetas que nenhum obstáculo alcança ficam exatamente como antes.</p>
+      <p class="item-title">Ferramentas em falta, resolvidas na hora</p>
+      <p class="note">Antes de gerar os programas CNC, a janela «Ferramentas em falta» permite agora escolher ali mesmo cada ferramenta em falta, a partir da lista ▾ da base de ferramentas do Maestro (.tlgx) indicada em Formato de saída, ou escrever o seu nome.</p>
+      <p class="note">As ferramentas do projeto (ranhura da traseira, ranhura do fundo da gaveta, portas de correr, alívio da ilharga, 5 eixos, maquinagens livres) são guardadas no projeto; as de contorno e puxadores valem para essa geração. Marque «Guardar como predefinições na Configuração tecnológica» para que passem também a predefinições do perfil ativo. «-1» é recusado; um campo vazio continua a significar que essa maquinagem é feita fora da máquina.</p>
+      <h3 class="kind">Melhorias</h3>
+      <p class="item-title">Maquinagens livres</p>
+      <p class="note">rasgos numa só passagem: Um rasgo exatamente tão largo como a fresa é agora cortado numa só passagem ao longo do seu eixo; antes, o Maestro parava na mensagem bloqueante porque a fresa não tinha espaço para seguir o contorno. Uma fresa mais estreita do que o rasgo segue o contorno como antes.</p>
+      <p class="item-title">Maquinagens livres e perfis moldados</p>
+      <p class="note">parâmetros que usam outros parâmetros: O valor de um parâmetro pode agora usar os outros parâmetros, declarados antes ou depois (A = L-100-D com D definido mais abaixo). Parâmetros que se referem uns aos outros em círculo são recusados, indicando o círculo (A → B → A).</p>
+      <p class="item-title">Menus de ferramentas na Configuração tecnológica</p>
+      <p class="note">A lista lida da base de ferramentas do Maestro (.tlgx) oferece agora também a serra do grupo de furação, nunca as suas brocas, e cada ferramenta mostra um ícone conforme o tipo: fresa, serra ou broca.</p>
+      <p class="item-title">Ferramenta demasiado larga para a ranhura</p>
+      <p class="note">A janela «Ferramentas em falta» avisa agora também quando a medida da ferramenta no .tlgx é maior do que a ranhura da traseira ou do fundo da gaveta (por exemplo uma fresa Ø10 numa ranhura de 8,2 mm) e permite escolher outra, com um aviso que se atualiza enquanto escolhe.</p>
+      <p class="note">Na máquina, a mensagem já não mistura três causas: diz se a ferramenta falta no equipamento, se não é fresa nem serra, ou se é mais larga do que a ranhura, indicando a ferramenta e a largura da ranhura.</p>
+      <p class="item-title">Assistente de IA e ChatGPT</p>
+      <p class="note">«Ligar a um assistente › ChatGPT» encontra agora o ChatGPT também quando só está instalada a app Codex, ou quando está instalado num local não padrão. A linha e o manual explicam que o Cabinet Designer é acessível a partir de uma sessão Codex da app ChatGPT para computador, não a partir do chat normal.</p>
+      <h3 class="kind">Correções</h3>
+      <p class="item-title">Seta do veio (tecla V)</p>
+      <p class="note">Nas peças transparentes (T) a seta aparece agora apenas na face virada para si; a da face de trás já não se vê através da peça ao lado.</p>
+    </div>
+    <div class="lang" data-lang="nl" lang="nl">
+      <h3 class="kind">Nieuwe functies</h3>
+      <p class="item-title">Donker thema</p>
+      <p class="note">De interface kan nu licht (zoals voorheen) of donker zijn, wat rustiger is voor de ogen. Standaard volgt ze Windows (Instellingen › Persoonlijke instellingen › Kleuren) en wisselt ze mee met Windows, ook met het programma open; via Instellingen › Thema kiest u Cabinet Designer licht of Cabinet Designer donker.</p>
+      <p class="note">Zijpaneel, menu's, bibliotheken, Technologische configuratie en vensters volgen het thema; technische tekeningen, pdf's en de offerte blijven op wit papier. Ook de 3D-weergave krijgt een donkere achtergrond, tenzij u zelf een achtergrond hebt gekozen via Weergave › Achtergrond van de 3D-weergave.</p>
+      <p class="item-title">Nieuw thema ‘Maestro Lab’</p>
+      <p class="note">Instellingen › Thema › Maestro Lab, in Cabinet Designer en in de Composer: de kleuren van SCM Maestro Lab. Leigrijze menu- en statusbalken, SCM-blauw in plaats van de sectiekleuren, grijze panelen en witte velden; alle pictogrammen worden eenkleurig.</p>
+      <p class="note">De 3D-weergave wordt wit en elk onderdeel verschijnt in één lichtblauw met blauwe randen, ongeacht het materiaal: alleen de weergave verandert, het materiaal blijft op het onderdeel voor zaaglijst, tekeningen, render en CNC-programma's. Waarschuwingen en fouten houden hun rood en oranje.</p>
+      <p class="item-title">Thema's naar uw hand</p>
+      <p class="note">De lichte en donkere thema's heten nu ‘Cabinet Designer licht’ en ‘Cabinet Designer donker’. Elk thema heeft zijn eigen 3D-achtergrond en de stand van twee weergavetoetsen: de nieuwe M ‘Materiaal tonen’ (onderdelen met hun materiaal, of in de ene kleur van het thema) en T ‘Transparant’ (aan in Maestro Lab).</p>
+      <p class="note">Met de rechtermuisknop op de achtergrond van de 3D-weergave wijzigt u direct achtergrond, M en T: de wijzigingen worden ‘Aangepast (niet opgeslagen)’, veranderen nooit het thema waarvan ze uitgaan en blijven van de ene sessie naar de volgende bewaard; ‘Opslaan als eigen thema…’ bewaart ze onder een naam.</p>
+      <p class="note">Instellingen › Thema › Thema-editor… maakt, dupliceert, verwijdert, importeert en exporteert thema's (.cdtheme-bestanden): interfacekleuren, pictogrammen (in kleur of eenkleurig) en 3D-weergave. De originele thema's kunnen niet worden gewijzigd, alleen gedupliceerd. Een 3D-achtergrond die u in een eerdere versie had gekozen, wordt uw eerste niet-opgeslagen eigen thema en gaat dus niet verloren.</p>
+      <p class="item-title">Nieuw uiterlijk met kleuren en pictogrammen</p>
+      <p class="note">De rechtermuisknopmenu's zijn ingedeeld in gekleurde secties (Opbouw, Legborden, Lades, Deuren, Uiterlijk, Constructie, Weergave), met de naam van het onderdeel bovenaan.</p>
+      <p class="note">Elke bibliotheek (beslag, materialen, kanten) heeft een eigen kleur en toont haar artikelen als kaarten met ster, miniatuur en prijs; het paneel ‘Deze kast’ en de Technologische configuratie geven elke sectie haar kleur en pictogram, op beide plaatsen hetzelfde. Teksten en opdrachten zijn ongewijzigd.</p>
+      <p class="item-title">Nieuwe achterwandmontage ‘Geen (open achterkant)’</p>
+      <p class="note">Geen achterwand en geen achterregel: de achterkant van de kast blijft open (een open boekenkast, een roomdivider). Legborden, tussenwanden en lades reiken tot de achterrand van boven- en onderblad; achterwanddikte en achterwandinspringing zijn uitgegrijsd, omdat niets ze gebruikt.</p>
+      <p class="note">Beschikbaar op de standaardkast, de opvulkast en de schuine kast; bij een spoelkast met horizontale regels blijft de bovenste achterregel, die bij het blad hoort. Hoekkasten met achterwanden en staander bieden het niet aan.</p>
+      <p class="item-title">Scharnieren één voor één</p>
+      <p class="note">Scharnieren herpositioneren… heeft een nieuwe groep om het aantal scharnieren en de positie van afzonderlijke scharnieren in te stellen, zonder de automatische verdeling te verliezen. ‘Scharnier toevoegen’ en ‘Scharnier verwijderen’ schrijven N+1, N-1 (N = het automatische aantal, zodat het aantal de deur blijft volgen als haar maat verandert), of u typt een formule zoals ceil(L/500).</p>
+      <p class="note">Elk scharnier kan worden vastgezet op een getal of een formule in L (de scharnierzijde) en W (de andere zijde), bijvoorbeeld L/2 of L-120; de overige worden gelijkmatig verdeeld tussen de vastgezette en ontwijken, met herverdeling aan, nog steeds tussenwanden en legborden.</p>
+      <p class="note">Een vastgezet scharnier dat op een legbord of tussenwand valt, wordt naar de dichtstbijzijnde vrije rand verplaatst en de statusbalk meldt dat; een scharnier buiten de deur, in de verkeerde volgorde of te dicht bij een ander wordt met een melding geweigerd, nooit weggelaten. Het venster toont de posities live. Werkt op enkele en dubbele deuren, deurrijen, het 875-scharnier tussen deuren, hoekkasten, de schuine kast en de opvulkast; deuren die u niet aanraakt houden hun scharnieren precies waar ze zaten.</p>
+      <p class="item-title">Lades naast bouwkundige obstakels</p>
+      <p class="note">Een ladekast kan nu naast een balk, een pilaar of een leiding staan. De ladebak blijft uit het kielzog van het obstakel: het obstakel (met zijn afsluitwanden) vergroot met de nieuwe ‘Speling tot obstakels’ (Technologische configuratie › Lades, standaard 5 mm) en doorgetrokken tot de achterkant van de bak, omdat de lade naar voren uitschuift.</p>
+      <p class="note">Een obstakel in de loop van de geleider (een pilaar in de achterhoek) maakt de hele groep korter, tot de langste geleider die ervoor eindigt, zodat de lades gelijk blijven; een met de hand gekozen geleiderlengte die te lang is, wordt geweigerd met vermelding van de resterende ruimte.</p>
+      <p class="note">Een obstakel boven de geleider (een balk bovenin) maakt een open uitsparing in zijkanten en achterkant, en de achterhoeken worden opnieuw met minstens twee verbindingen vastgezet. Een obstakel door de bodem (een sifon) sluit de bak eromheen met drie wanden, de bodem in hun groeven en de achterkant van onderen open. Een obstakel en zijn afsluitwanden tellen als één. De uitsparingen worden gefreesd zoals elke obstakeluitsparing; lades die door geen obstakel worden bereikt, blijven precies zoals voorheen.</p>
+      <p class="item-title">Ontbrekende gereedschappen, meteen opgelost</p>
+      <p class="note">Voordat de CNC-programma's worden gemaakt, laat het venster ‘Ontbrekende gereedschappen’ u nu elk ontbrekend gereedschap ter plekke kiezen, uit de ▾-lijst van de Maestro-gereedschapsdatabase (.tlgx) die in Uitvoerformaat is ingesteld, of de naam typen.</p>
+      <p class="note">Gereedschappen die bij het project horen (achterwandgroef, ladebodemgroef, schuifdeuren, zijvrijloop, 5 assen, vrije bewerkingen) worden in het project opgeslagen; contour- en greepgereedschappen gelden voor die generatie. Vink ‘Opslaan als standaard in de Technologische configuratie’ aan om ze ook de standaard van het actieve profiel te maken. ‘-1’ wordt geweigerd; een leeg veld betekent nog steeds dat die bewerking buiten de machine gebeurt.</p>
+      <h3 class="kind">Verbeteringen</h3>
+      <p class="item-title">Vrije bewerkingen</p>
+      <p class="note">sleuven in één doorgang: Een sleuf die precies zo breed is als de frees, wordt nu in één doorgang langs haar hartlijn gefreesd; voorheen stopte Maestro bij de blokkerende melding, omdat de frees geen ruimte had om de contour te volgen. Een frees die smaller is dan de sleuf volgt de contour zoals voorheen.</p>
+      <p class="item-title">Vrije bewerkingen en profielvormen</p>
+      <p class="note">parameters die andere parameters gebruiken: De waarde van een parameter kan nu de andere parameters gebruiken, ervoor of erna gedeclareerd (A = L-100-D met D verderop gedefinieerd). Parameters die in een kring naar elkaar verwijzen worden geweigerd, met vermelding van de kring (A → B → A).</p>
+      <p class="item-title">Gereedschapsmenu's in de Technologische configuratie</p>
+      <p class="note">De lijst uit de Maestro-gereedschapsdatabase (.tlgx) biedt nu ook het zaagblad van de boorkop aan, nooit de boren, en elk gereedschap toont een pictogram voor zijn soort: frees, zaagblad of boor.</p>
+      <p class="item-title">Gereedschap te breed voor de groef</p>
+      <p class="note">Het venster ‘Ontbrekende gereedschappen’ waarschuwt nu ook als het gereedschap volgens de .tlgx breder is dan de achterwandgroef of de ladebodemgroef (bijvoorbeeld een frees Ø10 in een groef van 8,2 mm) en laat u een ander kiezen, met een waarschuwing die meeloopt met uw keuze.</p>
+      <p class="note">Aan de machine gooit de melding geen drie oorzaken meer op één hoop: ze zegt of het gereedschap ontbreekt in de uitrusting, geen frees of zaagblad is, of breder is dan de groef, met de naam van het gereedschap en de groefbreedte.</p>
+      <p class="item-title">AI-assistent en ChatGPT</p>
+      <p class="note">‘Verbinden met een assistent › ChatGPT’ vindt ChatGPT nu ook als alleen de Codex-app is geïnstalleerd, of als het op een niet-standaard locatie staat. De regel en de handleiding leggen uit dat Cabinet Designer bereikbaar is vanuit een Codex-sessie van de ChatGPT-desktopapp, niet vanuit de gewone chat.</p>
+      <h3 class="kind">Oplossingen</h3>
+      <p class="item-title">Nerfpijl (toets V)</p>
+      <p class="note">Bij transparante onderdelen (T) verschijnt de pijl nu alleen op het vlak dat naar u is toegekeerd; de pijl van het achterste vlak schijnt er niet meer naast door.</p>
+    </div>
+    <div class="lang" data-lang="pl" lang="pl">
+      <h3 class="kind">Nowe funkcje</h3>
+      <p class="item-title">Motyw ciemny</p>
+      <p class="note">Interfejs może teraz być jasny (jak dotąd) lub ciemny, mniej męczący dla oczu. Domyślnie podąża za Windows (Ustawienia › Personalizacja › Kolory) i zmienia się razem z Windows, także przy otwartym programie; w Ustawienia › Motyw można wybrać Cabinet Designer jasny lub Cabinet Designer ciemny.</p>
+      <p class="note">Panel boczny, menu, biblioteki, Konfiguracja technologiczna i okna podążają za motywem; rysunki techniczne, pliki PDF i oferta pozostają na białym papierze. Widok 3D również dostaje ciemne tło, chyba że wybrano własne w Widok › Tło widoku 3D.</p>
+      <p class="item-title">Nowy motyw „Maestro Lab”</p>
+      <p class="note">Ustawienia › Motyw › Maestro Lab, w Cabinet Designer i w Composerze: kolory SCM Maestro Lab. Łupkowoszare paski menu i stanu, błękit SCM zamiast kolorów sekcji, szare panele i białe pola; wszystkie ikony stają się jednokolorowe.</p>
+      <p class="note">Widok 3D staje się biały, a każdy element jest pokazany w jednym jasnoniebieskim kolorze z niebieskimi krawędziami, niezależnie od materiału: zmienia się tylko widok, materiał pozostaje na elemencie dla listy rozkroju, rysunków, renderu i programów CNC. Ostrzeżenia i błędy zachowują czerwień i pomarańcz.</p>
+      <p class="item-title">Motywy na własną miarę</p>
+      <p class="note">Motywy jasny i ciemny nazywają się teraz „Cabinet Designer jasny” i „Cabinet Designer ciemny”. Każdy motyw ma własne tło 3D i stan dwóch klawiszy widoku: nowego M „Pokaż materiał” (elementy z ich materiałem albo w jednym kolorze motywu) i T „Przezroczysty” (włączony w Maestro Lab).</p>
+      <p class="note">Prawym przyciskiem na tle widoku 3D zmienisz od ręki tło, M i T: zmiany stają się „Własny (niezapisany)”, nigdy nie zmieniają motywu wyjściowego i zostają z sesji na sesję; „Zapisz jako motyw własny…” zachowuje je pod nazwą.</p>
+      <p class="note">Ustawienia › Motyw › Edytor motywów… tworzy, duplikuje, usuwa, importuje i eksportuje motywy (pliki .cdtheme): kolory interfejsu, ikony (kolorowe lub jednokolorowe) i widok 3D. Oryginalnych motywów nie można zmieniać, tylko duplikować. Tło 3D wybrane w poprzedniej wersji staje się pierwszym niezapisanym motywem własnym, więc nie przepada.</p>
+      <p class="item-title">Nowy wygląd z kolorami i ikonami</p>
+      <p class="note">Menu prawego przycisku są pogrupowane w kolorowe sekcje (Konstrukcja, Półki, Szuflady, Fronty, Wygląd, Konstrukcja, Widok), z nazwą elementu u góry.</p>
+      <p class="note">Każda biblioteka (okucia, materiały, obrzeża) ma własny kolor i pokazuje pozycje jako karty z gwiazdką, miniaturą i ceną; panel „Ta szafka” i Konfiguracja technologiczna nadają każdej sekcji jej kolor i ikonę, takie same w obu miejscach. Teksty i polecenia się nie zmieniają.</p>
+      <p class="item-title">Nowy montaż pleców „Brak (otwarty tył)”</p>
+      <p class="note">Bez plecówki i bez tylnej listwy: tył szafki pozostaje otwarty (otwarty regał, przegroda pokoju). Półki, przegrody i szuflady sięgają do tylnej krawędzi wieńca górnego i dolnego; grubość i cofnięcie plecówki są wyszarzone, bo nic ich nie używa.</p>
+      <p class="note">Dostępne w szafce standardowej, szafce uzupełniającej i szafce skośnej; w szafce zlewozmywakowej z poziomymi listwami zostaje górna tylna listwa, będąca częścią blatu. Szafki narożne z plecami i słupkiem tego nie oferują.</p>
+      <p class="item-title">Zawiasy pojedynczo</p>
+      <p class="note">Zmień położenie zawiasów… ma nową grupę do ustawienia liczby zawiasów i położenia pojedynczych zawiasów bez utraty układu automatycznego. „Dodaj zawias” i „Usuń zawias” zapisują N+1, N-1 (N = liczba automatyczna, więc liczba nadal podąża za frontem, gdy zmienia się jego rozmiar), albo można wpisać wzór, np. ceil(L/500).</p>
+      <p class="note">Każdy zawias można przypiąć do liczby lub wzoru w L (strona zawiasów) i W (druga strona), np. L/2 lub L-120; pozostałe rozkładają się równo między przypiętymi i przy włączonym przerozkładzie nadal omijają przegrody i półki.</p>
+      <p class="note">Przypięty zawias, który wypada na półce lub przegrodzie, jest przesuwany do najbliższej wolnej krawędzi, a pasek stanu o tym informuje; zawias poza frontem, w złej kolejności lub zbyt blisko innego jest odrzucany z komunikatem, nigdy usuwany. Okno pokazuje położenia na żywo. Działa na frontach pojedynczych i podwójnych, rzędach frontów, zawiasie 875 między frontami, szafkach narożnych, szafce skośnej i uzupełniającej; fronty, których nie dotykasz, zachowują zawiasy dokładnie tam, gdzie były.</p>
+      <p class="item-title">Szuflady obok przeszkód konstrukcyjnych</p>
+      <p class="note">Szafka z szufladami może teraz stać obok belki, słupa lub rury. Skrzynka szuflady omija ślad przeszkody: przeszkodę (z jej ściankami zamykającymi) powiększoną o nowy „Luz od przeszkód” (Konfiguracja technologiczna › Szuflady, domyślnie 5 mm) i przedłużoną do tyłu skrzynki, bo szuflada wysuwa się do przodu.</p>
+      <p class="note">Przeszkoda na drodze prowadnicy (słup w tylnym narożniku) skraca całą grupę do najdłuższej prowadnicy kończącej się przed nią, by szuflady pozostały jednakowe; ręcznie wybrana zbyt długa prowadnica jest odrzucana z informacją, ile miejsca zostało.</p>
+      <p class="note">Przeszkoda nad prowadnicą (belka u góry) wycina otwarte wycięcie w bokach i tyle, a tylne narożniki są ponownie mocowane co najmniej dwoma łącznikami. Przeszkoda przechodząca przez dno (syfon) zamyka wokół siebie skrzynkę trzema ściankami, z dnem w ich wpustach i tyłem otwartym od dołu. Przeszkoda i jej ścianki zamykające liczą się jako jedna. Wycięcia są frezowane jak każde wycięcie przeszkody; szuflady, do których nie sięga żadna przeszkoda, są budowane dokładnie tak jak wcześniej.</p>
+      <p class="item-title">Brakujące narzędzia, rozwiązane od razu</p>
+      <p class="note">Przed wygenerowaniem programów CNC okno „Brakujące narzędzia” pozwala teraz od razu wybrać każde brakujące narzędzie z listy ▾ bazy narzędzi Maestro (.tlgx) wskazanej w Format wyjściowy albo wpisać jego nazwę.</p>
+      <p class="note">Narzędzia należące do projektu (wpust plecówki, wpust dna szuflady, drzwi przesuwne, podcięcie boku, 5 osi, obróbki swobodne) zapisują się w projekcie; narzędzia konturowania i uchwytów obowiązują dla tego generowania. Zaznacz „Zapisz jako domyślne w Konfiguracji technologicznej”, aby stały się też domyślnymi aktywnego profilu. „-1” jest odrzucane; puste pole nadal oznacza, że ta obróbka jest wykonywana poza maszyną.</p>
+      <h3 class="kind">Ulepszenia</h3>
+      <p class="item-title">Obróbki swobodne</p>
+      <p class="note">rowki w jednym przejściu: Rowek dokładnie tak szeroki jak frez jest teraz frezowany jednym przejściem wzdłuż osi; wcześniej Maestro zatrzymywał się na komunikacie blokującym, bo frez nie miał miejsca, by poprowadzić kontur. Frez węższy od rowka prowadzi kontur jak dotąd.</p>
+      <p class="item-title">Obróbki swobodne i profile kształtowe</p>
+      <p class="note">parametry korzystające z innych parametrów: Wartość parametru może teraz korzystać z innych parametrów, zadeklarowanych przed nim lub po nim (A = L-100-D, gdzie D jest zdefiniowane niżej). Parametry odwołujące się do siebie w kółko są odrzucane, z nazwaniem pętli (A → B → A).</p>
+      <p class="item-title">Menu narzędzi w Konfiguracji technologicznej</p>
+      <p class="note">Lista odczytana z bazy narzędzi Maestro (.tlgx) oferuje teraz także piłę zespołu wiertarskiego, nigdy jego wierteł, a każde narzędzie ma ikonę swojego rodzaju: frez, piła lub wiertło.</p>
+      <p class="item-title">Narzędzie za szerokie do wpustu</p>
+      <p class="note">Okno „Brakujące narzędzia” ostrzega teraz także, gdy rozmiar narzędzia w .tlgx przekracza szerokość wpustu plecówki lub dna szuflady (np. frez Ø10 we wpuście 8,2 mm), i pozwala wybrać inne, z ostrzeżeniem aktualizowanym podczas wyboru.</p>
+      <p class="note">Na maszynie komunikat nie łączy już trzech przyczyn: mówi, czy narzędzia brak w wyposażeniu, czy nie jest ani frezem, ani piłą, czy jest szersze od wpustu, podając nazwę narzędzia i szerokość wpustu.</p>
+      <p class="item-title">Asystent AI i ChatGPT</p>
+      <p class="note">„Połącz z asystentem › ChatGPT” znajduje teraz ChatGPT także wtedy, gdy zainstalowana jest tylko aplikacja Codex lub gdy jest zainstalowany w niestandardowym miejscu. Wiersz i instrukcja wyjaśniają, że Cabinet Designer jest dostępny z sesji Codex aplikacji ChatGPT na komputer, a nie ze zwykłego czatu.</p>
+      <h3 class="kind">Poprawki</h3>
+      <p class="item-title">Strzałka usłojenia (klawisz V)</p>
+      <p class="note">Na przezroczystych elementach (T) strzałka jest teraz widoczna tylko na ściance zwróconej do ciebie; strzałka tylnej ścianki nie prześwituje już obok.</p>
+    </div>
+    <div class="lang" data-lang="ar" lang="ar" dir="rtl">
+      <h3 class="kind">ميزات جديدة</h3>
+      <p class="item-title">السمة الداكنة</p>
+      <p class="note">يمكن للواجهة الآن أن تكون فاتحة (كما في السابق) أو داكنة، وهي أريح للعين. افتراضيًا تتبع Windows (الإعدادات › التخصيص › الألوان) وتتغير معه حتى والبرنامج مفتوح؛ ومن الإعدادات › السمة يمكن اختيار Cabinet Designer فاتح أو Cabinet Designer داكن.</p>
+      <p class="note">اللوحة الجانبية والقوائم والمكتبات والإعدادات التقنية والنوافذ تتبع السمة؛ أما الرسومات الفنية وملفات PDF وعرض السعر فتبقى على ورق أبيض. ويحصل العرض ثلاثي الأبعاد أيضًا على خلفية داكنة، ما لم تكن قد اخترت خلفية خاصة بك من المنظر › خلفية العرض ثلاثي الأبعاد.</p>
+      <p class="item-title">سمة جديدة «Maestro Lab»</p>
+      <p class="note">الإعدادات › السمة › Maestro Lab، في Cabinet Designer وفي Composer: ألوان SCM Maestro Lab. أشرطة القوائم والحالة بلون رمادي إردوازي، والأزرق SCM بدل ألوان الأقسام، ولوحات رمادية وحقول بيضاء؛ وتصبح كل الأيقونات أحادية اللون.</p>
+      <p class="note">يصبح العرض ثلاثي الأبعاد أبيض وتظهر كل قطعة بلون أزرق فاتح واحد مع حواف زرقاء أيًا كانت مادتها: يتغير العرض فقط، وتبقى المادة على القطعة لقائمة القص والرسومات والتصيير وبرامج CNC. وتحتفظ التحذيرات والأخطاء بلونيها الأحمر والبرتقالي.</p>
+      <p class="item-title">سمات على ذوقك</p>
+      <p class="note">أصبح اسم السمتين الفاتحة والداكنة «Cabinet Designer فاتح» و«Cabinet Designer داكن». وتحمل كل سمة خلفيتها ثلاثية الأبعاد وحالة مفتاحين من مفاتيح العرض: المفتاح الجديد M «إظهار المادة» (القطع بمادتها، أو بلون السمة الموحد) وT «شفاف» (مفعّل في Maestro Lab).</p>
+      <p class="note">بالنقر بزر الفأرة الأيمن على خلفية العرض ثلاثي الأبعاد تغيّر الخلفية وM وT فورًا: تصبح التغييرات «مخصص (غير محفوظ)»، ولا تغيّر أبدًا السمة التي بدأت منها، وتبقى من جلسة إلى أخرى؛ ويحفظها «حفظ كسمة مخصصة…» باسم.</p>
+      <p class="note">الإعدادات › السمة › محرر السمات… ينشئ السمات وينسخها ويحذفها ويستوردها ويصدّرها (ملفات .cdtheme): ألوان الواجهة، والأيقونات (ملونة أو أحادية اللون) والعرض ثلاثي الأبعاد. لا يمكن تعديل السمات الأصلية بل نسخها فقط. وتصبح الخلفية ثلاثية الأبعاد التي اخترتها في إصدار سابق أول سمة مخصصة غير محفوظة لديك، فلا تضيع.</p>
+      <p class="item-title">مظهر جديد بالألوان والأيقونات</p>
+      <p class="note">قوائم زر الفأرة الأيمن مقسّمة إلى أقسام ملونة (الهيكل، الرفوف، الأدراج، الأبواب، المظهر، البناء، المنظر)، مع اسم القطعة في الأعلى.</p>
+      <p class="note">لكل مكتبة (الإكسسوارات، المواد، الحواف) لونها الخاص، وتعرض عناصرها كبطاقات بنجمة وصورة مصغرة وسعر؛ وتمنح لوحة «هذه الخزانة» والإعدادات التقنية كل قسم لونه وأيقونته، بالشكل نفسه في الموضعين. النصوص والأوامر لم تتغير.</p>
+      <p class="item-title">تركيب جديد للظهر «بلا (خلف مفتوح)»</p>
+      <p class="note">لا لوح خلفي ولا عارضة خلفية: يبقى خلف الخزانة مفتوحًا (مكتبة مفتوحة، فاصل للغرف). تصل الرفوف والفواصل والأدراج إلى الحافة الخلفية للسقف والقاعدة؛ وتُعطَّل سماكة الظهر وارتداده لأن لا شيء يستخدمهما.</p>
+      <p class="note">متاح في الخزانة القياسية وخزانة التعويض والخزانة المائلة؛ وفي خزانة الحوض ذات العوارض الأفقية تبقى العارضة الخلفية العليا لأنها جزء من السطح. ولا تتيحه الخزائن الركنية ذات الظهور والعمود.</p>
+      <p class="item-title">المفصلات واحدةً واحدة</p>
+      <p class="note">تضم «إعادة تموضع المفصلات…» مجموعة جديدة لتحديد عدد المفصلات وموضع كل مفصلة، دون فقدان التوزيع التلقائي. يكتب «إضافة مفصلة» و«إزالة مفصلة» N+1 وN-1 (N = العدد التلقائي، فيبقى العدد تابعًا للباب عند تغيّر مقاسه)، أو يمكن كتابة صيغة مثل ceil(L/500).</p>
+      <p class="note">يمكن تثبيت كل مفصلة على رقم أو على صيغة بدلالة L (جانب المفصلات) وW (الجانب الآخر)، مثل L/2 أو L-120؛ وتتوزع البقية بالتساوي بين المفصلات المثبتة، ومع تفعيل إعادة التوزيع تظل تتجنب الفواصل والرفوف.</p>
+      <p class="note">المفصلة المثبتة التي تقع على رف أو فاصل تُنقل إلى أقرب حافة حرة ويُعلم شريط الحالة بذلك؛ والمفصلة الواقعة خارج الباب أو خارج الترتيب أو القريبة جدًا من أخرى تُرفض برسالة ولا تُحذف أبدًا. وتعرض النافذة المواضع مباشرة. يعمل ذلك على الأبواب المفردة والمزدوجة وصفوف الأبواب ومفصلة 875 بين الأبواب والخزائن الركنية والخزانة المائلة وخزانة التعويض؛ والأبواب التي لا تلمسها تحتفظ بمفصلاتها في مكانها تمامًا.</p>
+      <p class="item-title">أدراج بجوار العوائق الإنشائية</p>
+      <p class="note">يمكن الآن وضع خزانة أدراج بجوار عارضة أو عمود أو أنبوب. يتجنب صندوق الدرج أثر العائق: العائق (مع جدرانه المغلقة) مكبّرًا بقيمة «الخلوص عن العوائق» الجديدة (الإعدادات التقنية › الأدراج، 5 مم افتراضيًا) وممدودًا حتى خلف الصندوق، لأن الدرج ينزلق إلى الأمام.</p>
+      <p class="note">العائق الواقع في مسار المجرى (عمود في الزاوية الخلفية) يقصّر المجموعة كلها حتى أطول مجرى ينتهي أمامه، فتبقى الأدراج متماثلة؛ وطول المجرى المختار يدويًا إذا كان أطول من اللازم يُرفض مع ذكر المساحة المتبقية.</p>
+      <p class="note">العائق فوق المجرى (عارضة في الأعلى) يقطع تجويفًا مفتوحًا في الجانبين والظهر، وتُثبَّت الزوايا الخلفية من جديد بوصلتين على الأقل. والعائق الذي يخترق القاع (سيفون) يُغلق الصندوق حوله بثلاثة جدران، والقاع داخل مجاريها والظهر مفتوح من الأسفل. ويُحسب العائق وجدرانه المغلقة عائقًا واحدًا. تُفرَّز التجاويف كأي قطع للعائق؛ والأدراج التي لا يصلها أي عائق تُبنى تمامًا كما في السابق.</p>
+      <p class="item-title">الأدوات المفقودة تُحل في الحال</p>
+      <p class="note">قبل إنشاء برامج CNC، تتيح نافذة «أدوات مفقودة» الآن اختيار كل أداة مفقودة في الحال، من القائمة ▾ لقاعدة أدوات Maestro (.tlgx) المحددة في تنسيق الإخراج، أو كتابة اسمها.</p>
+      <p class="note">تُحفظ الأدوات الخاصة بالمشروع (مجرى الظهر، مجرى قاع الدرج، الأبواب المنزلقة، تفريغ الجانب، 5 محاور، التشغيلات الحرة) في المشروع؛ وتسري أدوات التحديد والمقابض على عملية الإنشاء تلك. فعّل «حفظ كافتراضيات في الإعدادات التقنية» لتصبح أيضًا افتراضيات الملف النشط. تُرفض القيمة «-1»؛ والحقل الفارغ ما زال يعني أن هذه العملية تُنفَّذ خارج الآلة.</p>
+      <h3 class="kind">تحسينات</h3>
+      <p class="item-title">التشغيلات الحرة</p>
+      <p class="note">شقوق بتمريرة واحدة: الشق الذي عرضه يساوي عرض الفريزة تمامًا يُقطع الآن بتمريرة واحدة على خط منتصفه؛ وكان Maestro سابقًا يتوقف عند الرسالة المانعة لأن الفريزة لم يكن لديها مكان لتتبع المحيط. والفريزة الأضيق من الشق تتبع المحيط كما في السابق.</p>
+      <p class="item-title">التشغيلات الحرة والمقاطع المشكّلة</p>
+      <p class="note">معاملات تستخدم معاملات أخرى: يمكن لقيمة المعامل الآن أن تستخدم المعاملات الأخرى، المعرّفة قبله أو بعده (A = L-100-D مع تعريف D أدناه). وتُرفض المعاملات التي يشير بعضها إلى بعض في حلقة، مع تسمية الحلقة (A → B → A).</p>
+      <p class="item-title">قوائم الأدوات في الإعدادات التقنية</p>
+      <p class="note">القائمة المقروءة من قاعدة أدوات Maestro (.tlgx) تعرض الآن أيضًا منشار وحدة الثقب، ولا تعرض لُقمها أبدًا، وتُظهر كل أداة أيقونة بحسب نوعها: فريزة أو منشار أو لقمة.</p>
+      <p class="item-title">أداة أعرض من المجرى</p>
+      <p class="note">تنبّه نافذة «أدوات مفقودة» الآن أيضًا عندما يكون مقاس الأداة في .tlgx أعرض من مجرى الظهر أو مجرى قاع الدرج (مثل فريزة Ø10 في مجرى عرضه 8.2 مم)، وتتيح اختيار أداة أخرى مع تحذير يتحدّث أثناء الاختيار.</p>
+      <p class="note">على الآلة لم تعد الرسالة تجمع ثلاثة أسباب معًا: فهي تذكر ما إذا كانت الأداة غير موجودة في التجهيز، أو ليست فريزة ولا منشارًا، أو أعرض من المجرى، مع اسم الأداة وعرض المجرى.</p>
+      <p class="item-title">المساعد الذكي وChatGPT</p>
+      <p class="note">يعثر «الربط بمساعد › ChatGPT» الآن على ChatGPT حتى عندما يكون تطبيق Codex وحده مثبتًا، أو عندما يكون مثبتًا في مكان غير قياسي. ويوضح السطر ودليل المستخدم أن Cabinet Designer يمكن الوصول إليه من جلسة Codex في تطبيق ChatGPT لسطح المكتب، لا من الدردشة العادية.</p>
+      <h3 class="kind">إصلاحات</h3>
+      <p class="item-title">سهم اتجاه العروق (المفتاح V)</p>
+      <p class="note">على القطع الشفافة (T) يظهر السهم الآن فقط على الوجه المتجه نحوك؛ ولم يعد سهم الوجه الخلفي يظهر من خلال القطعة بجانبه.</p>
+    </div>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/7.5.0/new_menus.png" alt="New Menus" loading="lazy"><figcaption>New Menus</figcaption></figure>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/7.5.0/light.png" alt="Light Theme" loading="lazy"><figcaption>Light Theme</figcaption></figure>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/7.5.0/dark.png" alt="Dark Theme" loading="lazy"><figcaption>Dark Theme</figcaption></figure>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/7.5.0/Maestrolabtheme.png" alt="Maestro Lab Theme" loading="lazy"><figcaption>Maestro Lab Theme</figcaption></figure>
+  <figure class="media"><img src="https://cabinetdesigner.uk/assets/images/releases/7.5.0/drawers.png" alt="Drawers with obstacles" loading="lazy"><figcaption>Drawers with obstacles</figcaption></figure>
+  </section>
   <section class="rel" id="v7-0-0" data-version="7.0.0">
     <h2>Cabinet Designer 7.0.0</h2>
     <div class="date">2026-11-09</div>
@@ -604,6 +1026,47 @@
   });
   // Nessuna versione piu' recente: meglio l'archivio intero che una pagina vuota.
   if (!shown) all.forEach(function (s) { s.hidden = false; });
+})();
+</script>
+  <script>
+(function () {
+  var pick = document.getElementById('langpick');
+  var wanted = function () {
+    var out = [];
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q) out.push(q.toLowerCase());
+    (navigator.languages || [navigator.language || '']).forEach(function (l) {
+      out.push((l || '').toLowerCase().split('-')[0]);
+    });
+    out.push('en');
+    return out;
+  };
+  var apply = function (chain) {
+    document.querySelectorAll('section.rel').forEach(function (s) {
+      var blocks = s.querySelectorAll('.lang');
+      if (!blocks.length) return;
+      var chosen = null;
+      for (var i = 0; i < chain.length && !chosen; i++) {
+        blocks.forEach(function (b) {
+          if (!chosen && b.dataset.lang === chain[i]) chosen = b;
+        });
+      }
+      chosen = chosen || blocks[0];
+      blocks.forEach(function (b) { b.classList.toggle('on', b === chosen); });
+    });
+  };
+  var chain = wanted();
+  apply(chain);
+  if (pick) {
+    for (var i = 0; i < chain.length; i++) {
+      if (pick.querySelector('option[value="' + chain[i] + '"]')) {
+        pick.value = chain[i]; break;
+      }
+    }
+    pick.addEventListener('change', function () {
+      apply([pick.value, 'en']);
+    });
+  }
 })();
 </script>
 </body>
