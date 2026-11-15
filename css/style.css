@@ -787,6 +787,18 @@ img { max-width: 100%; display: block; }
   object-fit: cover;            /* full-bleed like every other slide */
   object-position: top center;  /* the crop falls at the bottom, under the caption */
 }
+/* Release screenshots: dialogs, details and small captures. Shown whole and
+   never enlarged past their own size (a 400 px capture stretched to full page
+   is a blur), centred above the caption. */
+.gallery-slide.is-fit {
+  background: var(--bg-dark);
+}
+.gallery-slide.is-fit img {
+  object-fit: scale-down;
+  object-position: center;
+  padding: 10vh 6vw 26vh;
+  box-sizing: border-box;
+}
 /* White paper under white caption text is unreadable: while the plate is the
    slide on screen, the scrim goes near-opaque. JS sets the class on the
    section (see js/script.js, the carousel's show()). */
