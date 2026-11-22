@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cabinet Designer — professional parametric cabinet design software, now with an AI assistant (MCP) and quotes. 2D/3D design, photorealistic rendering, corner &amp; slanted typologies, cut lists and native SCM Maestro CNC export.">
+  <meta name="description" content="Cabinet Designer — professional parametric cabinet design software, now with floor-plan cabinets from a DXF drawing, an AI assistant (MCP) and quotes. 2D/3D design, photorealistic rendering, corner &amp; slanted typologies, cut lists and native SCM Maestro CNC export.">
   <meta name="keywords" content="cabinet design software, parametric furniture, CNC export, SCM Maestro, cut list, cabinet maker, woodworking software, photorealistic rendering">
   <meta name="author" content="Cabinet Designer">
   <title>Cabinet Designer — Professional Cabinet Design Software</title>
@@ -73,6 +73,14 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I design cabinets that are not rectangular?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Draw the outline of the cabinet seen from above in any CAD program as one closed polyline in millimetres, straight segments only, with no inward corner, and import it with File › Import DXF plan…. Every edge becomes a side, a back or a door: sides are mitred at half the angle with dowels across the cut, bottom and top bore straight along X or Y, and doors can be hinged, flap, double, with a fixed panel or sliding. Inclined cuts and holes need a 5-axis machine, as with corner units."
+        }
+      },
       {
         "@type": "Question",
         "name": "Which AI can I use with Cabinet Designer?",
@@ -151,7 +159,8 @@
         <i class="fas fa-bars"></i>
       </button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#ai-assistant" class="nav-link">AI Assistant<span class="nav-new">NEW</span></a></li>
+        <li><a href="#floor-plan" class="nav-link">DXF Plans<span class="nav-new">NEW</span></a></li>
+        <li><a href="#ai-assistant" class="nav-link">AI Assistant</a></li>
         <li><a href="#features" class="nav-link">Features</a></li>
         <li><a href="#gallery" class="nav-link">Gallery</a></li>
         <li><a href="#whats-new" class="nav-link">What's New</a></li>
@@ -174,7 +183,8 @@
       <span class="orb orb-3"></span>
     </div>
     <div class="container hero-content">
-      <a href="#ai-assistant" class="hero-ai-pill"><span class="pill-tag">NEW 6.0</span> Talk to your cabinets: Cabinet Designer now works with your AI <i class="fas fa-arrow-right"></i></a><br>
+      <a href="#floor-plan" class="hero-ai-pill"><span class="pill-tag">NEW 8.0</span> Any shape: draw the plan in CAD, import the DXF and it becomes a cabinet <i class="fas fa-arrow-right"></i></a><br>
+      <a href="#ai-assistant" class="hero-ai-pill"><span class="pill-tag">6.0</span> Talk to your cabinets: Cabinet Designer now works with your AI <i class="fas fa-arrow-right"></i></a><br>
       <span class="hero-eyebrow"><i class="fas fa-bolt"></i> From concept to CNC — one workflow</span>
       <h1 class="hero-title">Design Custom Cabinets<br><span class="hero-accent">in Minutes</span></h1>
       <p class="hero-subtitle">
@@ -231,6 +241,43 @@
       <div class="stat-item fade-section">
         <span class="stat-number" data-count="100" data-suffix="%">0</span>
         <span class="stat-label">Native Maestro export</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FLOOR-PLAN CABINET (new in 8.0) ===== -->
+  <section class="section floor-plan" id="floor-plan">
+    <div class="container">
+      <div class="section-header fade-section">
+        <span class="section-label"><i class="fas fa-draw-polygon"></i> New in 8.0 &middot; Floor-plan cabinet</span>
+        <h2>Any Shape You Can Draw,<br><span class="ai-accent">Built as a Cabinet</span></h2>
+        <p>An odd-shaped recess, a corner that is not 90&deg;, a hexagonal unit: draw the outline in your CAD program, import the <strong>DXF</strong> and Cabinet Designer turns every edge into a real panel &mdash; mitres, joints, doors and CNC programs included.</p>
+      </div>
+      <div class="plan-grid">
+        <div class="showcase-window plan-shot fade-section">
+          <div class="showcase-bar">
+            <span class="showcase-title"><i class="fas fa-cube"></i> Cabinet Designer 8 &middot; Floor-plan cabinet</span>
+            <span class="win-controls" aria-hidden="true"><span class="wc-min"></span><span class="wc-max"></span><span class="wc-close"></span></span>
+          </div>
+          <picture>
+            <source srcset="assets/images/releases/8.0.0/floorplan_dxf.webp" type="image/webp">
+            <img src="assets/images/releases/8.0.0/floorplan_dxf.png" alt="Cabinet Designer — floor-plan cabinet with a many-sided outline imported from a DXF drawing" width="1920" height="1152" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="plan-side fade-section">
+          <ol class="plan-steps">
+            <li><span class="plan-num">1</span><div><strong>Draw the plan</strong><span>One closed polyline in millimetres, straight segments, no inward corner &mdash; the outside of the cabinet seen from above.</span></div></li>
+            <li><span class="plan-num">2</span><div><strong>Import the DXF</strong><span>File &rsaquo; Import DXF plan&hellip; &mdash; width and depth come from the drawing, you set the height.</span></div></li>
+            <li><span class="plan-num">3</span><div><strong>Right-click each edge</strong><span>Make it a side, a back or a door, and align the main edge to the X axis.</span></div></li>
+          </ol>
+          <ul class="feature-list plan-list">
+            <li><i class="fas fa-check"></i> Sides mitred at half the angle, dowels across the cut</li>
+            <li><i class="fas fa-check"></i> Bottom and top bored straight along X or Y; inclined holes on the 5-axis</li>
+            <li><i class="fas fa-check"></i> Every door of the standard cabinet: hinged, flap, double, 875 hinge, fixed panel, sliding</li>
+            <li><i class="fas fa-check"></i> Backs meet on a corner post</li>
+            <li><i class="fas fa-check"></i> Cut list, quoted drawings and native SCM Maestro programs as usual</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -386,12 +433,13 @@
           <div class="feature-icon">
             <i class="fas fa-shapes"></i>
           </div>
-          <h3>Cabinet Typologies</h3>
-          <p>Not just boxes. Design standard carcasses, diagonal corner units and slanted-top cabinets — each with its own parametric geometry.</p>
+          <h3>Cabinet Typologies <span class="feature-tag">New</span></h3>
+          <p>Not just boxes. Design standard carcasses, diagonal corner units, slanted-top cabinets and now any convex shape drawn in CAD — each with its own parametric geometry.</p>
           <ul class="feature-list">
             <li><i class="fas fa-check"></i> Standard carcass</li>
             <li><i class="fas fa-check"></i> Diagonal &amp; 90° corner units (angoliera)</li>
             <li><i class="fas fa-check"></i> Slanted-top unit — 5-axis machining</li>
+            <li><i class="fas fa-check"></i> <a href="#floor-plan">Floor-plan cabinet</a> — any convex shape from a DXF</li>
           </ul>
           <p class="feature-ask"><i class="fas fa-wand-magic-sparkles"></i> &ldquo;Turn this into a diagonal corner unit.&rdquo;</p>
         </div>
@@ -481,10 +529,16 @@
   <section class="gallery" id="gallery">
     <div class="gallery-slideshow" id="galleryCarousel"
          role="region" aria-roledescription="carousel" aria-label="Cabinet Designer screenshots">
-      <div class="gallery-slide is-active" data-title="Multi-module room composition">
+      <div class="gallery-slide is-active" data-title="NEW 8.0 — Floor-plan cabinet: any convex shape from a DXF drawing">
+        <picture>
+          <source srcset="assets/images/releases/8.0.0/floorplan_dxf.webp" type="image/webp">
+          <img src="assets/images/releases/8.0.0/floorplan_dxf.png" alt="Cabinet Designer — floor-plan cabinet imported from a DXF drawing" width="1920" height="1152" decoding="async">
+        </picture>
+      </div>
+      <div class="gallery-slide" data-title="Multi-module room composition">
         <picture>
           <source srcset="assets/images/gallery-1.webp" type="image/webp">
-          <img src="assets/images/gallery-1.png" alt="Cabinet Designer — multi-module room composition" width="1920" height="1152" decoding="async">
+          <img src="assets/images/gallery-1.png" alt="Cabinet Designer — multi-module room composition" width="1920" height="1152" loading="lazy" decoding="async">
         </picture>
       </div>
       <div class="gallery-slide" data-title="Photorealistic room rendering">
@@ -707,9 +761,15 @@
       <div class="section-header fade-section">
         <span class="section-label">What's New</span>
         <h2>The Latest Release,<br>Packed with New Tools</h2>
-        <p>Version 6.0 brings artificial intelligence into the workshop &mdash; and puts a price on every panel, edge and hinge.</p>
+        <p>Version 8.0 builds a cabinet from any convex plan you draw in CAD. Version 6.0 brought artificial intelligence into the workshop &mdash; and a price on every panel, edge and hinge.</p>
       </div>
       <div class="new-grid">
+        <a href="#floor-plan" class="new-card new-card-hero fade-section">
+          <span class="new-badge">New in 8.0</span>
+          <i class="fas fa-draw-polygon new-icon"></i>
+          <h3>Cabinets from a DXF Plan</h3>
+          <p>Draw the outline seen from above, import the DXF and make each edge a side, a back or a door. Mitred sides with dowels, bores straight along the machine axes, every door type &mdash; flap, 875, fixed panel and sliding included &mdash; and native Maestro programs.</p>
+        </a>
         <a href="#ai-assistant" class="new-card new-card-hero new-card-ai fade-section">
           <span class="new-badge">New in 6.0</span>
           <i class="fas fa-wand-magic-sparkles new-icon"></i>
@@ -951,6 +1011,10 @@
         <p>Everything you need to know before you download.</p>
       </div>
       <div class="faq-list">
+        <details class="faq-item fade-section">
+          <summary>Can I design cabinets that are not rectangular?<i class="fas fa-plus"></i></summary>
+          <p>Yes. Draw the outline of the cabinet seen from above in any CAD program as one closed polyline in millimetres, straight segments only, with no inward corner, and import it with File › Import DXF plan…. Every edge becomes a side, a back or a door: sides are mitred at half the angle with dowels across the cut, bottom and top bore straight along X or Y, and doors can be hinged, flap, double, with a fixed panel or sliding. Inclined cuts and holes need a 5-axis machine, as with corner units.</p>
+        </details>
         <details class="faq-item fade-section">
           <summary>Which AI can I use with Cabinet Designer?<i class="fas fa-plus"></i></summary>
           <p>Any AI app that speaks MCP and runs on the same PC. We tested it with the free ChatGPT desktop app (no subscription; download it separately from OpenAI); it also works with Claude Desktop, Claude Code, VS Code, Cursor and LM Studio for fully local models. In Cabinet Designer open the AI assistant menu, tick Enable the AI assistant, then use AI assistant settings to connect your app in one click or create its plugin.</p>

@@ -2624,3 +2624,43 @@ html {
   color: #a48bff;
 }
 .feature-list { margin-bottom: 18px; }
+
+/* ===== FLOOR-PLAN CABINET (new in 8.0) ===== */
+.floor-plan {
+  background: linear-gradient(180deg, var(--bg-dark), var(--bg-card));
+  border-bottom: 1px solid rgba(139,94,60,0.1);
+}
+.plan-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+.plan-shot picture, .plan-shot img { display: block; width: 100%; height: auto; }
+.plan-steps { list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 14px; }
+.plan-steps li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 1px solid rgba(139,94,60,0.2);
+  border-radius: var(--radius-sm);
+}
+.plan-num {
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--wood-medium));
+}
+.plan-steps strong { display: block; margin-bottom: 2px; }
+.plan-steps span:not(.plan-num) { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
+.plan-list li { font-size: 0.92rem; }
+@media (max-width: 900px) {
+  .plan-grid { grid-template-columns: 1fr; gap: 28px; }
+}
